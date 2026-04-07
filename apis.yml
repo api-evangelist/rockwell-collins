@@ -1,7 +1,12 @@
 aid: rockwell-collins
-url: https://raw.githubusercontent.com/api-evangelist/rockwell-collins/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/rockwell-collins/refs/heads/main/apis.yml
 modified: '2026-03-24'
 apis: []
 common:
   - type: Website
     url: https://www.rockwell-collins.com
+description: >-
+  Rockwell Collins was a major American company providing avionics and information
+  technology systems and services to government agencies and aircraft manufacturers
+  before being acquired by United Technologies.
