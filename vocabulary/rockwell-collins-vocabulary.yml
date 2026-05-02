@@ -1,0 +1,150 @@
+vocabulary:
+  name: Rockwell Collins / Collins Aerospace Vocabulary
+  description: >-
+    Domain vocabulary for Rockwell Collins (now Collins Aerospace) and its
+    FlightAware AeroAPI. Covers aviation data terminology, flight tracking concepts,
+    AeroAPI-specific terms, and aerospace industry vocabulary.
+  version: 1.0.0
+  modified: '2026-05-02'
+
+terms:
+
+  - term: AeroAPI
+    aliases: [FlightXML]
+    definition: >-
+      FlightAware AeroAPI (formerly FlightXML) is the commercial aviation data
+      API from FlightAware, acquired by Collins Aerospace in 2021. Provides
+      real-time and historical flight data, airport information, and ML-based
+      predictive ETAs via REST.
+    related: [FlightAware, Foresight, Flight Tracking]
+
+  - term: ICAO Code
+    aliases: [International Civil Aviation Organization Code]
+    definition: >-
+      A 4-letter alphanumeric code assigned by ICAO to identify airports
+      (e.g., KORD for Chicago O'Hare) and airlines (e.g., UAL for United Airlines).
+      AeroAPI uses ICAO codes as the primary identifiers.
+    related: [IATA Code, Airport, Airline]
+
+  - term: IATA Code
+    aliases: [International Air Transport Association Code]
+    definition: >-
+      A 3-letter code assigned by IATA to identify airports (e.g., ORD) and
+      airlines (e.g., UA). AeroAPI supports both ICAO and IATA codes for lookups.
+    related: [ICAO Code, Airport, Airline]
+
+  - term: Flight Identifier
+    aliases: [ident, Flight Number]
+    definition: >-
+      A string that identifies a specific scheduled flight, typically composed
+      of the airline's ICAO code and the flight number (e.g., UAL123 or UA123).
+      AeroAPI's `ident` field accepts both ICAO and IATA format identifiers.
+    related: [fa_flight_id, ICAO Code, IATA Code]
+
+  - term: FlightAware Flight ID
+    aliases: [fa_flight_id]
+    definition: >-
+      A unique identifier assigned by FlightAware to a specific flight instance
+      (a specific aircraft on a specific date). Unlike a flight number which
+      may repeat daily, the fa_flight_id uniquely identifies one flight operation.
+    related: [Flight Identifier, AeroAPI]
+
+  - term: Foresight
+    definition: >-
+      FlightAware Foresight is a machine learning system that provides predictive
+      ETAs and flight event predictions. Foresight-enhanced AeroAPI endpoints
+      include ML predictions for departures, arrivals, and en-route events.
+      Available only to Premium tier AeroAPI customers.
+    related: [AeroAPI, ETA, Predictive Analytics]
+
+  - term: Out/Off/On/In Times
+    aliases: [OOOI Times, Block Times]
+    definition: >-
+      The four key milestones of a flight: Out (gate departure/pushback),
+      Off (wheels off ground/takeoff), On (wheels on ground/touchdown), In (gate arrival).
+      AeroAPI reports scheduled, estimated, and actual values for each milestone.
+    related: [Departure Delay, Arrival Delay, Gate]
+
+  - term: Gate Departure
+    aliases: [Out Time, Pushback]
+    definition: >-
+      The time when an aircraft departs from the gate (pushback). Also called
+      the "Out" time in OOOI notation. AeroAPI reports scheduled_out, estimated_out,
+      and actual_out for this event.
+    related: [Out/Off/On/In Times, Gate Arrival]
+
+  - term: Departure Delay
+    definition: >-
+      The difference between the actual and scheduled departure time in seconds.
+      A positive value indicates a delay; negative means the flight departed early.
+      AeroAPI returns departure_delay as an integer number of seconds.
+    related: [Arrival Delay, Out/Off/On/In Times]
+
+  - term: FIDS
+    aliases: [Flight Information Display System]
+    definition: >-
+      Digital displays at airports showing real-time departure and arrival flight
+      information. FlightAware AeroAPI airport endpoints are designed to support
+      FIDS-style applications with scheduled arrivals/departures data.
+    related: [Airport, Flight Tracking, AeroAPI]
+
+  - term: Transponder
+    definition: >-
+      An electronic device on an aircraft that responds to radar interrogations
+      and broadcasts its position. ADS-B transponders transmit GPS-based position
+      data used by FlightAware for real-time tracking.
+    related: [ADS-B, Position, Flight Tracking]
+
+  - term: ADS-B
+    aliases: [Automatic Dependent Surveillance-Broadcast]
+    definition: >-
+      A surveillance technology where aircraft broadcast their GPS-derived position,
+      altitude, and velocity. FlightAware operates a global network of ADS-B
+      receivers that feed the AeroAPI flight tracking data.
+    related: [Transponder, Position, Flight Tracking]
+
+  - term: Operator
+    aliases: [Airline, Air Carrier]
+    definition: >-
+      In AeroAPI, an operator is an airline, cargo carrier, charter operator,
+      or general aviation flight department identified by its ICAO code.
+      AeroAPI's /operators endpoints provide fleet and schedule information per operator.
+    related: [ICAO Code, Flight Identifier, Fleet]
+
+  - term: ETE
+    aliases: [Estimated Time En Route, Filed ETE]
+    definition: >-
+      The planned duration of a flight from takeoff to landing as filed in the
+      flight plan. AeroAPI's filed_ete field is expressed in seconds.
+    related: [Flight Plan, Out/Off/On/In Times, Foresight]
+
+  - term: Avionics
+    definition: >-
+      Electronic systems used on aircraft, including navigation, communication,
+      flight management, and display systems. Collins Aerospace (formerly Rockwell Collins)
+      is a leading manufacturer of avionics systems for commercial and military aircraft.
+    related: [Flight Deck, Collins Aerospace]
+
+  - term: Collins Aerospace
+    aliases: [Rockwell Collins, UTC Aerospace Systems]
+    definition: >-
+      A subsidiary of RTX Corporation (formerly Raytheon Technologies) formed
+      from the 2018 merger of Rockwell Collins and UTC Aerospace Systems. Provides
+      avionics, cabin systems, communications, and data services including
+      the FlightAware aviation data platform.
+    related: [FlightAware, AeroAPI, Avionics]
+
+  - term: Collins Digital Exchange
+    definition: >-
+      The API developer portal operated by Collins Aerospace at developer.collins.com,
+      providing API products for aerospace integration to authorized partners,
+      customers, and suppliers.
+    related: [Collins Aerospace, API, Developer Portal]
+
+  - term: Push Notification
+    aliases: [Webhook, Alert Delivery]
+    definition: >-
+      AeroAPI can deliver flight event alerts via HTTP POST to a configured
+      endpoint URL when configured events occur. The target_url on an alert
+      determines where push notifications are sent.
+    related: [Alert, AeroAPI, Webhook]

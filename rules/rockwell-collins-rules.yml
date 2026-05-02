@@ -1,0 +1,121 @@
+extends: spectral:oas
+rules:
+
+  # FlightAware AeroAPI uses x-apikey header authentication
+  aeroapi-has-security:
+    description: All AeroAPI operations must define security with ApiKeyAuth
+    message: "Operation must include the ApiKeyAuth security scheme (x-apikey header)"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: security
+      function: defined
+
+  # Operations must have operationIds
+  aeroapi-operation-id-required:
+    description: All AeroAPI operations must have a unique operationId
+    message: "Operation is missing an operationId"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  # OperationIds use snake_case (AeroAPI convention)
+  aeroapi-operation-id-snake-case:
+    description: AeroAPI operationIds use snake_case naming
+    message: "OperationId '{{value}}' should use snake_case format"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  # Summaries must exist and use Title Case
+  aeroapi-summary-required:
+    description: All AeroAPI operations must have a summary
+    message: "Operation is missing a summary"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  aeroapi-summary-title-case:
+    description: Operation summaries must use Title Case
+    message: "Summary '{{value}}' should use Title Case"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  # Operations must have descriptions
+  aeroapi-operation-description-required:
+    description: AeroAPI operations should include detailed descriptions
+    message: "Operation is missing a description - AeroAPI documentation standard requires detailed descriptions"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: description
+      function: truthy
+
+  # Tags must be one of the defined AeroAPI categories
+  aeroapi-valid-tag:
+    description: Operation tags must use AeroAPI defined categories
+    message: "Tag must be one of: flights, foresight, airports, operators, alerts, history, miscellaneous"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].tags[*]"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - flights
+          - foresight
+          - airports
+          - operators
+          - alerts
+          - history
+          - miscellaneous
+
+  # Pagination parameters: max_pages and cursor are standard
+  aeroapi-pagination-cursor:
+    description: List operations should support cursor-based pagination
+    message: "List operations should include cursor pagination parameter"
+    severity: info
+    given: "$.paths[*][get]"
+    then:
+      function: defined
+
+  # Path format: all lowercase with slashes
+  aeroapi-path-format:
+    description: AeroAPI paths use lowercase with forward slashes
+    message: "Path must use lowercase letters and forward slashes"
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9{}_/-]+)+$"
+
+  # 200 responses should have content schemas
+  aeroapi-success-response-schema:
+    description: Successful responses must include a schema
+    message: "200 response should include content with schema"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete].responses['200']"
+    then:
+      field: content
+      function: truthy
+
+  # API info must be complete
+  aeroapi-info-version:
+    description: API info must include version
+    message: "API must define a version number"
+    severity: error
+    given: "$.info"
+    then:
+      field: version
+      function: truthy

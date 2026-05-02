@@ -1,0 +1,101 @@
+{
+  "title": "FlightAware AeroAPI Flight Structure",
+  "description": "Hierarchical structure documentation for the FlightAware AeroAPI Flight object and related resources.",
+  "structure": {
+    "Flight": {
+      "description": "Core flight information record",
+      "fields": {
+        "ident": "string - Flight identifier (airline code + flight number)",
+        "ident_icao": "string - ICAO flight identifier",
+        "ident_iata": "string - IATA flight identifier",
+        "fa_flight_id": "string - Unique FlightAware flight ID for this specific instance",
+        "operator": "string - Operator ICAO code",
+        "registration": "string - Aircraft tail number / registration",
+        "aircraft_type": "string - ICAO aircraft type code",
+        "status": "enum - Scheduled | Active | En Route | Landed | Cancelled | Diverted",
+        "progress_percent": "integer - Flight completion percentage (0-100)"
+      },
+      "children": {
+        "origin": "AirportRef - Departure airport reference",
+        "destination": "AirportRef - Arrival airport reference",
+        "timing": "FlightTiming - Scheduled and actual timing events"
+      }
+    },
+    "FlightTiming": {
+      "description": "Scheduled, estimated, and actual times for flight milestones",
+      "fields": {
+        "scheduled_out": "datetime - Scheduled gate departure (pushback)",
+        "estimated_out": "datetime - Estimated gate departure",
+        "actual_out": "datetime - Actual gate departure",
+        "scheduled_off": "datetime - Scheduled takeoff",
+        "estimated_off": "datetime - Estimated takeoff",
+        "actual_off": "datetime - Actual takeoff",
+        "scheduled_on": "datetime - Scheduled landing",
+        "estimated_on": "datetime - Estimated landing",
+        "actual_on": "datetime - Actual landing",
+        "scheduled_in": "datetime - Scheduled gate arrival",
+        "estimated_in": "datetime - Estimated gate arrival",
+        "actual_in": "datetime - Actual gate arrival",
+        "departure_delay": "integer - Departure delay in seconds",
+        "arrival_delay": "integer - Arrival delay in seconds",
+        "filed_ete": "integer - Filed estimated time en route in seconds"
+      }
+    },
+    "FlightPosition": {
+      "description": "Real-time position data for an active flight",
+      "fields": {
+        "fa_flight_id": "string - FlightAware flight ID",
+        "altitude": "integer - Altitude in hundreds of feet",
+        "altitude_change": "enum - C (climbing) | D (descending) | - (level)",
+        "groundspeed": "integer - Ground speed in knots",
+        "heading": "integer - Magnetic heading in degrees (0-359)",
+        "latitude": "number - Decimal latitude",
+        "longitude": "number - Decimal longitude",
+        "timestamp": "datetime - Position timestamp",
+        "update_type": "enum - P (projected) | O (oceanic) | Z (datalink) | ADS-B | etc."
+      }
+    },
+    "AirportRef": {
+      "description": "Airport reference with ICAO/IATA codes",
+      "fields": {
+        "code": "string - Airport code",
+        "code_icao": "string - ICAO airport code (4 letters)",
+        "code_iata": "string - IATA airport code (3 letters)",
+        "airport_info_url": "string - URL to AeroAPI airport info endpoint"
+      }
+    },
+    "Airport": {
+      "description": "Full airport information record",
+      "fields": {
+        "airport_code": "string - Primary airport code",
+        "code_icao": "string - ICAO 4-letter code",
+        "code_iata": "string - IATA 3-letter code",
+        "code_lid": "string - FAA LID code",
+        "name": "string - Airport name",
+        "city": "string - City name",
+        "state": "string - State/province code",
+        "country": "string - ISO 2-letter country code",
+        "timezone": "string - IANA timezone name",
+        "latitude": "number - Airport latitude",
+        "longitude": "number - Airport longitude",
+        "elevation": "integer - Elevation in feet MSL",
+        "wiki_url": "string - Wikipedia URL"
+      }
+    },
+    "Alert": {
+      "description": "Flight event alert configuration",
+      "fields": {
+        "id": "integer - Unique alert ID",
+        "ident": "string - Flight identifier to monitor",
+        "origin": "string - Origin airport filter",
+        "destination": "string - Destination airport filter",
+        "aircraft_type": "string - Aircraft type filter",
+        "start": "datetime - Alert start time",
+        "end": "datetime - Alert end time",
+        "max_weekly": "integer - Maximum alerts per week",
+        "target_url": "string - Custom delivery URL for this alert",
+        "events": "array - List of event types to alert on"
+      }
+    }
+  }
+}

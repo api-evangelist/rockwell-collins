@@ -1,0 +1,137 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "aeroapi": "https://api-evangelist.github.io/rockwell-collins/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Flight": {
+      "@id": "schema:Flight",
+      "@type": "@id"
+    },
+    "Airport": {
+      "@id": "schema:Airport",
+      "@type": "@id"
+    },
+    "Airline": {
+      "@id": "schema:Airline",
+      "@type": "@id"
+    },
+    "FlightAlert": "aeroapi:FlightAlert",
+    "FlightPosition": "aeroapi:FlightPosition",
+    "FlightTrack": "aeroapi:FlightTrack",
+
+    "ident": {
+      "@id": "schema:flightNumber",
+      "@type": "xsd:string"
+    },
+    "fa_flight_id": {
+      "@id": "aeroapi:flightAwareFlightId",
+      "@type": "xsd:string"
+    },
+    "operator": {
+      "@id": "schema:airline",
+      "@type": "@id"
+    },
+    "registration": {
+      "@id": "aeroapi:registration",
+      "@type": "xsd:string"
+    },
+    "aircraft_type": {
+      "@id": "schema:vehicleModelDate",
+      "@type": "xsd:string"
+    },
+    "origin": {
+      "@id": "schema:departureAirport",
+      "@type": "@id"
+    },
+    "destination": {
+      "@id": "schema:arrivalAirport",
+      "@type": "@id"
+    },
+    "scheduled_out": {
+      "@id": "schema:departureTime",
+      "@type": "xsd:dateTime"
+    },
+    "actual_out": {
+      "@id": "aeroapi:actualDepartureTime",
+      "@type": "xsd:dateTime"
+    },
+    "scheduled_on": {
+      "@id": "schema:arrivalTime",
+      "@type": "xsd:dateTime"
+    },
+    "actual_on": {
+      "@id": "aeroapi:actualArrivalTime",
+      "@type": "xsd:dateTime"
+    },
+    "departure_delay": {
+      "@id": "aeroapi:departureDelay",
+      "@type": "xsd:integer"
+    },
+    "arrival_delay": {
+      "@id": "aeroapi:arrivalDelay",
+      "@type": "xsd:integer"
+    },
+    "status": {
+      "@id": "schema:status",
+      "@type": "xsd:string"
+    },
+    "progress_percent": {
+      "@id": "aeroapi:progressPercent",
+      "@type": "xsd:integer"
+    },
+    "latitude": {
+      "@id": "schema:latitude",
+      "@type": "xsd:double"
+    },
+    "longitude": {
+      "@id": "schema:longitude",
+      "@type": "xsd:double"
+    },
+    "altitude": {
+      "@id": "aeroapi:altitude",
+      "@type": "xsd:integer"
+    },
+    "groundspeed": {
+      "@id": "aeroapi:groundSpeed",
+      "@type": "xsd:integer"
+    },
+    "heading": {
+      "@id": "aeroapi:heading",
+      "@type": "xsd:integer"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "iataCode": {
+      "@id": "schema:iataCode",
+      "@type": "xsd:string"
+    },
+    "icaoCode": {
+      "@id": "aeroapi:icaoCode",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "schema:addressLocality",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "schema:addressCountry",
+      "@type": "xsd:string"
+    },
+    "timezone": {
+      "@id": "aeroapi:timezone",
+      "@type": "xsd:string"
+    },
+    "elevation": {
+      "@id": "aeroapi:elevation",
+      "@type": "xsd:integer"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    }
+  }
+}

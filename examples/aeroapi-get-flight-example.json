@@ -1,0 +1,66 @@
+{
+  "operation": "get_flight",
+  "summary": "Get Information for a Flight",
+  "description": "Retrieve detailed information for a specific flight by identifier",
+  "request": {
+    "method": "GET",
+    "url": "https://aeroapi.flightaware.com/aeroapi/flights/UAL489",
+    "headers": {
+      "x-apikey": "your-aeroapi-key-here"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "flights": [
+        {
+          "ident": "UAL489",
+          "ident_icao": "UAL489",
+          "ident_iata": "UA489",
+          "fa_flight_id": "UAL489-1746057600-airline-0001",
+          "operator": "UAL",
+          "operator_iata": "UA",
+          "operator_name": "United Airlines",
+          "flight_number": "489",
+          "registration": "N37422",
+          "aircraft_type": "B737",
+          "origin": {
+            "code": "KORD",
+            "code_icao": "KORD",
+            "code_iata": "ORD",
+            "name": "O'Hare International Airport",
+            "city": "Chicago",
+            "airport_info_url": "/airports/KORD"
+          },
+          "destination": {
+            "code": "KLAX",
+            "code_icao": "KLAX",
+            "code_iata": "LAX",
+            "name": "Los Angeles International Airport",
+            "city": "Los Angeles",
+            "airport_info_url": "/airports/KLAX"
+          },
+          "departure_delay": 900,
+          "arrival_delay": 600,
+          "filed_ete": 14400,
+          "progress_percent": 45,
+          "status": "En Route",
+          "scheduled_out": "2026-05-02T14:00:00Z",
+          "estimated_out": "2026-05-02T14:15:00Z",
+          "actual_out": "2026-05-02T14:15:00Z",
+          "scheduled_off": "2026-05-02T14:20:00Z",
+          "estimated_off": "2026-05-02T14:35:00Z",
+          "actual_off": "2026-05-02T14:35:00Z",
+          "scheduled_on": "2026-05-02T18:20:00Z",
+          "estimated_on": "2026-05-02T18:30:00Z",
+          "actual_on": null,
+          "route": "KORD DCT CHMPI DCT KLAX",
+          "filed_airspeed": 460,
+          "filed_altitude": 370,
+          "foresight_predictions_available": true
+        }
+      ],
+      "num_pages": 1
+    }
+  }
+}

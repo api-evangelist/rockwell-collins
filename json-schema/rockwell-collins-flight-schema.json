@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/rockwell-collins/json-schema/rockwell-collins-flight-schema.json",
+  "title": "FlightAware AeroAPI Flight",
+  "description": "Schema representing a flight record from the FlightAware AeroAPI, including identification, routing, timing, and status information.",
+  "type": "object",
+  "properties": {
+    "ident": {
+      "type": "string",
+      "description": "Flight identifier (airline code + flight number, e.g., UAL123)"
+    },
+    "ident_icao": {
+      "type": "string",
+      "description": "ICAO flight identifier"
+    },
+    "ident_iata": {
+      "type": "string",
+      "description": "IATA flight identifier"
+    },
+    "fa_flight_id": {
+      "type": "string",
+      "description": "Unique FlightAware flight ID for this specific flight instance"
+    },
+    "operator": {
+      "type": "string",
+      "description": "Operator ICAO code (e.g., UAL for United Airlines)"
+    },
+    "operator_iata": {
+      "type": "string",
+      "description": "Operator IATA code"
+    },
+    "flight_number": {
+      "type": "string",
+      "description": "Airline flight number"
+    },
+    "registration": {
+      "type": "string",
+      "description": "Aircraft tail number / registration"
+    },
+    "aircraft_type": {
+      "type": "string",
+      "description": "ICAO aircraft type code (e.g., B738)"
+    },
+    "origin": {
+      "type": "object",
+      "description": "Departure airport information",
+      "properties": {
+        "code": { "type": "string" },
+        "code_icao": { "type": "string" },
+        "code_iata": { "type": "string" },
+        "airport_info_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "destination": {
+      "type": "object",
+      "description": "Arrival airport information",
+      "properties": {
+        "code": { "type": "string" },
+        "code_icao": { "type": "string" },
+        "code_iata": { "type": "string" },
+        "airport_info_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "departure_delay": {
+      "type": "integer",
+      "description": "Departure delay in seconds (negative = early)"
+    },
+    "arrival_delay": {
+      "type": "integer",
+      "description": "Arrival delay in seconds (negative = early)"
+    },
+    "filed_ete": {
+      "type": "integer",
+      "description": "Filed estimated time en route in seconds"
+    },
+    "scheduled_out": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled gate departure time (pushback)"
+    },
+    "estimated_out": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated gate departure time"
+    },
+    "actual_out": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual gate departure time"
+    },
+    "scheduled_off": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled takeoff time"
+    },
+    "estimated_off": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated takeoff time"
+    },
+    "actual_off": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual takeoff time"
+    },
+    "scheduled_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled landing time"
+    },
+    "estimated_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated landing time"
+    },
+    "actual_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual landing time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Scheduled", "Active", "En Route", "Landed", "Cancelled", "Diverted"],
+      "description": "Current flight status"
+    },
+    "progress_percent": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Estimated flight completion percentage"
+    },
+    "route": {
+      "type": "string",
+      "description": "Filed route string"
+    },
+    "filed_airspeed": {
+      "type": "integer",
+      "description": "Filed true airspeed in knots"
+    },
+    "filed_altitude": {
+      "type": "integer",
+      "description": "Filed cruise altitude in hundreds of feet"
+    },
+    "foresight_predictions_available": {
+      "type": "boolean",
+      "description": "Whether FlightAware Foresight ML predictions are available for this flight"
+    }
+  },
+  "additionalProperties": true
+}
