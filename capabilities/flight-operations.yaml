@@ -1,355 +1,623 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Collins Aerospace Flight Operations"
-  description: >-
-    Unified workflow capability for aviation flight operations using FlightAware
-    AeroAPI. Enables airlines, ground handlers, flight departments, and technology
-    providers to track flights in real-time, monitor airport conditions, manage
-    flight alerts, analyze operator fleet activity, and access historical flight
-    data for operational planning, resource management, and maintenance scheduling.
+  label: Collins Aerospace Flight Operations
+  description: Unified workflow capability for aviation flight operations using FlightAware AeroAPI. Enables airlines, ground
+    handlers, flight departments, and technology providers to track flights in real-time, monitor airport conditions, manage
+    flight alerts, analyze operator fleet activity, and access historical flight data for operational planning, resource management,
+    and maintenance scheduling.
   tags:
-    - Aviation
-    - Flight Operations
-    - Aerospace
-    - Collins Aerospace
-    - FlightAware
-    - Flight Tracking
-  created: "2026-05-02"
-  modified: "2026-05-02"
-
+  - Aviation
+  - Flight Operations
+  - Aerospace
+  - Collins Aerospace
+  - FlightAware
+  - Flight Tracking
+  created: '2026-05-02'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      FLIGHTAWARE_API_KEY: FLIGHTAWARE_API_KEY
-
+- namespace: env
+  keys:
+    FLIGHTAWARE_API_KEY: FLIGHTAWARE_API_KEY
 capability:
   consumes:
-    - import: aeroapi
-      location: ./shared/aeroapi.yaml
-
+  - type: http
+    namespace: aeroapi
+    baseUri: https://aeroapi.flightaware.com/aeroapi
+    description: FlightAware AeroAPI for aviation data access
+    authentication:
+      type: apikey
+      key: x-apikey
+      value: '{{FLIGHTAWARE_API_KEY}}'
+      placement: header
+    resources:
+    - name: flights
+      path: /flights
+      description: Flight search, tracking, and information
+      operations:
+      - name: search-flights
+        method: GET
+        description: Search for airborne flights matching various parameters
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: false
+          description: Simplified query string with key-value pairs
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of result pages
+        - name: cursor
+          in: query
+          type: string
+          required: false
+          description: Pagination cursor
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: search-flights-advanced
+        method: GET
+        description: Search for flights using advanced query syntax
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: false
+          description: Advanced query string
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of result pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-flight
+        method: GET
+        description: Get information for a specific flight
+        inputParameters:
+        - name: ident
+          in: path
+          type: string
+          required: true
+          description: Flight identifier (ICAO or IATA)
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of result pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-flight-position
+        method: GET
+        description: Get the current position of a flight
+        inputParameters:
+        - name: fa_flight_id
+          in: path
+          type: string
+          required: true
+          description: FlightAware flight ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-flight-track
+        method: GET
+        description: Get the position track of a flight
+        inputParameters:
+        - name: fa_flight_id
+          in: path
+          type: string
+          required: true
+          description: FlightAware flight ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-flight-route
+        method: GET
+        description: Get the filed route of a flight
+        inputParameters:
+        - name: fa_flight_id
+          in: path
+          type: string
+          required: true
+          description: FlightAware flight ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: airports
+      path: /airports
+      description: Airport information and activity
+      operations:
+      - name: get-all-airports
+        method: GET
+        description: Get a list of all airports
+        inputParameters:
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum result pages
+        - name: cursor
+          in: query
+          type: string
+          required: false
+          description: Pagination cursor
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-airport
+        method: GET
+        description: Get static information about an airport
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Airport code (ICAO or IATA)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-airport-delays
+        method: GET
+        description: Get delay information for an airport
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Airport code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-airport-flights
+        method: GET
+        description: Get all flights for a given airport
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Airport code
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum result pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-airport-weather
+        method: GET
+        description: Get current weather conditions for an airport
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Airport code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators
+      path: /operators
+      description: Airline and operator information and fleet activity
+      operations:
+      - name: get-all-operators
+        method: GET
+        description: Get a list of all operators
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-operator
+        method: GET
+        description: Get information about a specific operator
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Operator ICAO code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-operator-flights
+        method: GET
+        description: Get flights for a specific operator
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Operator ICAO code
+        - name: max_pages
+          in: query
+          type: integer
+          required: false
+          description: Maximum result pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: alerts
+      path: /alerts
+      description: Configure real-time flight event alerts
+      operations:
+      - name: get-all-alerts
+        method: GET
+        description: Get all configured alerts for the account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-alert
+        method: POST
+        description: Create a new flight alert configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            ident: '{{tools.ident}}'
+            events: '{{tools.events}}'
+      - name: update-alert
+        method: PUT
+        description: Update an existing alert configuration
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Alert ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-alert
+        method: DELETE
+        description: Delete a flight alert
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Alert ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: flight-operations-api
-      description: "Unified REST API for aviation flight operations monitoring and planning."
-      resources:
-        - path: /v1/flights
-          name: flights
-          description: "Flight search and real-time tracking"
-          operations:
-            - method: GET
-              name: search-flights
-              description: "Search for airborne flights by criteria including location, airline, and aircraft type"
-              call: "aeroapi.search-flights"
-              with:
-                query: "rest.query"
-                max_pages: "rest.max_pages"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/flights/{ident}
-          name: flight-detail
-          description: "Specific flight information"
-          operations:
-            - method: GET
-              name: get-flight
-              description: "Get detailed information for a specific flight"
-              call: "aeroapi.get-flight"
-              with:
-                ident: "rest.ident"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/flight-positions/{fa_flight_id}
-          name: flight-position
-          description: "Current flight position data"
-          operations:
-            - method: GET
-              name: get-flight-position
-              description: "Get current real-time position for a flight"
-              call: "aeroapi.get-flight-position"
-              with:
-                fa_flight_id: "rest.fa_flight_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/flight-tracks/{fa_flight_id}
-          name: flight-track
-          description: "Flight position track history"
-          operations:
-            - method: GET
-              name: get-flight-track
-              description: "Get position track of a flight"
-              call: "aeroapi.get-flight-track"
-              with:
-                fa_flight_id: "rest.fa_flight_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/airports
-          name: airports
-          description: "Airport directory and information"
-          operations:
-            - method: GET
-              name: list-airports
-              description: "Get a list of all airports"
-              call: "aeroapi.get-all-airports"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/airports/{id}
-          name: airport-detail
-          description: "Individual airport information"
-          operations:
-            - method: GET
-              name: get-airport
-              description: "Get static information about an airport"
-              call: "aeroapi.get-airport"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/airport-delays
-          name: airport-delays
-          description: "Airport delay monitoring"
-          operations:
-            - method: GET
-              name: get-all-delays
-              description: "Get delay information for all airports with current delays"
-              call: "aeroapi.get-airport-delays"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/airport-weather/{id}
-          name: airport-weather
-          description: "Airport weather conditions"
-          operations:
-            - method: GET
-              name: get-airport-weather
-              description: "Get current weather conditions for an airport"
-              call: "aeroapi.get-airport-weather"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/operators/{id}
-          name: operator-detail
-          description: "Airline and operator information"
-          operations:
-            - method: GET
-              name: get-operator
-              description: "Get information about a specific operator"
-              call: "aeroapi.get-operator"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/alerts
-          name: alerts
-          description: "Flight event alert management"
-          operations:
-            - method: GET
-              name: list-alerts
-              description: "List all configured flight alerts"
-              call: "aeroapi.get-all-alerts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-            - method: POST
-              name: create-alert
-              description: "Create a new flight event alert"
-              call: "aeroapi.create-alert"
-              with:
-                ident: "rest.ident"
-                events: "rest.events"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9080
-      namespace: flight-operations-mcp
-      transport: http
-      description: "MCP server for AI-assisted aviation flight operations and planning."
-      tools:
-        - name: search-flights
-          description: "Search for airborne flights by location, airline, aircraft type, or route"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "aeroapi.search-flights"
-          with:
-            query: "tools.query"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-flight
-          description: "Get detailed information for a specific flight including status, route, and timing"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-flight"
-          with:
-            ident: "tools.ident"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-flight-position
-          description: "Get the current real-time position and altitude for a flight"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-flight-position"
-          with:
-            fa_flight_id: "tools.fa_flight_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-flight-track
-          description: "Get the full position track history of a flight"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-flight-track"
-          with:
-            fa_flight_id: "tools.fa_flight_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-flight-route
-          description: "Get the filed route for a specific flight"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-flight-route"
-          with:
-            fa_flight_id: "tools.fa_flight_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-airport
-          description: "Get detailed information about an airport by ICAO or IATA code"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-airport"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-airport-delays
-          description: "Get current delay information for a specific airport"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-airport-delays"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-airport-flights
-          description: "Get all flights arriving or departing from an airport"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-airport-flights"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-airport-weather
-          description: "Get current weather conditions and forecast for an airport"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-airport-weather"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-operator
-          description: "Get information about an airline or operator including fleet and routes"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-operator"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-operator-flights
-          description: "Get all current flights for an operator/airline"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "aeroapi.get-operator-flights"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-alerts
-          description: "List all configured flight event alerts"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "aeroapi.get-all-alerts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: create-alert
-          description: "Create a new flight event alert for departure, arrival, or route changes"
-          hints:
-            readOnly: false
-            destructive: false
-          call: "aeroapi.create-alert"
-          with:
-            ident: "tools.ident"
-            events: "tools.events"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: delete-alert
-          description: "Delete a configured flight event alert"
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "aeroapi.delete-alert"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: flight-operations-api
+    description: Unified REST API for aviation flight operations monitoring and planning.
+    resources:
+    - path: /v1/flights
+      name: flights
+      description: Flight search and real-time tracking
+      operations:
+      - method: GET
+        name: search-flights
+        description: Search for airborne flights by criteria including location, airline, and aircraft type
+        call: aeroapi.search-flights
+        with:
+          query: rest.query
+          max_pages: rest.max_pages
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{ident}
+      name: flight-detail
+      description: Specific flight information
+      operations:
+      - method: GET
+        name: get-flight
+        description: Get detailed information for a specific flight
+        call: aeroapi.get-flight
+        with:
+          ident: rest.ident
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flight-positions/{fa_flight_id}
+      name: flight-position
+      description: Current flight position data
+      operations:
+      - method: GET
+        name: get-flight-position
+        description: Get current real-time position for a flight
+        call: aeroapi.get-flight-position
+        with:
+          fa_flight_id: rest.fa_flight_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flight-tracks/{fa_flight_id}
+      name: flight-track
+      description: Flight position track history
+      operations:
+      - method: GET
+        name: get-flight-track
+        description: Get position track of a flight
+        call: aeroapi.get-flight-track
+        with:
+          fa_flight_id: rest.fa_flight_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/airports
+      name: airports
+      description: Airport directory and information
+      operations:
+      - method: GET
+        name: list-airports
+        description: Get a list of all airports
+        call: aeroapi.get-all-airports
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/airports/{id}
+      name: airport-detail
+      description: Individual airport information
+      operations:
+      - method: GET
+        name: get-airport
+        description: Get static information about an airport
+        call: aeroapi.get-airport
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/airport-delays
+      name: airport-delays
+      description: Airport delay monitoring
+      operations:
+      - method: GET
+        name: get-all-delays
+        description: Get delay information for all airports with current delays
+        call: aeroapi.get-airport-delays
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/airport-weather/{id}
+      name: airport-weather
+      description: Airport weather conditions
+      operations:
+      - method: GET
+        name: get-airport-weather
+        description: Get current weather conditions for an airport
+        call: aeroapi.get-airport-weather
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}
+      name: operator-detail
+      description: Airline and operator information
+      operations:
+      - method: GET
+        name: get-operator
+        description: Get information about a specific operator
+        call: aeroapi.get-operator
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alerts
+      name: alerts
+      description: Flight event alert management
+      operations:
+      - method: GET
+        name: list-alerts
+        description: List all configured flight alerts
+        call: aeroapi.get-all-alerts
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-alert
+        description: Create a new flight event alert
+        call: aeroapi.create-alert
+        with:
+          ident: rest.ident
+          events: rest.events
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9080
+    namespace: flight-operations-mcp
+    transport: http
+    description: MCP server for AI-assisted aviation flight operations and planning.
+    tools:
+    - name: search-flights
+      description: Search for airborne flights by location, airline, aircraft type, or route
+      hints:
+        readOnly: true
+        openWorld: true
+      call: aeroapi.search-flights
+      with:
+        query: tools.query
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight
+      description: Get detailed information for a specific flight including status, route, and timing
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-flight
+      with:
+        ident: tools.ident
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-position
+      description: Get the current real-time position and altitude for a flight
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-flight-position
+      with:
+        fa_flight_id: tools.fa_flight_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-track
+      description: Get the full position track history of a flight
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-flight-track
+      with:
+        fa_flight_id: tools.fa_flight_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-route
+      description: Get the filed route for a specific flight
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-flight-route
+      with:
+        fa_flight_id: tools.fa_flight_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-airport
+      description: Get detailed information about an airport by ICAO or IATA code
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-airport
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-airport-delays
+      description: Get current delay information for a specific airport
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-airport-delays
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-airport-flights
+      description: Get all flights arriving or departing from an airport
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-airport-flights
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-airport-weather
+      description: Get current weather conditions and forecast for an airport
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-airport-weather
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-operator
+      description: Get information about an airline or operator including fleet and routes
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-operator
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-operator-flights
+      description: Get all current flights for an operator/airline
+      hints:
+        readOnly: true
+        openWorld: false
+      call: aeroapi.get-operator-flights
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-alerts
+      description: List all configured flight event alerts
+      hints:
+        readOnly: true
+        openWorld: true
+      call: aeroapi.get-all-alerts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-alert
+      description: Create a new flight event alert for departure, arrival, or route changes
+      hints:
+        readOnly: false
+        destructive: false
+      call: aeroapi.create-alert
+      with:
+        ident: tools.ident
+        events: tools.events
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-alert
+      description: Delete a configured flight event alert
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: aeroapi.delete-alert
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
