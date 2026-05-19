@@ -1,0 +1,306 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AeroAPI — alerts
+  description: 'AeroAPI — alerts. 8 operations. Lead operation: Get All Configured Alerts. Self-contained Naftiko capability
+    covering one Rockwell Collins business surface.'
+  tags:
+  - Rockwell Collins
+  - alerts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ROCKWELL_COLLINS_API_KEY: ROCKWELL_COLLINS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: flightaware-aeroapi-alerts
+    baseUri: https://{env}.flightaware.com/aeroapi
+    description: AeroAPI — alerts business capability. Self-contained, no shared references.
+    resources:
+    - name: alerts
+      path: /alerts
+      operations:
+      - name: getallalerts
+        method: GET
+        description: Get All Configured Alerts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+      - name: createalert
+        method: POST
+        description: Create New Alert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: alerts-endpoint
+      path: /alerts/endpoint
+      operations:
+      - name: getalertsendpoint
+        method: GET
+        description: Get Configured Alert Callback URL
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: setalertsendpoint
+        method: PUT
+        description: Set Alert Callback URL
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletealertsendpoint
+        method: DELETE
+        description: Remove and Disable Default Account-wide Alert Callback URL
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: alerts-id
+      path: /alerts/{id}
+      operations:
+      - name: getalert
+        method: GET
+        description: Get Specific Alert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatealert
+        method: PUT
+        description: Modify Specific Alert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletealert
+        method: DELETE
+        description: Delete Specific Alert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-apikey
+      value: '{{env.ROCKWELL_COLLINS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: flightaware-aeroapi-alerts-rest
+    port: 8080
+    description: REST adapter for AeroAPI — alerts. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/alerts
+      name: alerts
+      description: REST surface for alerts.
+      operations:
+      - method: GET
+        name: getallalerts
+        description: Get All Configured Alerts
+        call: flightaware-aeroapi-alerts.getallalerts
+        with:
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createalert
+        description: Create New Alert
+        call: flightaware-aeroapi-alerts.createalert
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alerts/endpoint
+      name: alerts-endpoint
+      description: REST surface for alerts-endpoint.
+      operations:
+      - method: GET
+        name: getalertsendpoint
+        description: Get Configured Alert Callback URL
+        call: flightaware-aeroapi-alerts.getalertsendpoint
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setalertsendpoint
+        description: Set Alert Callback URL
+        call: flightaware-aeroapi-alerts.setalertsendpoint
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletealertsendpoint
+        description: Remove and Disable Default Account-wide Alert Callback URL
+        call: flightaware-aeroapi-alerts.deletealertsendpoint
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alerts/{id}
+      name: alerts-id
+      description: REST surface for alerts-id.
+      operations:
+      - method: GET
+        name: getalert
+        description: Get Specific Alert
+        call: flightaware-aeroapi-alerts.getalert
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatealert
+        description: Modify Specific Alert
+        call: flightaware-aeroapi-alerts.updatealert
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletealert
+        description: Delete Specific Alert
+        call: flightaware-aeroapi-alerts.deletealert
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: flightaware-aeroapi-alerts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AeroAPI — alerts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-configured-alerts
+      description: Get All Configured Alerts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-alerts.getallalerts
+      with:
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-alert
+      description: Create New Alert
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: flightaware-aeroapi-alerts.createalert
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-configured-alert-callback-url
+      description: Get Configured Alert Callback URL
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-alerts.getalertsendpoint
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-alert-callback-url
+      description: Set Alert Callback URL
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-alerts.setalertsendpoint
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-and-disable-default-account
+      description: Remove and Disable Default Account-wide Alert Callback URL
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: flightaware-aeroapi-alerts.deletealertsendpoint
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-specific-alert
+      description: Get Specific Alert
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-alerts.getalert
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: modify-specific-alert
+      description: Modify Specific Alert
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-alerts.updatealert
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-specific-alert
+      description: Delete Specific Alert
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: flightaware-aeroapi-alerts.deletealert
+      outputParameters:
+      - type: object
+        mapping: $.

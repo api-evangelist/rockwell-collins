@@ -1,0 +1,296 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AeroAPI — operators
+  description: 'AeroAPI — operators. 8 operations. Lead operation: Get All Operators.. Self-contained Naftiko capability covering
+    one Rockwell Collins business surface.'
+  tags:
+  - Rockwell Collins
+  - operators
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ROCKWELL_COLLINS_API_KEY: ROCKWELL_COLLINS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: flightaware-aeroapi-operators
+    baseUri: https://{env}.flightaware.com/aeroapi
+    description: AeroAPI — operators business capability. Self-contained, no shared references.
+    resources:
+    - name: operators
+      path: /operators
+      operations:
+      - name: getalloperators
+        method: GET
+        description: Get All Operators.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id
+      path: /operators/{id}
+      operations:
+      - name: getoperator
+        method: GET
+        description: Get Static Information for an Operator.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-canonical
+      path: /operators/{id}/canonical
+      operations:
+      - name: getoperatorscanonical
+        method: GET
+        description: Get the Canonical Code of an Operator for API Usage.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-flights
+      path: /operators/{id}/flights
+      operations:
+      - name: getoperatorflights
+        method: GET
+        description: Get All of an Operator's Flights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-flights-arrivals
+      path: /operators/{id}/flights/arrivals
+      operations:
+      - name: getoperatorflightsarrived
+        method: GET
+        description: Get Arrived Flights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-flights-counts
+      path: /operators/{id}/flights/counts
+      operations:
+      - name: getoperatorflightscount
+        method: GET
+        description: Get Flight Counts for Operator
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-flights-enroute
+      path: /operators/{id}/flights/enroute
+      operations:
+      - name: getoperatorflightsenroute
+        method: GET
+        description: Get En Route Flights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: operators-id-flights-scheduled
+      path: /operators/{id}/flights/scheduled
+      operations:
+      - name: getoperatorflightsscheduled
+        method: GET
+        description: Get Scheduled Flights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-apikey
+      value: '{{env.ROCKWELL_COLLINS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: flightaware-aeroapi-operators-rest
+    port: 8080
+    description: REST adapter for AeroAPI — operators. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/operators
+      name: operators
+      description: REST surface for operators.
+      operations:
+      - method: GET
+        name: getalloperators
+        description: Get All Operators.
+        call: flightaware-aeroapi-operators.getalloperators
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}
+      name: operators-id
+      description: REST surface for operators-id.
+      operations:
+      - method: GET
+        name: getoperator
+        description: Get Static Information for an Operator.
+        call: flightaware-aeroapi-operators.getoperator
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/canonical
+      name: operators-id-canonical
+      description: REST surface for operators-id-canonical.
+      operations:
+      - method: GET
+        name: getoperatorscanonical
+        description: Get the Canonical Code of an Operator for API Usage.
+        call: flightaware-aeroapi-operators.getoperatorscanonical
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/flights
+      name: operators-id-flights
+      description: REST surface for operators-id-flights.
+      operations:
+      - method: GET
+        name: getoperatorflights
+        description: Get All of an Operator's Flights
+        call: flightaware-aeroapi-operators.getoperatorflights
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/flights/arrivals
+      name: operators-id-flights-arrivals
+      description: REST surface for operators-id-flights-arrivals.
+      operations:
+      - method: GET
+        name: getoperatorflightsarrived
+        description: Get Arrived Flights
+        call: flightaware-aeroapi-operators.getoperatorflightsarrived
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/flights/counts
+      name: operators-id-flights-counts
+      description: REST surface for operators-id-flights-counts.
+      operations:
+      - method: GET
+        name: getoperatorflightscount
+        description: Get Flight Counts for Operator
+        call: flightaware-aeroapi-operators.getoperatorflightscount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/flights/enroute
+      name: operators-id-flights-enroute
+      description: REST surface for operators-id-flights-enroute.
+      operations:
+      - method: GET
+        name: getoperatorflightsenroute
+        description: Get En Route Flights
+        call: flightaware-aeroapi-operators.getoperatorflightsenroute
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/operators/{id}/flights/scheduled
+      name: operators-id-flights-scheduled
+      description: REST surface for operators-id-flights-scheduled.
+      operations:
+      - method: GET
+        name: getoperatorflightsscheduled
+        description: Get Scheduled Flights
+        call: flightaware-aeroapi-operators.getoperatorflightsscheduled
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: flightaware-aeroapi-operators-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AeroAPI — operators. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-operators
+      description: Get All Operators.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getalloperators
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-static-information-operator
+      description: Get Static Information for an Operator.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperator
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-canonical-code-operator-api
+      description: Get the Canonical Code of an Operator for API Usage.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorscanonical
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-operator-s-flights
+      description: Get All of an Operator's Flights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorflights
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-arrived-flights
+      description: Get Arrived Flights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorflightsarrived
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-counts-operator
+      description: Get Flight Counts for Operator
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorflightscount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-en-route-flights
+      description: Get En Route Flights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorflightsenroute
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-scheduled-flights
+      description: Get Scheduled Flights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-operators.getoperatorflightsscheduled
+      outputParameters:
+      - type: object
+        mapping: $.

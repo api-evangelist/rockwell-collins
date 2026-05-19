@@ -1,0 +1,647 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AeroAPI — flights
+  description: 'AeroAPI — flights. 11 operations. Lead operation: Search for Flights. Self-contained Naftiko capability covering
+    one Rockwell Collins business surface.'
+  tags:
+  - Rockwell Collins
+  - flights
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ROCKWELL_COLLINS_API_KEY: ROCKWELL_COLLINS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: flightaware-aeroapi-flights
+    baseUri: https://{env}.flightaware.com/aeroapi
+    description: AeroAPI — flights business capability. Self-contained, no shared references.
+    resources:
+    - name: flights-search
+      path: /flights/search
+      operations:
+      - name: getflightsbysearch
+        method: GET
+        description: Search for Flights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search for flights with a simplified syntax (compared to
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: flights-search-advanced
+      path: /flights/search/advanced
+      operations:
+      - name: getflightsbyadvancedsearch
+        method: GET
+        description: Search for Flights Using Advanced Syntax
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search for airborne or recently arrived flights. It should not
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: flights-search-count
+      path: /flights/search/count
+      operations:
+      - name: getflightscountbysearch
+        method: GET
+        description: Get Count of Flights Matching Search Parameters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search for flights with a simplified syntax (compared to
+    - name: flights-search-positions
+      path: /flights/search/positions
+      operations:
+      - name: getflightsbypositionsearch
+        method: GET
+        description: Search for Flight Positions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search for flight positions. It should not exceed 1000 bytes
+        - name: unique_flights
+          in: query
+          type: boolean
+          description: Whether to return only a single position per unique fa_flight_id.
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: flights-ident
+      path: /flights/{ident}
+      operations:
+      - name: getflight
+        method: GET
+        description: Get Information for a Flight
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ident
+          in: path
+          type: string
+          description: The ident, registration, or fa_flight_id to fetch. If using
+          required: true
+        - name: ident_type
+          in: query
+          type: string
+          description: Type of ident provided in the ident parameter. By default, the passed
+        - name: start
+          in: query
+          type: string
+          description: The starting date range for flight results, comparing against flights'
+        - name: end
+          in: query
+          type: string
+          description: The ending date range for flight results, comparing against flights'
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: flights-ident-canonical
+      path: /flights/{ident}/canonical
+      operations:
+      - name: getflightscanonical
+        method: GET
+        description: Get the Canonical Ident of a Flight
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ident
+          in: path
+          type: string
+          description: The flight designator or aircraft registration
+          required: true
+        - name: ident_type
+          in: query
+          type: string
+          description: Type of ident provided in the ident parameter
+        - name: country_code
+          in: query
+          type: string
+          description: An ISO 3166-1 alpha-2 country code.
+    - name: flights-ident-intents
+      path: /flights/{ident}/intents
+      operations:
+      - name: postflightsbyident
+        method: POST
+        description: Submit a Flight Intent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ident
+          in: path
+          type: string
+          description: The ident or registration of the Flight Intent
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: flights-id-map
+      path: /flights/{id}/map
+      operations:
+      - name: getflightmap
+        method: GET
+        description: Get an Image of a Flight's Track on a Map
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The fa_flight_id to fetch. If looking for data from more than 10 days ago,
+          required: true
+        - name: height
+          in: query
+          type: integer
+          description: Height of requested image (pixels)
+        - name: width
+          in: query
+          type: integer
+          description: Width of requested image (pixels)
+        - name: layer_on
+          in: query
+          type: array
+          description: List of map layers to enable
+        - name: layer_off
+          in: query
+          type: array
+          description: List of map layers to disable
+        - name: show_data_block
+          in: query
+          type: boolean
+          description: Whether a textual caption containing the ident, type, heading,
+        - name: airports_expand_view
+          in: query
+          type: boolean
+          description: Whether to force zoom area to ensure origin/destination airports are
+        - name: show_airports
+          in: query
+          type: boolean
+          description: Whether to show the origin/destination airports for the flight as
+        - name: bounding_box
+          in: query
+          type: array
+          description: Manually specify the zoom area of the map using custom bounds. Should
+    - name: flights-id-position
+      path: /flights/{id}/position
+      operations:
+      - name: getflightposition
+        method: GET
+        description: Get Flight's Current Position
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The fa_flight_id to fetch. If looking for data from more than 10 days ago,
+          required: true
+    - name: flights-id-route
+      path: /flights/{id}/route
+      operations:
+      - name: getflightroute
+        method: GET
+        description: Get Flight's Filed Route
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The fa_flight_id to fetch. If looking for data from more than 10 days ago,
+          required: true
+    - name: flights-id-track
+      path: /flights/{id}/track
+      operations:
+      - name: getflighttrack
+        method: GET
+        description: Get Flight's Track
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The fa_flight_id to fetch. If looking for data from more than 10 days ago,
+          required: true
+        - name: include_estimated_positions
+          in: query
+          type: boolean
+          description: Whether to include estimated positions in the flight track
+    authentication:
+      type: apikey
+      key: x-apikey
+      value: '{{env.ROCKWELL_COLLINS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: flightaware-aeroapi-flights-rest
+    port: 8080
+    description: REST adapter for AeroAPI — flights. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/flights/search
+      name: flights-search
+      description: REST surface for flights-search.
+      operations:
+      - method: GET
+        name: getflightsbysearch
+        description: Search for Flights
+        call: flightaware-aeroapi-flights.getflightsbysearch
+        with:
+          query: rest.query
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/search/advanced
+      name: flights-search-advanced
+      description: REST surface for flights-search-advanced.
+      operations:
+      - method: GET
+        name: getflightsbyadvancedsearch
+        description: Search for Flights Using Advanced Syntax
+        call: flightaware-aeroapi-flights.getflightsbyadvancedsearch
+        with:
+          query: rest.query
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/search/count
+      name: flights-search-count
+      description: REST surface for flights-search-count.
+      operations:
+      - method: GET
+        name: getflightscountbysearch
+        description: Get Count of Flights Matching Search Parameters
+        call: flightaware-aeroapi-flights.getflightscountbysearch
+        with:
+          query: rest.query
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/search/positions
+      name: flights-search-positions
+      description: REST surface for flights-search-positions.
+      operations:
+      - method: GET
+        name: getflightsbypositionsearch
+        description: Search for Flight Positions
+        call: flightaware-aeroapi-flights.getflightsbypositionsearch
+        with:
+          query: rest.query
+          unique_flights: rest.unique_flights
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{ident}
+      name: flights-ident
+      description: REST surface for flights-ident.
+      operations:
+      - method: GET
+        name: getflight
+        description: Get Information for a Flight
+        call: flightaware-aeroapi-flights.getflight
+        with:
+          ident: rest.ident
+          ident_type: rest.ident_type
+          start: rest.start
+          end: rest.end
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{ident}/canonical
+      name: flights-ident-canonical
+      description: REST surface for flights-ident-canonical.
+      operations:
+      - method: GET
+        name: getflightscanonical
+        description: Get the Canonical Ident of a Flight
+        call: flightaware-aeroapi-flights.getflightscanonical
+        with:
+          ident: rest.ident
+          ident_type: rest.ident_type
+          country_code: rest.country_code
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{ident}/intents
+      name: flights-ident-intents
+      description: REST surface for flights-ident-intents.
+      operations:
+      - method: POST
+        name: postflightsbyident
+        description: Submit a Flight Intent
+        call: flightaware-aeroapi-flights.postflightsbyident
+        with:
+          ident: rest.ident
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{id}/map
+      name: flights-id-map
+      description: REST surface for flights-id-map.
+      operations:
+      - method: GET
+        name: getflightmap
+        description: Get an Image of a Flight's Track on a Map
+        call: flightaware-aeroapi-flights.getflightmap
+        with:
+          id: rest.id
+          height: rest.height
+          width: rest.width
+          layer_on: rest.layer_on
+          layer_off: rest.layer_off
+          show_data_block: rest.show_data_block
+          airports_expand_view: rest.airports_expand_view
+          show_airports: rest.show_airports
+          bounding_box: rest.bounding_box
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{id}/position
+      name: flights-id-position
+      description: REST surface for flights-id-position.
+      operations:
+      - method: GET
+        name: getflightposition
+        description: Get Flight's Current Position
+        call: flightaware-aeroapi-flights.getflightposition
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{id}/route
+      name: flights-id-route
+      description: REST surface for flights-id-route.
+      operations:
+      - method: GET
+        name: getflightroute
+        description: Get Flight's Filed Route
+        call: flightaware-aeroapi-flights.getflightroute
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/flights/{id}/track
+      name: flights-id-track
+      description: REST surface for flights-id-track.
+      operations:
+      - method: GET
+        name: getflighttrack
+        description: Get Flight's Track
+        call: flightaware-aeroapi-flights.getflighttrack
+        with:
+          id: rest.id
+          include_estimated_positions: rest.include_estimated_positions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: flightaware-aeroapi-flights-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AeroAPI — flights. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: search-flights
+      description: Search for Flights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightsbysearch
+      with:
+        query: tools.query
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-flights-using-advanced-syntax
+      description: Search for Flights Using Advanced Syntax
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightsbyadvancedsearch
+      with:
+        query: tools.query
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-count-flights-matching-search
+      description: Get Count of Flights Matching Search Parameters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightscountbysearch
+      with:
+        query: tools.query
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-flight-positions
+      description: Search for Flight Positions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightsbypositionsearch
+      with:
+        query: tools.query
+        unique_flights: tools.unique_flights
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-information-flight
+      description: Get Information for a Flight
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflight
+      with:
+        ident: tools.ident
+        ident_type: tools.ident_type
+        start: tools.start
+        end: tools.end
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-canonical-ident-flight
+      description: Get the Canonical Ident of a Flight
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightscanonical
+      with:
+        ident: tools.ident
+        ident_type: tools.ident_type
+        country_code: tools.country_code
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: submit-flight-intent
+      description: Submit a Flight Intent
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: flightaware-aeroapi-flights.postflightsbyident
+      with:
+        ident: tools.ident
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-image-flight-s-track-map
+      description: Get an Image of a Flight's Track on a Map
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightmap
+      with:
+        id: tools.id
+        height: tools.height
+        width: tools.width
+        layer_on: tools.layer_on
+        layer_off: tools.layer_off
+        show_data_block: tools.show_data_block
+        airports_expand_view: tools.airports_expand_view
+        show_airports: tools.show_airports
+        bounding_box: tools.bounding_box
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-s-current-position
+      description: Get Flight's Current Position
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightposition
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-s-filed-route
+      description: Get Flight's Filed Route
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflightroute
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-s-track
+      description: Get Flight's Track
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-flights.getflighttrack
+      with:
+        id: tools.id
+        include_estimated_positions: tools.include_estimated_positions
+      outputParameters:
+      - type: object
+        mapping: $.

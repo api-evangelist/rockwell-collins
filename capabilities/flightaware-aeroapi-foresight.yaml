@@ -1,0 +1,209 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AeroAPI — foresight
+  description: 'AeroAPI — foresight. 3 operations. Lead operation: Search for Flights, Responses Include Foresight Data. Self-contained
+    Naftiko capability covering one Rockwell Collins business surface.'
+  tags:
+  - Rockwell Collins
+  - foresight
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ROCKWELL_COLLINS_API_KEY: ROCKWELL_COLLINS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: flightaware-aeroapi-foresight
+    baseUri: https://{env}.flightaware.com/aeroapi
+    description: AeroAPI — foresight business capability. Self-contained, no shared references.
+    resources:
+    - name: foresight-flights-search-advanced
+      path: /foresight/flights/search/advanced
+      operations:
+      - name: getflightsbyadvancedsearchwithforesight
+        method: GET
+        description: Search for Flights, Responses Include Foresight Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search for airborne or recently arrived flights. It should not
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: foresight-flights-ident
+      path: /foresight/flights/{ident}
+      operations:
+      - name: getflightwithforesight
+        method: GET
+        description: Get Information for a Flight, Including Foresight Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ident
+          in: path
+          type: string
+          description: The ident, registration, or fa_flight_id to fetch. If using
+          required: true
+        - name: ident_type
+          in: query
+          type: string
+          description: Type of ident provided in the ident parameter. By default, the passed
+        - name: start
+          in: query
+          type: string
+          description: The starting date range for flight results, comparing against flights'
+        - name: end
+          in: query
+          type: string
+          description: The ending date range for flight results, comparing against flights'
+        - name: max_pages
+          in: query
+          type: integer
+          description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will
+            be returned.
+        - name: cursor
+          in: query
+          type: string
+          description: Opaque value used to get the next batch of data from a paged collection.
+    - name: foresight-flights-id-position
+      path: /foresight/flights/{id}/position
+      operations:
+      - name: getflightpositionwithforesight
+        method: GET
+        description: Get Flight's Current Position, Including Foresight Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The fa_flight_id to fetch. If looking for data from more than 10 days ago,
+          required: true
+    authentication:
+      type: apikey
+      key: x-apikey
+      value: '{{env.ROCKWELL_COLLINS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: flightaware-aeroapi-foresight-rest
+    port: 8080
+    description: REST adapter for AeroAPI — foresight. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/foresight/flights/search/advanced
+      name: foresight-flights-search-advanced
+      description: REST surface for foresight-flights-search-advanced.
+      operations:
+      - method: GET
+        name: getflightsbyadvancedsearchwithforesight
+        description: Search for Flights, Responses Include Foresight Data
+        call: flightaware-aeroapi-foresight.getflightsbyadvancedsearchwithforesight
+        with:
+          query: rest.query
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/foresight/flights/{ident}
+      name: foresight-flights-ident
+      description: REST surface for foresight-flights-ident.
+      operations:
+      - method: GET
+        name: getflightwithforesight
+        description: Get Information for a Flight, Including Foresight Data
+        call: flightaware-aeroapi-foresight.getflightwithforesight
+        with:
+          ident: rest.ident
+          ident_type: rest.ident_type
+          start: rest.start
+          end: rest.end
+          max_pages: rest.max_pages
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/foresight/flights/{id}/position
+      name: foresight-flights-id-position
+      description: REST surface for foresight-flights-id-position.
+      operations:
+      - method: GET
+        name: getflightpositionwithforesight
+        description: Get Flight's Current Position, Including Foresight Data
+        call: flightaware-aeroapi-foresight.getflightpositionwithforesight
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: flightaware-aeroapi-foresight-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AeroAPI — foresight. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: search-flights-responses-include-foresight
+      description: Search for Flights, Responses Include Foresight Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-foresight.getflightsbyadvancedsearchwithforesight
+      with:
+        query: tools.query
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-information-flight-including-foresight
+      description: Get Information for a Flight, Including Foresight Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-foresight.getflightwithforesight
+      with:
+        ident: tools.ident
+        ident_type: tools.ident_type
+        start: tools.start
+        end: tools.end
+        max_pages: tools.max_pages
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flight-s-current-position-including
+      description: Get Flight's Current Position, Including Foresight Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: flightaware-aeroapi-foresight.getflightpositionwithforesight
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
