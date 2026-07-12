@@ -76,6 +76,10 @@ apis:
       - url: https://developer.collins.com/api-products
         type: Portal
 common:
+  - type: DomainSecurity
+    url: security/rockwell-collins-domain-security.yml
+  - type: Authentication
+    url: authentication/rockwell-collins-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/rockwell-collins
   - url: https://www.rockwellcollins.com

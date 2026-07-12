@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/flightaware-aeroapi-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-apikey
+  description: |-
+    Unlike previous versions of AeroAPI, authentication is now controlled by
+    an API key that must be set in the header ```x-apikey```. Your
+    FlightAware username is not used when authenticating to the API.
+  sources:
+  - openapi/flightaware-aeroapi-openapi.yml
