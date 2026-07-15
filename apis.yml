@@ -76,6 +76,8 @@ apis:
       - url: https://developer.collins.com/api-products
         type: Portal
 common:
+  - type: AgenticAccess
+    url: agentic-access/rockwell-collins-agentic-access.yml
   - type: DomainSecurity
     url: security/rockwell-collins-domain-security.yml
   - type: Authentication
