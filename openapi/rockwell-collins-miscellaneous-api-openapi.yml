@@ -1,0 +1,978 @@
+openapi: 3.0.2
+info:
+  title: Aero airports miscellaneous API
+  version: 4.17.1
+  description: '# Introduction
+
+    AeroAPI is a simple, query-based API that gives software developers access
+
+    to a variety of FlightAware''s flight data. Users can obtain current or
+
+    historical data. AeroAPI is a RESTful API delivering accurate and
+
+    actionable aviation data. With the introduction of Foresight™, customers
+
+    have access to the data that powers over half of the predictive airline
+
+    ETAs in the US.
+
+
+    ## Categories
+
+    AeroAPI is divided into several categories to make things easier to
+
+    discover.
+
+    - Flights: Summary information, planned routes, positions and more
+
+    - Foresight: Flight positions enhanced with FlightAware Foresight™
+
+    - Airports: Airport information and FIDS style resources
+
+    - Operators: Operator information and fleet activity resources
+
+    - Alerts: Configure flight alerts and delivery destinations
+
+    - History: Historical flight access for various endpoints
+
+    - Miscellaneous: Flight disruption, future schedule information, and aircraft owner information
+
+
+    ## Development Tools
+
+    AeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily
+
+    imported into tools like Postman. To get started try importing the API
+
+    specification using
+
+    [Postman''s instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).
+
+    Once imported as a collection only the "Value" field under the collection''s
+
+    Authorization tab needs to be populated and saved before making calls.
+
+
+    The AeroAPI OpenAPI specification is located at:\
+
+    https://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml
+
+
+    Our [open source AeroApps project](/aeroapi/portal/resources)
+
+    provides a small collection of services and sample applications to help
+
+    you get started.
+
+
+    The Flight Information Display System (FIDS) AeroApp is an example of a
+
+    multi-tier application using multiple languages and Docker containers.
+
+    It demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.
+
+
+    The Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and
+
+    receive alerts in a sample application with a Dockerized Python backend
+
+    and a React frontend.
+
+
+    Our AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)
+
+    provides a quick and easy way to test the delivery of customized alerts via AeroAPI push.
+
+    '
+servers:
+- url: https://{env}.flightaware.com/aeroapi
+  variables:
+    env:
+      default: aeroapi
+      enum:
+      - aeroapi
+security:
+- ApiKeyAuth: []
+tags:
+- name: miscellaneous
+paths:
+  /aircraft/{ident}/blocked:
+    parameters:
+    - name: ident
+      in: path
+      description: The ident or registration of the aircraft
+      required: true
+      schema:
+        type: string
+      examples:
+        ident:
+          value: RPA4854
+        reg:
+          value: N123HQ
+    get:
+      operationId: get_aircraft_blocked
+      summary: Check If a Given Ident Is Blocked
+      description: 'Given an aircraft identification, returns true if the aircraft is blocked from
+
+        public tracking per request from the owner/operator, false if it is not blocked.
+
+        Any IATA-like idents will be translated to ICAO before lookup.
+
+        When marked as blocked, no associated flight information will be visible in
+
+        AeroAPI. FlightAware can provide aircraft owner/operators with secure access to
+
+        their blocked flight data by [contacting FlightAware for help](https://www.flightaware.com/about/contact).
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: object
+                properties:
+                  blocked:
+                    type: boolean
+                    description: Set to true if the aircraft or ident is blocked from tracking.
+                required:
+                - blocked
+        '400':
+          description: 'Incorrect parameter(s). Ident may be missing.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /aircraft/{ident}/owner:
+    parameters:
+    - name: ident
+      in: path
+      description: The ident or registration of the aircraft
+      required: true
+      schema:
+        type: string
+      examples:
+        ident:
+          value: RPA4854
+        reg:
+          value: N123HQ
+    get:
+      operationId: get_aircraft_owner
+      summary: Get the Owner of an Aircraft
+      description: 'Returns information about the owner of an aircraft, given a flight number
+
+        or aircraft registration. Data returned includes owner''s name, location (typically
+
+        city and state), and website, if any. Codeshares and alternate idents are
+
+        automatically searched. Specific owner name information is limited to ownership
+
+        within the US (sourced by the FAA), Australia, and New Zealand. Note that while
+
+        this information is updated weekly, there may be a lag in upstream data sources
+
+        reflecting a change in ownership.
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                properties:
+                  owner:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the registered owner of the aircraft
+                        nullable: true
+                      location:
+                        type: string
+                        description: City and state of the registered owner. For Australia, state and country. For New Zealand, city and country.
+                        nullable: true
+                      location2:
+                        type: string
+                        description: Street address of the registered owner
+                        nullable: true
+                      website:
+                        type: string
+                        description: Website for the owner if available
+                        nullable: true
+        '400':
+          description: 'Incorrect or missing ident. It should be a flight number or a tail number.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /aircraft/types/{type}:
+    parameters:
+    - in: path
+      name: type
+      description: 'The ICAO aircraft type designator for the aircraft to fetch information for
+
+        '
+      required: true
+      schema:
+        type: string
+        example: GALX
+    get:
+      operationId: get_flight_type
+      summary: Get Information About an Aircraft Type
+      description: 'Returns information about an aircraft type, given an ICAO aircraft type designator string.
+
+        Data returned includes the description, type, manufacturer, engine type, and engine
+
+        count.
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: object
+                properties:
+                  manufacturer:
+                    type: string
+                    description: Manufacturer of aircraft
+                  type:
+                    type: string
+                    description: Type of aircraft
+                  description:
+                    type: string
+                    description: A short description of the aircraft
+                  engine_count:
+                    type: integer
+                    nullable: true
+                    description: Number of engines
+                  engine_type:
+                    type: string
+                    nullable: true
+                    description: Type of engine
+        '400':
+          description: 'Incorrect parameters. Type must be an ICAO aircraft type designator string.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /schedules/{date_start}/{date_end}:
+    parameters:
+    - in: path
+      name: date_start
+      description: 'Datetime or date of earliest scheduled flight departure to return. This
+
+        must be no earlier than 3 months in the past and cannot be more than 3 weeks
+
+        before date_end. Violating either constraint will result in an error.
+
+        If using date instead of datetime, then the time will default to 00:00:00Z.
+
+        '
+      required: true
+      schema:
+        type: string
+        oneOf:
+        - format: date-time
+        - format: date
+      examples:
+        datetime:
+          value: '2021-12-31T19:59:59Z'
+        date:
+          value: '2021-12-31'
+      x-fill-example: 'no'
+    - in: path
+      name: date_end
+      description: 'Datetime or date of latest scheduled flight departure to return. This must
+
+        be no later than 1 year in the future and cannot be more than 3 weeks after
+
+        date_start. Violating either constraint will result in an error. If using
+
+        date instead of datetime, then the time will default to 00:00:00Z. Thus,
+
+        the next day''s date should be specified if one day of data is desired when
+
+        using date instead of datetime.
+
+        '
+      required: true
+      schema:
+        type: string
+        oneOf:
+        - format: date-time
+        - format: date
+      examples:
+        datetime:
+          value: '2021-12-31T19:59:59Z'
+        date:
+          value: '2021-12-31'
+      x-fill-example: 'no'
+    - in: query
+      name: origin
+      description: 'Only return flights with this origin airport. ICAO or IATA airport codes
+
+        can be provided.
+
+        '
+      schema:
+        type: string
+      examples:
+        icao:
+          value: KIAH
+        iata:
+          value: IAH
+    - in: query
+      name: destination
+      description: 'Only return flights with this destination airport. ICAO or IATA airport codes
+
+        can be provided.
+
+        '
+      schema:
+        type: string
+      examples:
+        icao:
+          value: KIAH
+        iata:
+          value: IAH
+    - in: query
+      name: airline
+      description: 'Only return flights flown by this carrier. ICAO or IATA carrier codes
+
+        can be provided.
+
+        '
+      schema:
+        type: string
+      examples:
+        icao:
+          value: UAL
+        iata:
+          value: UA
+    - in: query
+      name: flight_number
+      description: Only return flights with this flight number.
+      schema:
+        type: integer
+        format: int32
+    - in: query
+      name: include_codeshares
+      description: 'Flag indicating whether ticketing codeshares should be returned as well.
+
+        '
+      schema:
+        type: boolean
+        default: true
+    - in: query
+      name: include_regional
+      description: 'Flag indicating whether regional codeshares should be returned as well.
+
+        '
+      schema:
+        type: boolean
+        default: true
+    - in: query
+      name: max_pages
+      description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned.
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    - in: query
+      name: cursor
+      description: 'Opaque value used to get the next batch of data from a paged collection.
+
+        '
+      schema:
+        type: string
+    get:
+      operationId: get_schedules_by_date
+      summary: Get Scheduled Flights
+      description: 'Returns scheduled flights that have been published by airlines. These
+
+        schedules are available for up to three months in the past as well as
+
+        one year into the future.
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                properties:
+                  links:
+                    type: object
+                    nullable: true
+                    description: 'Object containing links to related resources.
+
+                      '
+                    properties:
+                      next:
+                        type: string
+                        format: uri-reference
+                        description: 'A link to the next set of records in a collection.
+
+                          '
+                    required:
+                    - next
+                  num_pages:
+                    description: Number of pages returned
+                    type: integer
+                    minimum: 1
+                  scheduled:
+                    type: array
+                    items:
+                      type: object
+                      description: 'Information for a scheduled flight. All data is sourced from operator''s
+
+                        schedule and may not reflect actual flight information (even after the
+
+                        flight has occurred).
+
+                        '
+                      properties:
+                        ident:
+                          type: string
+                          description: Flight ident
+                        ident_icao:
+                          type: string
+                          nullable: true
+                          description: Flight ident in ICAO format
+                        ident_iata:
+                          type: string
+                          nullable: true
+                          description: Flight ident in IATA format
+                        actual_ident:
+                          type: string
+                          nullable: true
+                          description: If ident is a codeshare flight, this is the primary identifier used by the operator
+                        actual_ident_icao:
+                          type: string
+                          nullable: true
+                          description: If ident is a codeshare flight, this is the primary identifier used by the operator in ICAO format
+                        actual_ident_iata:
+                          type: string
+                          nullable: true
+                          description: If ident is a codeshare flight, this is the primary identifier used by the operator in IATA format
+                        aircraft_type:
+                          type: string
+                          description: Aircraft type will generally be ICAO code, but IATA code will be given when the ICAO code is not known
+                        scheduled_in:
+                          type: string
+                          format: date-time
+                          description: Scheduled time of arrival at gate
+                          example: '2021-12-31T19:59:59Z'
+                        scheduled_out:
+                          type: string
+                          format: date-time
+                          description: Scheduled time of departure from gate
+                          example: '2021-12-31T19:59:59Z'
+                        origin:
+                          type: string
+                          description: The origin airport's identifier code
+                        origin_icao:
+                          type: string
+                          nullable: true
+                          description: The origin airport's ICAO code
+                        origin_iata:
+                          type: string
+                          nullable: true
+                          description: The origin airport's IATA code
+                        origin_lid:
+                          type: string
+                          nullable: true
+                          description: The origin airport's LID
+                        destination:
+                          type: string
+                          description: The destination airport's identifier code
+                        destination_icao:
+                          type: string
+                          nullable: true
+                          description: The destination airport's ICAO code
+                        destination_iata:
+                          type: string
+                          nullable: true
+                          description: The destination airport's IATA code
+                        destination_lid:
+                          type: string
+                          nullable: true
+                          description: The destination airport's LID
+                        fa_flight_id:
+                          type: string
+                          nullable: true
+                          description: 'Unique FlightAware ID for flight. Will be null for flights
+
+                            scheduled more than a few days in the future.
+
+                            '
+                        meal_service:
+                          type: string
+                          description: Meal service offered on the flight
+                        seats_cabin_business:
+                          type: integer
+                          description: Number of seats in the business class cabin
+                        seats_cabin_coach:
+                          type: integer
+                          description: Number of seats in the coach class cabin
+                        seats_cabin_first:
+                          type: integer
+                          description: Number of seats in the first class cabin
+                      required:
+                      - ident
+                      - ident_icao
+                      - ident_iata
+                      - actual_ident
+                      - actual_ident_icao
+                      - actual_ident_iata
+                      - aircraft_type
+                      - scheduled_in
+                      - scheduled_out
+                      - origin
+                      - origin_icao
+                      - origin_iata
+                      - origin_lid
+                      - destination
+                      - destination_icao
+                      - destination_iata
+                      - destination_lid
+                      - fa_flight_id
+                      - meal_service
+                      - seats_cabin_business
+                      - seats_cabin_coach
+                      - seats_cabin_first
+                required:
+                - links
+                - num_pages
+                - scheduled
+        '400':
+          description: 'Incorrect parameter(s). Date_start and date_end must be within time constraints and ISO 8601 format (ex. 1970-01-01T00:00:00Z). Airline and flight_number, if present, must be valid.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /disruption_counts/{entity_type}:
+    parameters:
+    - in: path
+      name: entity_type
+      required: true
+      description: The type of entity to get disruption statistics for.
+      schema:
+        type: string
+        enum:
+        - airline
+        - origin
+        - destination
+        example: origin
+    - in: query
+      name: time_period
+      description: ''
+      schema:
+        type: string
+        default: today
+        enum:
+        - yesterday
+        - today
+        - tomorrow
+        - plus2days
+        - twoDaysAgo
+        - minus2plus12hrs
+        - next36hrs
+        - week
+    - in: query
+      name: max_pages
+      description: Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned.
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    - in: query
+      name: cursor
+      description: 'Opaque value used to get the next batch of data from a paged collection.
+
+        '
+      schema:
+        type: string
+    get:
+      operationId: get_all_disruption_counts
+      summary: Get Global Flight Disruption Statistics
+      description: 'Returns overall flight cancellation/delay counts in the specified time
+
+        period for either all airlines or all airports.
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: object
+                properties:
+                  links:
+                    type: object
+                    nullable: true
+                    description: 'Object containing links to related resources.
+
+                      '
+                    properties:
+                      next:
+                        type: string
+                        format: uri-reference
+                        description: 'A link to the next set of records in a collection.
+
+                          '
+                    required:
+                    - next
+                  num_pages:
+                    description: Number of pages returned
+                    type: integer
+                    minimum: 1
+                  entities:
+                    type: array
+                    description: 'Per-entity disruption information.
+
+                      '
+                    items:
+                      type: object
+                      properties:
+                        cancellations:
+                          type: integer
+                          minimum: 0
+                          description: 'The number of cancelled flights for this airline or airport.
+
+                            '
+                        delays:
+                          type: integer
+                          minimum: 0
+                          description: 'The number of delayed flights for this airline or airport.
+
+                            '
+                        total:
+                          type: integer
+                          minimum: 0
+                          description: 'Total number of originally scheduled flights for this airline or
+
+                            airport.
+
+                            '
+                        entity_name:
+                          type: string
+                          nullable: true
+                          description: The name of the airline or airport.
+                        entity_id:
+                          type: string
+                          nullable: true
+                          description: Code for the airline or airport.
+                      required:
+                      - cancellations
+                      - delays
+                      - total
+                      - entity_name
+                      - entity_id
+                  total_cancellations_national:
+                    type: integer
+                    minimum: 0
+                    description: Total number of cancelled flights in the US.
+                  total_cancellations_worldwide:
+                    type: integer
+                    minimum: 0
+                    description: Total number of cancelled flights.
+                  total_delays_worldwide:
+                    type: integer
+                    minimum: 0
+                    description: Total number of delayed flights.
+                required:
+                - links
+                - num_pages
+                - entities
+                - total_cancellations_national
+                - total_cancellations_worldwide
+                - total_delays_worldwide
+        '400':
+          description: 'Incorrect parameters. Entity_type and time_period must be one of the specified values. Entity_type cannot be empty.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /disruption_counts/{entity_type}/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      description: 'The ICAO code for the airline or ID for the airport (ICAO, IATA, or LID)
+
+        for which you are fetching disruption statistics.  For airport ID,
+
+        [ICAO is highly preferred](/aeroapi/portal/resources#icaoCode) to prevent ambiguity.
+
+        '
+      schema:
+        type: string
+      examples:
+        ICAO:
+          value: KHOU
+        IATA:
+          value: HOU
+    - in: path
+      name: entity_type
+      required: true
+      description: The type of entity to get disruption statistics for.
+      schema:
+        type: string
+        enum:
+        - airline
+        - origin
+        - destination
+        example: origin
+    - in: query
+      name: time_period
+      description: ''
+      schema:
+        type: string
+        default: today
+        enum:
+        - yesterday
+        - today
+        - tomorrow
+        - plus2days
+        - twoDaysAgo
+        - minus2plus12hrs
+        - next36hrs
+        - week
+    get:
+      operationId: get_disruption_counts
+      summary: Get Flight Disruption Statistics for a Particular Entity
+      description: 'Returns flight cancellation/delay counts in the specified time period
+
+        for a particular airline or airport.
+
+        '
+      tags:
+      - miscellaneous
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: object
+                properties:
+                  cancellations:
+                    type: integer
+                    minimum: 0
+                    description: 'The number of cancelled flights for this airline or airport.
+
+                      '
+                  delays:
+                    type: integer
+                    minimum: 0
+                    description: 'The number of delayed flights for this airline or airport.
+
+                      '
+                  total:
+                    type: integer
+                    minimum: 0
+                    description: 'Total number of originally scheduled flights for this airline or
+
+                      airport.
+
+                      '
+                  entity_name:
+                    type: string
+                    nullable: true
+                    description: The name of the airline or airport.
+                  entity_id:
+                    type: string
+                    nullable: true
+                    description: Code for the airline or airport.
+                required:
+                - cancellations
+                - delays
+                - total
+                - entity_name
+                - entity_id
+        '400':
+          description: 'Incorrect parameters. Entity_type and time_period must be one of the specified values. Entity_type cannot be empty. id must be a valid operator or airport code.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-apikey
+      description: 'Unlike previous versions of AeroAPI, authentication is now controlled by
+
+        an API key that must be set in the header ```x-apikey```. Your
+
+        FlightAware username is not used when authenticating to the API.
+
+        '

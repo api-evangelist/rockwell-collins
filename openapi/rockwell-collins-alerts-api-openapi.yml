@@ -1,0 +1,1844 @@
+openapi: 3.0.2
+info:
+  title: Aero airports alerts API
+  version: 4.17.1
+  description: '# Introduction
+
+    AeroAPI is a simple, query-based API that gives software developers access
+
+    to a variety of FlightAware''s flight data. Users can obtain current or
+
+    historical data. AeroAPI is a RESTful API delivering accurate and
+
+    actionable aviation data. With the introduction of Foresight™, customers
+
+    have access to the data that powers over half of the predictive airline
+
+    ETAs in the US.
+
+
+    ## Categories
+
+    AeroAPI is divided into several categories to make things easier to
+
+    discover.
+
+    - Flights: Summary information, planned routes, positions and more
+
+    - Foresight: Flight positions enhanced with FlightAware Foresight™
+
+    - Airports: Airport information and FIDS style resources
+
+    - Operators: Operator information and fleet activity resources
+
+    - Alerts: Configure flight alerts and delivery destinations
+
+    - History: Historical flight access for various endpoints
+
+    - Miscellaneous: Flight disruption, future schedule information, and aircraft owner information
+
+
+    ## Development Tools
+
+    AeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily
+
+    imported into tools like Postman. To get started try importing the API
+
+    specification using
+
+    [Postman''s instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).
+
+    Once imported as a collection only the "Value" field under the collection''s
+
+    Authorization tab needs to be populated and saved before making calls.
+
+
+    The AeroAPI OpenAPI specification is located at:\
+
+    https://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml
+
+
+    Our [open source AeroApps project](/aeroapi/portal/resources)
+
+    provides a small collection of services and sample applications to help
+
+    you get started.
+
+
+    The Flight Information Display System (FIDS) AeroApp is an example of a
+
+    multi-tier application using multiple languages and Docker containers.
+
+    It demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.
+
+
+    The Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and
+
+    receive alerts in a sample application with a Dockerized Python backend
+
+    and a React frontend.
+
+
+    Our AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)
+
+    provides a quick and easy way to test the delivery of customized alerts via AeroAPI push.
+
+    '
+servers:
+- url: https://{env}.flightaware.com/aeroapi
+  variables:
+    env:
+      default: aeroapi
+      enum:
+      - aeroapi
+security:
+- ApiKeyAuth: []
+tags:
+- name: alerts
+  description: 'AeroAPI alerting can be used to configure and receive real-time alerts on key flight
+
+    events. With customizable alerting offered by our alert endpoints, AeroAPI empowers
+
+    users to selectively pick various types of events/filters to alert on. By doing so,
+
+    you can receive specially tailored alerts delivered to you for events such as flight plan
+
+    filed, flight departure (out and off), flight arrival (on and in), and more!
+
+
+    To get started with alerting, the **PUT /alerts/endpoint** endpoint must first be used
+
+    to set up the account-wide default URL that alerts will be delivered to. This step must
+
+    be done before any alerts can be configured and will serve as the fallback URL that all
+
+    alerts will be sent to for the account if a specific delivery URL is not designated on a
+
+    particular alert. If this is not performed before configuring alerts, then you will
+
+    receive a 400 error with an error message reminding you of this step when trying to interact
+
+    with the **POST /alerts** endpoint. Once a URL is set via the **PUT /alerts/endpoint** endpoint,
+
+    then alerts can be configured using the **POST /alerts** endpoint. The **GET /alerts** endpoint
+
+    can also be used to retrieve all currently configured alerts associated with your AeroAPI key.
+
+    The **GET /alerts** endpoint will allow you to easily retrieve the id of any specific alerts of
+
+    interest configured for the account which can let you use the **GET** **PUT** and **DELETE**
+
+    **/alerts/{id}** endpoints to retrieve, update, and delete specific alerts.
+
+
+    When configuring an individual alert, the *target_url* field can be set to a URL that’s
+
+    different than the account-wide target endpoint set via the **PUT /alerts/endpoint**. If
+
+    the *target_url* field is set on an alert, then that specific alert will be delivered to
+
+    the specified *target_url* rather than the default account-wide one. If this field is not
+
+    configured for the alert, then the alert will be delivered to the default account-wide endpoint.
+
+    By setting this field, one can easily target different alerts to be received by different endpoints
+
+    which can be useful for configuring per-application alerts or sending alerts to an alternate
+
+    development environment without having to adjust a production alert configuration.
+
+
+    For each alert configured, one-to-many ‘events’ can be set for alert delivery. While most
+
+    events will result in one alert delivery, both the *arrival* and the *departure* events can
+
+    result in multiple alerts delivered (referred to as bundled). The *departure* event bundles the
+
+    departure (actual OFF the ground) alert, along with the flight plan filed alert and up to 5
+
+    per-departure changes which can include alerts for significant departure delays of over
+
+    30 minutes, gate changes, and airport delays. FlightAware Global customers will
+
+    also receive *Power on* and *Ready to taxi* alerts as part of the departure bundle. The *arrival* event
+
+    bundles the arrival (actual ON the ground) alert, along with up to 5 en-route changes (including delays
+
+    of over 30 minutes and excluding diversions) identified. FlightAware Global customers will also receive
+
+    *taxi stop* times as part of the *arrival* bundle. Setting a bundled type and unbundled type for an
+
+    On/Off will only result in a single alert in the case where events may overlap.
+
+
+    If there is a need to change the alert configurations, updating an alert using the **PUT /alerts/{id}**
+
+    endpoint and a unique alert identifier (id) is preferred rather than creating an additional alert.
+
+    By doing so, you can avoid duplicate alerts being delivered which could create unnecessary noise
+
+    if they are not of interest anymore.
+
+
+    If at any point there is a need to delete an alert, the **DELETE alerts/{id}** endpoint can be
+
+    leveraged to delete an alert so that it won’t be delivered anymore. As a reminder, specific alert
+
+    IDs can be retrieved from the **GET /alerts** endpoint.
+
+    '
+paths:
+  /alerts:
+    get:
+      operationId: get_all_alerts
+      summary: Get All Configured Alerts
+      description: 'Returns all configured alerts for the FlightAware account (this
+
+        includes alerts configured through other means by the FlightAware user
+
+        owning the AeroAPI account like FlightAware''s website or mobile apps).
+
+        '
+      tags:
+      - alerts
+      parameters:
+      - in: query
+        name: max_pages
+        description: 'Maximum number of pages to fetch. This is an upper limit and not
+
+          a guarantee of how many pages will be returned. Defaults to 0, meaning
+
+          no maximum is set. Set this parameter if your call is timing out
+
+          (most likely due to a high number of alerts).
+
+          '
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - in: query
+        name: cursor
+        description: 'Opaque value used to get the next batch of data from a paged collection.
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of all alerts.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                properties:
+                  links:
+                    type: object
+                    nullable: true
+                    description: 'Object containing links to related resources.
+
+                      '
+                    properties:
+                      next:
+                        type: string
+                        format: uri-reference
+                        description: 'A link to the next set of records in a collection.
+
+                          '
+                    required:
+                    - next
+                  num_pages:
+                    description: Number of pages returned
+                    type: integer
+                    minimum: 1
+                  alerts:
+                    type: array
+                    items:
+                      allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: Unique ID for alert, can be used to update or delete alert.
+                          description:
+                            type: string
+                            description: 'Server-generated textual description of alert. May include carrier,
+
+                              flight number, origin, destination, etc.
+
+                              '
+                      - type: object
+                        properties:
+                          ident:
+                            type: string
+                            nullable: true
+                            description: 'Ident to alert on. This value may be modified based on codeshare
+
+                              resolution. If that occurs, the originally provided ident will be
+
+                              preserved in the user_ident field.
+
+                              '
+                      - type: object
+                        properties:
+                          ident_icao:
+                            type: string
+                            nullable: true
+                            description: 'ICAO ident to alert on
+
+                              '
+                          ident_iata:
+                            type: string
+                            nullable: true
+                            description: 'IATA ident to alert on
+
+                              '
+                      - type: object
+                        properties:
+                          origin:
+                            type: string
+                            nullable: true
+                            description: Origin airport ICAO, IATA, or LID code to alert on.
+                      - type: object
+                        properties:
+                          origin_icao:
+                            type: string
+                            nullable: true
+                            description: Origin airport ICAO code to alert on.
+                          origin_iata:
+                            type: string
+                            nullable: true
+                            description: Origin airport IATA code to alert on.
+                          origin_lid:
+                            type: string
+                            nullable: true
+                            description: Origin airport LID code to alert on.
+                      - type: object
+                        properties:
+                          destination:
+                            type: string
+                            nullable: true
+                            description: Destination airport ICAO, IATA, or LID code to alert on.
+                      - type: object
+                        properties:
+                          destination_icao:
+                            type: string
+                            nullable: true
+                            description: Destination airport ICAO code to alert on.
+                          destination_iata:
+                            type: string
+                            nullable: true
+                            description: Destination airport IATA code to alert on.
+                          destination_lid:
+                            type: string
+                            nullable: true
+                            description: Destination airport LID code to alert on.
+                      - type: object
+                        properties:
+                          aircraft_type:
+                            type: string
+                            nullable: true
+                            description: Aircraft type ICAO code to alert on.
+                      - type: object
+                        properties:
+                          created:
+                            type: string
+                            format: date-time
+                            description: Time that the alert was created.
+                            example: '2021-12-31T19:59:59Z'
+                          changed:
+                            type: string
+                            format: date-time
+                            description: Time that the alert was last modified.
+                            example: '2021-12-31T19:59:59Z'
+                      - type: object
+                        properties:
+                          start:
+                            type: string
+                            nullable: true
+                            format: date
+                            description: 'Start date of alert. Should be in departure airport''s
+
+                              timezone.
+
+                              '
+                          end:
+                            type: string
+                            nullable: true
+                            format: date
+                            description: 'End date of alert (inclusive). Should be in departure airport''s
+
+                              timezone.
+
+                              '
+                      - type: object
+                        properties:
+                          user_ident:
+                            type: string
+                            nullable: true
+                            description: Originally specified ident.
+                      - type: object
+                        properties:
+                          eta:
+                            type: integer
+                            description: 'How many minutes before a flight''s ETA that an alert should be
+
+                              delivered. Alerts will only be delivered after the flight has been in
+
+                              the air for at least 15 minutes. Set to 0 to disable.
+
+                              '
+                            default: 0
+                          events:
+                            type: object
+                            properties:
+                              arrival:
+                                type: boolean
+                                description: 'Whether alerts should be delivered on arrival. FlightAware
+
+                                  Global customers will also receive \"taxi stop\" Ready To Taxi™
+
+                                  alerts unless they''ve opted out.
+
+                                  '
+                                default: false
+                              cancelled:
+                                type: boolean
+                                description: 'Whether alerts should be delivered on cancellation by the airline
+
+                                  '
+                                default: false
+                              departure:
+                                type: boolean
+                                description: 'Whether alerts should be delivered on departure. FlightAware
+
+                                  Global customers will also receive \"power on\" and \"taxi start\"
+
+                                  Ready To Taxi™ alerts unless they''ve opted out.
+
+                                  '
+                                default: false
+                              diverted:
+                                type: boolean
+                                description: Whether alerts should be delivered on diversion
+                                default: false
+                              filed:
+                                type: boolean
+                                description: Whether alerts should be delivered on filing
+                                default: false
+                              out:
+                                type: boolean
+                                description: Whether alerts should be delivered when aircraft leaves departure gate
+                                default: false
+                              'off':
+                                type: boolean
+                                description: Whether alerts should be delivered when aircraft leaves the runway
+                                default: false
+                              'on':
+                                type: boolean
+                                description: Whether alerts should be delivered when aircraft touches down on runway
+                                default: false
+                              in:
+                                type: boolean
+                                description: Whether alerts should be delivered when aircraft enters arrival gate
+                                default: false
+                            required:
+                            - arrival
+                            - cancelled
+                            - departure
+                            - diverted
+                            - filed
+                            - out
+                            - 'off'
+                            - 'on'
+                            - in
+                          target_url:
+                            type: string
+                            nullable: true
+                            description: 'Alert specific URL to deliver to. If null, then the alert
+
+                              will be delivered to the configured account-wide alert URL
+
+                              target.
+
+                              '
+                      - type: object
+                        properties:
+                          enabled:
+                            type: boolean
+                            description: Whether alert is enabled.
+                      required:
+                      - id
+                      - description
+                      - ident
+                      - origin
+                      - destination
+                      - aircraft_type
+                      - created
+                      - changed
+                      - start
+                      - end
+                      - user_ident
+                      - eta
+                      - events
+                      - target_url
+                      - enabled
+                required:
+                - alerts
+    post:
+      operationId: create_alert
+      summary: Create New Alert
+      description: 'Create a new AeroAPI flight alert. When the alert is triggered, a
+
+        callback mechanism will be used to notify the address set via the
+
+        /alerts/endpoint endpoint. Each callback will be charged as a query and
+
+        count towards usage for the AeroAPI key that created the alert. If this key
+
+        is disabled or removed, the alert will no longer be available.
+
+        If a target_url is provided, then this specific alert will be delivered
+
+        to that address regardless of the adress set via the /alerts/endpoint endpoint.
+
+        '
+      tags:
+      - alerts
+      requestBody:
+        description: Alert configuration structure
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              allOf:
+              - type: object
+                properties:
+                  ident:
+                    type: string
+                    nullable: true
+                    description: 'Ident to alert on. This value may be modified based on codeshare
+
+                      resolution. If that occurs, the originally provided ident will be
+
+                      preserved in the user_ident field.
+
+                      '
+              - type: object
+                properties:
+                  origin:
+                    type: string
+                    nullable: true
+                    description: Origin airport ICAO, IATA, or LID code to alert on.
+              - type: object
+                properties:
+                  destination:
+                    type: string
+                    nullable: true
+                    description: Destination airport ICAO, IATA, or LID code to alert on.
+              - type: object
+                properties:
+                  aircraft_type:
+                    type: string
+                    nullable: true
+                    description: Aircraft type ICAO code to alert on.
+              - type: object
+                properties:
+                  start:
+                    type: string
+                    nullable: true
+                    format: date
+                    description: 'Start date of alert. Should be in departure airport''s
+
+                      timezone.
+
+                      '
+                  end:
+                    type: string
+                    nullable: true
+                    format: date
+                    description: 'End date of alert (inclusive). Should be in departure airport''s
+
+                      timezone.
+
+                      '
+              - type: object
+                properties:
+                  max_weekly:
+                    type: integer
+                    description: 'Reject the new alert if the estimated number of triggered alerts
+
+                      per week based on historical flight trends would exceed this value.
+
+                      The threshold only considers alerts triggered by this alert config
+
+                      (it is not a total for all previously configured alerts). Check is
+
+                      only applied at alert creation/modification, and does and does not
+
+                      prevent alerts from being delivered even if they exceed the given
+
+                      amount. If your alert request is rejected, consider adding additional
+
+                      filter criteria for the alert creation to further refine the config.
+
+                      If max_weekly is not specified for a standard customer, we default the
+
+                      max_weekly to 1000. For a premium customer, we default the max_weekly
+
+                      to 4000.
+
+                      '
+              - type: object
+                properties:
+                  eta:
+                    type: integer
+                    description: 'How many minutes before a flight''s ETA that an alert should be
+
+                      delivered. Alerts will only be delivered after the flight has been in
+
+                      the air for at least 15 minutes. Set to 0 to disable.
+
+                      '
+                    default: 0
+                  events:
+                    type: object
+                    properties:
+                      arrival:
+                        type: boolean
+                        description: 'Whether alerts should be delivered on arrival. FlightAware
+
+                          Global customers will also receive \"taxi stop\" Ready To Taxi™
+
+                          alerts unless they''ve opted out.
+
+                          '
+                        default: false
+                      cancelled:
+                        type: boolean
+                        description: 'Whether alerts should be delivered on cancellation by the airline
+
+                          '
+                        default: false
+                      departure:
+                        type: boolean
+                        description: 'Whether alerts should be delivered on departure. FlightAware
+
+                          Global customers will also receive \"power on\" and \"taxi start\"
+
+                          Ready To Taxi™ alerts unless they''ve opted out.
+
+                          '
+                        default: false
+                      diverted:
+                        type: boolean
+                        description: Whether alerts should be delivered on diversion
+                        default: false
+                      filed:
+                        type: boolean
+                        description: Whether alerts should be delivered on filing
+                        default: false
+                      out:
+                        type: boolean
+                        description: Whether alerts should be delivered when aircraft leaves departure gate
+                        default: false
+                      'off':
+                        type: boolean
+                        description: Whether alerts should be delivered when aircraft leaves the runway
+                        default: false
+                      'on':
+                        type: boolean
+                        description: Whether alerts should be delivered when aircraft touches down on runway
+                        default: false
+                      in:
+                        type: boolean
+                        description: Whether alerts should be delivered when aircraft enters arrival gate
+                        default: false
+                    required:
+                    - arrival
+                    - cancelled
+                    - departure
+                    - diverted
+                    - filed
+                    - out
+                    - 'off'
+                    - 'on'
+                    - in
+                  target_url:
+                    type: string
+                    nullable: true
+                    description: 'Alert specific URL to deliver to. If null, then the alert
+
+                      will be delivered to the configured account-wide alert URL
+
+                      target.
+
+                      '
+              required:
+              - id
+              - description
+              - ident
+              - origin
+              - destination
+              - aircraft_type
+              - created
+              - changed
+              - start
+              - end
+              - user_ident
+              - eta
+              - events
+              - target_url
+      responses:
+        '201':
+          description: Alert created successfully
+          headers:
+            Location:
+              description: URL of the newly created alert
+              schema:
+                type: string
+                format: uri-reference
+        '400':
+          description: 'Invalid parameters specified (invalid ident, origin, destination, aircraft_type, dates or missing events) or alert configured would trigger more
+
+            than max_weekly delivered alerts per week.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /alerts/{id}:
+    parameters:
+    - in: path
+      name: id
+      description: The ID of the alert to fetch or update
+      required: true
+      schema:
+        type: integer
+    get:
+      operationId: get_alert
+      summary: Get Specific Alert
+      description: 'Returns the configuration data for an alert with the specified ID.
+
+        '
+      tags:
+      - alerts
+      responses:
+        '200':
+          description: Returns alert configuration structure.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique ID for alert, can be used to update or delete alert.
+                    description:
+                      type: string
+                      description: 'Server-generated textual description of alert. May include carrier,
+
+                        flight number, origin, destination, etc.
+
+                        '
+                - type: object
+                  properties:
+                    ident:
+                      type: string
+                      nullable: true
+                      description: 'Ident to alert on. This value may be modified based on codeshare
+
+                        resolution. If that occurs, the originally provided ident will be
+
+                        preserved in the user_ident field.
+
+                        '
+                - type: object
+                  properties:
+                    ident_icao:
+                      type: string
+                      nullable: true
+                      description: 'ICAO ident to alert on
+
+                        '
+                    ident_iata:
+                      type: string
+                      nullable: true
+                      description: 'IATA ident to alert on
+
+                        '
+                - type: object
+                  properties:
+                    origin:
+                      type: string
+                      nullable: true
+                      description: Origin airport ICAO, IATA, or LID code to alert on.
+                - type: object
+                  properties:
+                    origin_icao:
+                      type: string
+                      nullable: true
+                      description: Origin airport ICAO code to alert on.
+                    origin_iata:
+                      type: string
+                      nullable: true
+                      description: Origin airport IATA code to alert on.
+                    origin_lid:
+                      type: string
+                      nullable: true
+                      description: Origin airport LID code to alert on.
+                - type: object
+                  properties:
+                    destination:
+                      type: string
+                      nullable: true
+                      description: Destination airport ICAO, IATA, or LID code to alert on.
+                - type: object
+                  properties:
+                    destination_icao:
+                      type: string
+                      nullable: true
+                      description: Destination airport ICAO code to alert on.
+                    destination_iata:
+                      type: string
+                      nullable: true
+                      description: Destination airport IATA code to alert on.
+                    destination_lid:
+                      type: string
+                      nullable: true
+                      description: Destination airport LID code to alert on.
+                - type: object
+                  properties:
+                    aircraft_type:
+                      type: string
+                      nullable: true
+                      description: Aircraft type ICAO code to alert on.
+                - type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: Time that the alert was created.
+                      example: '2021-12-31T19:59:59Z'
+                    changed:
+                      type: string
+                      format: date-time
+                      description: Time that the alert was last modified.
+                      example: '2021-12-31T19:59:59Z'
+                - type: object
+                  properties:
+                    start:
+                      type: string
+                      nullable: true
+                      format: date
+                      description: 'Start date of alert. Should be in departure airport''s
+
+                        timezone.
+
+                        '
+                    end:
+                      type: string
+                      nullable: true
+                      format: date
+                      description: 'End date of alert (inclusive). Should be in departure airport''s
+
+                        timezone.
+
+                        '
+                - type: object
+                  properties:
+                    user_ident:
+                      type: string
+                      nullable: true
+                      description: Originally specified ident.
+                - type: object
+                  properties:
+                    eta:
+                      type: integer
+                      description: 'How many minutes before a flight''s ETA that an alert should be
+
+                        delivered. Alerts will only be delivered after the flight has been in
+
+                        the air for at least 15 minutes. Set to 0 to disable.
+
+                        '
+                      default: 0
+                    events:
+                      type: object
+                      properties:
+                        arrival:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on arrival. FlightAware
+
+                            Global customers will also receive \"taxi stop\" Ready To Taxi™
+
+                            alerts unless they''ve opted out.
+
+                            '
+                          default: false
+                        cancelled:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on cancellation by the airline
+
+                            '
+                          default: false
+                        departure:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on departure. FlightAware
+
+                            Global customers will also receive \"power on\" and \"taxi start\"
+
+                            Ready To Taxi™ alerts unless they''ve opted out.
+
+                            '
+                          default: false
+                        diverted:
+                          type: boolean
+                          description: Whether alerts should be delivered on diversion
+                          default: false
+                        filed:
+                          type: boolean
+                          description: Whether alerts should be delivered on filing
+                          default: false
+                        out:
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft leaves departure gate
+                          default: false
+                        'off':
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft leaves the runway
+                          default: false
+                        'on':
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft touches down on runway
+                          default: false
+                        in:
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft enters arrival gate
+                          default: false
+                      required:
+                      - arrival
+                      - cancelled
+                      - departure
+                      - diverted
+                      - filed
+                      - out
+                      - 'off'
+                      - 'on'
+                      - in
+                    target_url:
+                      type: string
+                      nullable: true
+                      description: 'Alert specific URL to deliver to. If null, then the alert
+
+                        will be delivered to the configured account-wide alert URL
+
+                        target.
+
+                        '
+                - type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      description: Whether alert is enabled.
+                required:
+                - id
+                - description
+                - ident
+                - origin
+                - destination
+                - aircraft_type
+                - created
+                - changed
+                - start
+                - end
+                - user_ident
+                - eta
+                - events
+                - target_url
+                - enabled
+        '404':
+          description: No such alert exists.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+    put:
+      operationId: update_alert
+      summary: Modify Specific Alert
+      description: 'Modifies the configuration for an alert with the specified ID. If a target
+
+        URL address is provided, then the alert will be delivered to that address
+
+        even if it is different than the default account-wide address set through
+
+        the alerts/endpoint endpoint. Updating an alert that was created with a
+
+        different AeroAPI key is possible, but will not change the AeroAPI key that
+
+        the alert is associated with for usage.
+
+        '
+      tags:
+      - alerts
+      requestBody:
+        description: Alert configuration structure
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              allOf:
+              - allOf:
+                - type: object
+                  properties:
+                    ident:
+                      type: string
+                      nullable: true
+                      description: 'Ident to alert on. This value may be modified based on codeshare
+
+                        resolution. If that occurs, the originally provided ident will be
+
+                        preserved in the user_ident field.
+
+                        '
+                - type: object
+                  properties:
+                    origin:
+                      type: string
+                      nullable: true
+                      description: Origin airport ICAO, IATA, or LID code to alert on.
+                - type: object
+                  properties:
+                    destination:
+                      type: string
+                      nullable: true
+                      description: Destination airport ICAO, IATA, or LID code to alert on.
+                - type: object
+                  properties:
+                    aircraft_type:
+                      type: string
+                      nullable: true
+                      description: Aircraft type ICAO code to alert on.
+                - type: object
+                  properties:
+                    start:
+                      type: string
+                      nullable: true
+                      format: date
+                      description: 'Start date of alert. Should be in departure airport''s
+
+                        timezone.
+
+                        '
+                    end:
+                      type: string
+                      nullable: true
+                      format: date
+                      description: 'End date of alert (inclusive). Should be in departure airport''s
+
+                        timezone.
+
+                        '
+                - type: object
+                  properties:
+                    max_weekly:
+                      type: integer
+                      description: 'Reject the new alert if the estimated number of triggered alerts
+
+                        per week based on historical flight trends would exceed this value.
+
+                        The threshold only considers alerts triggered by this alert config
+
+                        (it is not a total for all previously configured alerts). Check is
+
+                        only applied at alert creation/modification, and does and does not
+
+                        prevent alerts from being delivered even if they exceed the given
+
+                        amount. If your alert request is rejected, consider adding additional
+
+                        filter criteria for the alert creation to further refine the config.
+
+                        If max_weekly is not specified for a standard customer, we default the
+
+                        max_weekly to 1000. For a premium customer, we default the max_weekly
+
+                        to 4000.
+
+                        '
+                - type: object
+                  properties:
+                    eta:
+                      type: integer
+                      description: 'How many minutes before a flight''s ETA that an alert should be
+
+                        delivered. Alerts will only be delivered after the flight has been in
+
+                        the air for at least 15 minutes. Set to 0 to disable.
+
+                        '
+                      default: 0
+                    events:
+                      type: object
+                      properties:
+                        arrival:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on arrival. FlightAware
+
+                            Global customers will also receive \"taxi stop\" Ready To Taxi™
+
+                            alerts unless they''ve opted out.
+
+                            '
+                          default: false
+                        cancelled:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on cancellation by the airline
+
+                            '
+                          default: false
+                        departure:
+                          type: boolean
+                          description: 'Whether alerts should be delivered on departure. FlightAware
+
+                            Global customers will also receive \"power on\" and \"taxi start\"
+
+                            Ready To Taxi™ alerts unless they''ve opted out.
+
+                            '
+                          default: false
+                        diverted:
+                          type: boolean
+                          description: Whether alerts should be delivered on diversion
+                          default: false
+                        filed:
+                          type: boolean
+                          description: Whether alerts should be delivered on filing
+                          default: false
+                        out:
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft leaves departure gate
+                          default: false
+                        'off':
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft leaves the runway
+                          default: false
+                        'on':
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft touches down on runway
+                          default: false
+                        in:
+                          type: boolean
+                          description: Whether alerts should be delivered when aircraft enters arrival gate
+                          default: false
+                      required:
+                      - arrival
+                      - cancelled
+                      - departure
+                      - diverted
+                      - filed
+                      - out
+                      - 'off'
+                      - 'on'
+                      - in
+                    target_url:
+                      type: string
+                      nullable: true
+                      description: 'Alert specific URL to deliver to. If null, then the alert
+
+                        will be delivered to the configured account-wide alert URL
+
+                        target.
+
+                        '
+                required:
+                - id
+                - description
+                - ident
+                - origin
+                - destination
+                - aircraft_type
+                - created
+                - changed
+                - start
+                - end
+                - user_ident
+                - eta
+                - events
+                - target_url
+              - type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    description: Whether alert is enabled.
+              required:
+              - enabled
+      responses:
+        '204':
+          description: Alert modified
+        '400':
+          description: 'Invalid parameters specified (invalid ident, origin, destination, aircraft_type, dates or missing events) or alert configured would trigger more than max_weekly delivered alerts per week.
+
+            '
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+        '404':
+          description: No such alert exists.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+    delete:
+      operationId: delete_alert
+      summary: Delete Specific Alert
+      description: 'Deletes specific alert with given ID
+
+        '
+      tags:
+      - alerts
+      responses:
+        '204':
+          description: Alert deleted.
+        '400':
+          description: Invalid id.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+  /alerts/endpoint:
+    get:
+      operationId: get_alerts_endpoint
+      summary: Get Configured Alert Callback URL
+      description: 'Returns URL that will be POSTed to for alerts that are delivered via AeroAPI.
+
+        '
+      tags:
+      - alerts
+      responses:
+        '200':
+          description: Returns endpoint URL.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: object
+                description: 'Configuration for a URL to which AeroAPI alerts should be delivered via HTTP POST.
+
+                  This is the default account-wide URL that all AeroAPI alerts will be delivered to
+
+                  if the alert does not have a specific alert URL configured for it.
+
+                  '
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    nullable: true
+                    description: Default account-wide URL that will be POSTed to for flight alerts.
+                required:
+                - url
+        '400':
+          description: Failed to get endpoint or no endpoint set.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+    put:
+      operationId: set_alerts_endpoint
+      summary: Set Alert Callback URL
+      description: 'Updates the default URL that will be POSTed to for alerts that are delivered via AeroAPI.
+
+        This sets the account-wide default URL that all alerts will be delivered to unless
+
+        the specific alert has a different delivery address configured for it.
+
+        '
+      tags:
+      - alerts
+      requestBody:
+        description: Endpoint URL configuration structure
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              type: object
+              description: 'Configuration for a URL to which AeroAPI alerts should be delivered via HTTP POST.
+
+                This is the default account-wide URL that all AeroAPI alerts will be delivered to
+
+                if the alert does not have a specific alert URL configured for it.
+
+                '
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: Default account-wide URL that will be POSTed to for flight alerts.
+              required:
+              - url
+      responses:
+        '204':
+          description: Endpoint updated successfully, empty response.
+        '400':
+          description: Bad address, missing hostname, or unsupported address protocol.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+      callbacks:
+        deliver_alert:
+          registered endpoint:
+            post:
+              requestBody:
+                required: true
+                content:
+                  application/json; charset=UTF-8:
+                    schema:
+                      type: object
+                      required:
+                      - long_description
+                      - short_description
+                      - summary
+                      - event_code
+                      - alert_id
+                      - flight
+                      properties:
+                        long_description:
+                          type: string
+                        short_description:
+                          type: string
+                        summary:
+                          type: string
+                        event_code:
+                          type: string
+                          enum:
+                          - filed
+                          - departure
+                          - arrival
+                          - out
+                          - 'off'
+                          - 'on'
+                          - in
+                          - diverted
+                          - cancelled
+                          - position_only_arrival
+                          - position_only_departure
+                          - fru_arrival
+                          - nonairport_arrival
+                          - nonairport_departure
+                          - nonairport_filed
+                          - minutes_out
+                          - power_on
+                          - change
+                        alert_id:
+                          type: integer
+                        flight:
+                          type: object
+                          required:
+                          - fa_flight_id
+                          properties:
+                            fa_flight_id:
+                              type: string
+                              description: 'Unique identifier assigned by FlightAware for this specific flight. If
+
+                                the flight is diverted, the new leg of the flight will have a duplicate
+
+                                fa_flight_id.
+
+                                '
+                            ident:
+                              type: string
+                              description: 'Either the operator code (ICAO or IATA) followed by the flight number for the flight
+
+                                (for commercial flights) or the aircraft''s tail number (for general
+
+                                aviation).
+
+                                '
+                            ident_icao:
+                              type: string
+                              nullable: true
+                              description: 'The ICAO operator code followed by the flight number for the flight.
+
+                                '
+                            ident_iata:
+                              type: string
+                              nullable: true
+                              description: 'The IATA operator code followed by the flight number for the flight.
+
+                                '
+                            registration:
+                              type: string
+                              nullable: true
+                              description: 'Aircraft registration (tail number) of the aircraft, when known.
+
+                                '
+                            atc_ident:
+                              type: string
+                              nullable: true
+                              description: 'Alternate ident for flight, possibly assigned by ATC.
+
+                                '
+                            aircraft_type:
+                              type: string
+                              description: 'Aircraft type will generally be ICAO code, but
+
+                                IATA code will be given when the ICAO code is
+
+                                not known.
+
+                                '
+                            origin:
+                              type: string
+                              nullable: true
+                              description: 'The ICAO, IATA, or LID identifier for the origin airport
+
+                                '
+                            origin_icao:
+                              type: string
+                              nullable: true
+                              description: 'The ICAO identifier for the origin airport
+
+                                '
+                            origin_iata:
+                              type: string
+                              nullable: true
+                              description: 'The IATA identifier for the origin airport
+
+                                '
+                            origin_lid:
+                              type: string
+                              nullable: true
+                              description: 'The LID identifier for the origin airport
+
+                                '
+                            destination:
+                              type: string
+                              nullable: true
+                              description: 'The ICAO, IATA, or LID identifier for the destination airport
+
+                                '
+                            destination_icao:
+                              type: string
+                              nullable: true
+                              description: 'The ICAO identifier for the destination airport
+
+                                '
+                            destination_iata:
+                              type: string
+                              nullable: true
+                              description: 'The IATA identifier for the destination airport
+
+                                '
+                            destination_lid:
+                              type: string
+                              nullable: true
+                              description: 'The LID identifier for the destination airport
+
+                                '
+                            route:
+                              type: string
+                              nullable: true
+                              description: 'The textual description of the flight''s route
+
+                                '
+                            position_only:
+                              type: boolean
+                              description: 'Flag indicating that this flight does not have a flight plan, schedule, or other indication of intent available.
+
+                                '
+                            blocked:
+                              type: boolean
+                              description: 'Flag indicating whether this flight is blocked from public viewing.
+
+                                '
+                            cancelled:
+                              type: boolean
+                              description: 'Flag indicating whether this flight was cancelled.
+
+                                '
+                            diverted:
+                              type: boolean
+                              description: 'Flag indicating whether this flight was diverted.
+
+                                '
+                            route_distance:
+                              type: integer
+                              nullable: true
+                              description: 'Planned flight distance (statute miles) based on the filed route. May
+
+                                vary from actual flown distance.
+
+                                '
+                            filed_ete:
+                              type: integer
+                              nullable: true
+                              description: 'Runway-to-runway filed duration (seconds).
+
+                                '
+                            filed_altitude:
+                              type: integer
+                              nullable: true
+                              description: 'Filed IFR altitude (100s of feet).
+
+                                '
+                            filed_airspeed_kts:
+                              type: integer
+                              nullable: true
+                              description: 'Filed IFR airspeed (knots).
+
+                                '
+                            scheduled_out:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Scheduled gate departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            estimated_out:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Estimated gate departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            actual_out:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Actual gate departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            scheduled_off:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Scheduled runway departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            estimated_off:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Estimated runway departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            actual_off:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Actual runway departure time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            scheduled_on:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Scheduled runway arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            estimated_on:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Estimated runway arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            actual_on:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Actual runway arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            scheduled_in:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Scheduled gate arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            estimated_in:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Estimated gate arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            actual_in:
+                              type: string
+                              format: date-time
+                              nullable: true
+                              description: 'Actual gate arrival time.
+
+                                '
+                              example: '2021-12-31T19:59:59Z'
+                            baggage_claim:
+                              type: string
+                              nullable: true
+                              description: 'Baggage claim location at the destination airport.
+
+                                '
+                            gate_origin:
+                              type: string
+                              nullable: true
+                              description: 'Departure gate at the origin airport.
+
+                                '
+                            gate_destination:
+                              type: string
+                              nullable: true
+                              description: 'Arrival gate at the destination airport.
+
+                                '
+                            terminal_origin:
+                              type: string
+                              nullable: true
+                              description: 'Departure terminal at the origin airport.
+
+                                '
+                            terminal_destination:
+                              type: string
+                              nullable: true
+                              description: 'Arrival terminal at the destination airport.
+
+                                '
+                            error:
+                              type: string
+                              description: 'Will contain error information in the event that
+
+                                a problem is encountered assembling the flight details
+
+                                '
+              responses:
+                '200':
+                  description: Your server returns this code if it accepts the callback
+    delete:
+      operationId: delete_alerts_endpoint
+      summary: Remove and Disable Default Account-wide Alert Callback URL
+      description: 'Remove the default account-wide URL that will be POSTed to for alerts that are
+
+        not configured with a specific URL. This means that any alerts that are not configured
+
+        with a specific URL will not be delivered.
+
+        '
+      tags:
+      - alerts
+      responses:
+        '204':
+          description: Endpoint successfully removed.
+        '400':
+          description: Failed to delete endpoint.
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Short summary of the type of error encountered.
+                  reason:
+                    type: string
+                    description: Error type name directly from the backend.
+                  detail:
+                    type: string
+                    description: 'More detailed description of the error, possibly including information
+
+                      about specific invalid fields or remediation steps.
+
+                      '
+                  status:
+                    type: integer
+                    description: The HTTP response code returned as part of the error.
+                required:
+                - title
+                - reason
+                - detail
+                - status
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-apikey
+      description: 'Unlike previous versions of AeroAPI, authentication is now controlled by
+
+        an API key that must be set in the header ```x-apikey```. Your
+
+        FlightAware username is not used when authenticating to the API.
+
+        '
