@@ -1,4 +1,18 @@
 aid: rockwell-collins
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/rockwell-collins.png
 name: Rockwell Collins
 description: >-
   Rockwell Collins was a major American company providing avionics and information technology systems and services to
@@ -20,61 +34,251 @@ created: '2026-03-24'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: rockwell-collins:flightaware-aeroapi
-    name: FlightAware AeroAPI
-    description: >-
-      FlightAware AeroAPI (formerly FlightXML) is a RESTful aviation data API acquired by Collins Aerospace in 2021. It
-      provides access to real-time and historical flight tracking data, airport activity, flight positions, predictive
-      ETAs powered by machine learning (FlightAware Foresight), and configurable alerting on flight events. With over 60
-      distinct endpoints organized into 7 functional families, AeroAPI supports aviation operations, maintenance
-      scheduling, flight planning, and resource management.
-    tags:
-      - Aviation
-      - Flight Tracking
-      - Aerospace
-      - REST
-      - Real-Time Data
-    humanURL: https://www.flightaware.com/commercial/aeroapi/
-    baseURL: https://aeroapi.flightaware.com/aeroapi
-    properties:
-      - url: https://www.flightaware.com/commercial/aeroapi/
-        type: Documentation
-      - url: https://www.flightaware.com/aeroapi/portal
-        type: Portal
-      - url: openapi/flightaware-aeroapi-openapi.yml
-        type: OpenAPI
-      - url: https://github.com/flightaware/aeroapps
-        type: GitHubRepository
-    solutions:
-      - Flight Planning
-      - Resource Management
-      - Maintenance Scheduling
-      - Competitive Analysis
-      - Real-Time Alerting
-    features:
-      - Real-Time Flight Tracking
-      - Historical Flight Data (from 2011)
-      - Predictive ETAs (Foresight)
-      - Flight Event Alerts
-      - Airport Activity
-      - Aircraft Position
-      - 60+ API Endpoints
-  - aid: rockwell-collins:collins-digital-exchange-apis
-    name: Collins Digital Exchange APIs
-    description: >-
-      The Collins Digital Exchange is a developer portal operated by Collins Aerospace providing API products for
-      aerospace integration. The portal provides quick-start guides and authenticated access to Collins Aerospace API
-      products for authorized partners, customers, and suppliers.
-    tags:
-      - Aerospace
-      - Defense
-      - Integration
-      - Partner APIs
-    humanURL: https://developer.collins.com/api-products
-    baseURL: https://developer.collins.com
-    properties:
-      - url: https://developer.collins.com/api-products
-        type: Portal
+- aid: rockwell-collins:collins-digital-exchange-apis
+  name: Collins Digital Exchange APIs
+  description: >-
+    The Collins Digital Exchange is a developer portal operated by Collins Aerospace providing API products
+    for aerospace integration. The portal provides quick-start guides and authenticated access to Collins
+    Aerospace API products for authorized partners, customers, and suppliers.
+  tags:
+  - Aerospace
+  - Defense
+  - Integration
+  - Partner APIs
+  humanURL: https://developer.collins.com/api-products
+  baseURL: https://developer.collins.com
+  properties:
+  - url: https://developer.collins.com/api-products
+    type: Portal
+- aid: rockwell-collins:rockwell-collins-airports-api
+  name: Rockwell Collins airports API
+  description: The airports API from Rockwell Collins — 17 operation(s) for airports.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - airports
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-airports-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-alerts-api
+  name: Rockwell Collins alerts API
+  description: >-
+    AeroAPI alerting can be used to configure and receive real-time alerts on key flight
+
+    events. With customizable alerting offered by our alert endpoints, AeroAPI empowers
+
+    users to selectively pick various types of events/filters to alert on. By doing so,
+
+    you can receive specially tailored alerts delivered to you for events such as flight plan
+
+    filed, flight departure (out and off), flight arrival (on and in), and more!
+
+
+    To get started with alerting, the **PUT /alerts/endpoint** endpoint must first be used
+
+    to set up the account-wide default URL that alerts will be delivered to. This step must
+
+    be done before any alerts can be configured and will serve as the fallback URL that all
+
+    alerts will be sent to for the account if a specific delivery URL is not designated on a
+
+    particular alert. If this is not performed before configuring alerts, then you will
+
+    receive a 400 error with an error message reminding you of this step when trying to interact
+
+    with the **POST /alerts** endpoint. Once a URL is set via the **PUT /alerts/endpoint** endpoint,
+
+    then alerts can be configured using the **POST /alerts** endpoint. The **GET /alerts** endpoint
+
+    can also be used to retrieve all currently configured alerts associated with your AeroAPI key.
+
+    The **GET /alerts** endpoint will allow you to easily retrieve the id of any specific alerts of
+
+    interest configured for the account which can let you use the **GET** **PUT** and **DELETE**
+
+    **/alerts/{id}** endpoints to retrieve, update, and delete specific alerts.
+
+
+    When configuring an individual alert, the *target_url* field can be set to a URL that’s
+
+    different than the account-wide target endpoint set via the **PUT /alerts/endpoint**. If
+
+    the *target_url* field is set on an alert, then that specific alert will be delivered to
+
+    the specified *target_url* rather than the default account-wide one. If this field is not
+
+    configured for the alert, then the alert will be delivered to the default account-wide endpoint.
+
+    By setting this field, one can easily target different alerts to be received by different endpoints
+
+    which can be useful for configuring per-application alerts or sending alerts to an alternate
+
+    development environment without having to adjust a production alert configuration.
+
+
+    For each alert configured, one-to-many ‘events’ can be set for alert delivery. While most
+
+    events will result in one alert delivery, both the *arrival* and the *departure* events can
+
+    result in multiple alerts delivered (referred to as bundled). The *departure* event bundles the
+
+    departure (actual OFF the ground) alert, along with the flight plan filed alert and up to 5
+
+    per-departure changes which can include alerts for significant departure delays of over
+
+    30 minutes, gate changes, and airport delays. FlightAware Global customers will
+
+    also receive *Power on* and *Ready to taxi* alerts as part of the departure bundle. The *arrival*
+    event
+
+    bundles the arrival (actual ON the ground) alert, along with up to 5 en-route changes (including delays
+
+    of over 30 minutes and excluding diversions) identified. FlightAware Global customers will also receive
+
+    *taxi stop* times as part of the *arrival* bundle. Setting a bundled type and unbundled type for an
+
+    On/Off will only result in a single alert in the case where events may overlap.
+
+
+    If there is a need to change the alert configurations, updating an alert using the **PUT /alerts/{id}**
+
+    endpoint and a unique alert identifier (id) is preferred rather than creating an additional alert.
+
+    By doing so, you can avoid duplicate alerts being delivered which could create unnecessary noise
+
+    if they are not of interest anymore.
+
+
+    If at any point there is a need to delete an alert, the **DELETE alerts/{id}** endpoint can be
+
+    leveraged to delete an alert so that it won’t be delivered anymore. As a reminder, specific alert
+
+    IDs can be retrieved from the **GET /alerts** endpoint.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-flights-api
+  name: Rockwell Collins flights API
+  description: The flights API from Rockwell Collins — 11 operation(s) for flights.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - flights
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-flights-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-foresight-api
+  name: Rockwell Collins foresight API
+  description: >-
+    Foresight endpoints provide access to FlightAware's Foresight predictive models and
+
+    predictions for key events. Our advanced machine learning (ML) models identify key
+
+    influencing factors for a flight to forecast future events in real-time, providing
+
+    unprecedented insight to improve operational efficiencies and facilitate better
+
+    decision-making in the air and on the ground. To learn more about the power of Foresight,
+
+    visit https://www.flightaware.com/commercial/foresight/
+
+
+    These endpoints each mirror a non-Foresight equivalent endpoint of similar functionality,
+
+    with the addition of all the ML 'predicted' values included in the Foresight response. The
+
+    respective non-Foresight endpoint response includes a flag, 'foresight_predictions_available',
+
+    which can optionally be used as a trigger to obtain and leverage Foresight predictions on an
+
+    as-needed basis and manage cost. Foresight is only available to Premium tier customers.
+
+    Contact integrationsales@flightaware.com for more information, pricing details, and to have
+
+    your account enabled for Foresight.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - foresight
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-foresight-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-history-api
+  name: Rockwell Collins history API
+  description: The history API from Rockwell Collins — 5 operation(s) for history.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - history
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-history-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-miscellaneous-api
+  name: Rockwell Collins miscellaneous API
+  description: The miscellaneous API from Rockwell Collins — 6 operation(s) for miscellaneous.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - miscellaneous
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-miscellaneous-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
+- aid: rockwell-collins:rockwell-collins-operators-api
+  name: Rockwell Collins operators API
+  description: The operators API from Rockwell Collins — 8 operation(s) for operators.
+  humanURL: https://www.flightaware.com/commercial/aeroapi/
+  baseURL: https://aeroapi.flightaware.com/aeroapi
+  tags:
+  - operators
+  properties:
+  - type: OpenAPI
+    url: openapi/rockwell-collins-operators-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightaware.com/commercial/aeroapi/
+  - type: Portal
+    url: https://www.flightaware.com/aeroapi/portal
+  - type: GitHubRepository
+    url: https://github.com/flightaware/aeroapps
 common:
   - type: AgenticAccess
     url: agentic-access/rockwell-collins-agentic-access.yml
