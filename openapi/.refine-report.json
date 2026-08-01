@@ -1,0 +1,26 @@
+{
+  "provider": "rockwell-collins",
+  "sources": [
+    "rockwell-collins-airports-api-openapi.yml",
+    "rockwell-collins-alerts-api-openapi.yml",
+    "rockwell-collins-flights-api-openapi.yml",
+    "rockwell-collins-foresight-api-openapi.yml",
+    "rockwell-collins-history-api-openapi.yml",
+    "rockwell-collins-miscellaneous-api-openapi.yml",
+    "rockwell-collins-operators-api-openapi.yml"
+  ],
+  "outputs": [
+    "rockwell-collins-airports-api-openapi.yml",
+    "rockwell-collins-alerts-api-openapi.yml",
+    "rockwell-collins-flights-api-openapi.yml",
+    "rockwell-collins-foresight-api-openapi.yml",
+    "rockwell-collins-history-api-openapi.yml",
+    "rockwell-collins-miscellaneous-api-openapi.yml",
+    "rockwell-collins-operators-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
