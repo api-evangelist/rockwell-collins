@@ -280,6 +280,9 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 common:
+  - type: License
+    name: BSD-3-Clause
+    url: https://github.com/flightaware/aeroapps/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/rockwell-collins-agentic-access.yml
   - type: DomainSecurity
@@ -302,7 +305,7 @@ common:
     type: Documentation
   - url: https://www.rtx.com/collinsaerospace/what-we-do/service-and-support/support/support-lookup
     type: Support
-  - url: openapi/flightaware-aeroapi-openapi.yml
+  - url: openapi/_original/flightaware-aeroapi-openapi.yml
     type: OpenAPI
   - url: json-schema/rockwell-collins-flight-schema.json
     type: JSONSchema
