@@ -1,0 +1,377 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Aero airports flights API",
+    "version": "4.17.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-apikey",
+      "value": "{{x-apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "flights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query to search for flights with a simplified syntax (compared to\n/flights/search/advanced). It should not exceed 1000 bytes in length.\nQuery syntax allows filtering by latitude/longitude box, aircraft ident\nwith wildcards, type with wildcards, prefix, origin airport,\ndestination airport, origin or destination airport, groundspeed, and\naltitude. It takes search terms in a single string comprising \"-key\nvalue\" pairs. Codeshares and alternate idents are NOT searched when\nusing the -idents clause.\n\nKeys include:\n* `-prefix STRING`\n* `-type STRING`\n* `-idents STRING`\n* `-identOrReg STRING`\n* `-airline STRING`\n* `-destination STRING`\n* `-origin STRING`\n* `-originOrDestination STRING`\n* `-aboveAltitude INTEGER`\n* `-belowAltitude INTEGER`\n* `-aboveGroundspeed INTEGER`\n* `-belowGroundspeed INTEGER`\n* `-latlong \"MINLAT MINLON MAXLAT MAXLON\"`\n* `-filter {ga|airline}`\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Search for airborne flights by matching against various parameters including\ngeospatial data. Uses a simplified query syntax compared to\n/flights/search/advanced.\n"
+        },
+        {
+          "info": {
+            "name": "Search for Flight Positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/search/positions",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query to search for flight positions. It should not exceed 1000 bytes\nin length. Search criteria is applied against all positions of a\nflight. This function only searches flights within approximately the\nlast 24 hours. The supported operators include (note that operators\ntake different numbers of arguments):\n\n* false - results must have the specified boolean key set to a value of false. Example: {false preferred}\n* true - results must have the specified boolean key set to a value of true. Example: {true preferred}\n* null - results must have the specified key set to a null value. Example: {null waypoints}\n* notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType}\n* = - results must have a key that exactly matches the specified value. Example: {= fp C172}\n* != - results must have a key that must not match the specified value. Example: {!= prefix H}\n* < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040}\n* \\> - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}\n* <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000}\n* \\>= - results must have a key that is lexicographically greater-than-or-equal-to a specified value.\n* match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*}\n* notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*}\n* range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000}\n* in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}}\n\nThe supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names):\n\n* alt - Altitude, measured in hundreds of feet or Flight Level.\n* altChange - a one-character code indicating the change in altitude.\n* altMax - Altitude, measured in hundreds of feet or Flight Level.\n* cid - a three-character cid code\n* cidfac - a four-character cidfac code\n* clock - UNIX epoch timestamp seconds since 1970\n* fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id.\n* gs - ground speed, measured in kts.\n* lat - latitude of the reported position.\n* lon - longitude of the reported position\n* preferred - boolean indicator of position quality\n* recvd - UNIX epoch timestamp seconds since 1970\n* updateType - source of the last reported position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based)\n"
+              },
+              {
+                "name": "unique_flights",
+                "value": "",
+                "type": "query",
+                "description": "Whether to return only a single position per unique fa_flight_id."
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns flight positions based on geospatial search parameters.  This\nallows you to locate flights that have ever flown within a specific a\nlatitude/longitude box, groundspeed, and altitude. It takes search\nterms in a single string comprising of {operator key value} elements\nand returns an array of flight structures. Each search term must be\nenclosed in curly braces. Multiple search terms can be combined in an\nimplicit boolean \"and\" by separating the terms with at least one space.\nThis function "
+        },
+        {
+          "info": {
+            "name": "Get Count of Flights Matching Search Parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/search/count",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query to search for flights with a simplified syntax (compared to\n/flights/search/advanced). It should not exceed 1000 bytes in length.\nQuery syntax allows filtering by latitude/longitude box, aircraft ident\nwith wildcards, type with wildcards, prefix, origin airport,\ndestination airport, origin or destination airport, groundspeed, and\naltitude. It takes search terms in a single string comprising \"-key\nvalue\" pairs. Codeshares and alternate idents are NOT searched when\nusing the -idents clause.\n\nKeys include:\n* `-prefix STRING`\n* `-type STRING`\n* `-idents STRING`\n* `-identOrReg STRING`\n* `-airline STRING`\n* `-destination STRING`\n* `-origin STRING`\n* `-originOrDestination STRING`\n* `-aboveAltitude INTEGER`\n* `-belowAltitude INTEGER`\n* `-aboveGroundspeed INTEGER`\n* `-belowGroundspeed INTEGER`\n* `-latlong \"MINLAT MINLON MAXLAT MAXLON\"`\n"
+              }
+            ]
+          },
+          "docs": "Full search query documentation is available at the /flights/search\nendpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Search for Flights Using Advanced Syntax",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/search/advanced",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query to search for airborne or recently arrived flights. It should not\nexceed 1000 bytes in length. Search criteria is only applied to the\nmost recent position for a flight. This function only searches flights\nwithin approximately the last 24 hours. The supported operators include\n(note that operators take different numbers of arguments):\n\n* false - results must have the specified boolean key set to a value of false. Example: {false arrived}\n* true - results must have the specified boolean key set to a value of true. Example: {true lifeguard}\n* null - results must have the specified key set to a null value. Example: {null waypoints}\n* notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType}\n* = - results must have a key that exactly matches the specified value. Example: {= aircraftType C172}\n* != - results must have a key that must not match the specified value. Example: {!= prefix H}\n* < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040}\n* \\> - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}\n* <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000}\n* \\>= - results must have a key that is lexicographically greater-than-or-equal-to a specified value.\n* match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*}\n* notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*}\n* range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000}\n* in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}}\n* orig_or_dest - results must have either the origin or destination key exactly match one of the specified values. Example: {orig_or_dest {KLAX KBUR KSNA KLGB}}\n* airline - results will only include airline flight if the argument is 1, or will only include GA flights if the argument is 0. Example: {airline 1}\n* aircraftType - results must have an aircraftType key that matches one of the specified case-insensitive wildcard patterns. Example: {aircraftType {B76* B77*}}\n* ident - results must have an ident key that matches one of the specified case-insensitive wildcard patterns. Example: {ident {N123* N456* AAL* UAL*}}\n* ident_or_reg - results must have an ident key or was known to be operated by an aircraft registration that matches one of the specified case-insensitive wildcard patterns. Example: {ident_or_reg {N123* N456* AAL* UAL*}}\n\nThe supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names):\n\n* actualDepartureTime - Actual time of departure, or null if not departed yet. UNIX epoch timestamp seconds since 1970\n* aircraftType - aircraft type ID (for example: B763)\n* alt - altitude at last reported position (hundreds of feet or Flight Level)\n* altChange - altitude change indication (for example: \"C\" if climbing, \"D\" if descending, and empty if it is level)\n* arrivalTime - Actual time of arrival, or null if not arrived yet. UNIX epoch timestamp seconds since 1970\n* arrived - true if the flight has arrived at its destination.\n* cancelled - true if the flight has been cancelled. The meaning of cancellation is that the flight is no longer being tracked by FlightAware. There are a number of reasons a flight may be cancelled including cancellation by the airline, but that will not always be the case.\n* cdt - Controlled Departure Time, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970\n* clock - Time of last received position. UNIX epoch timestamp seconds since 1970\n* cta - Controlled Time of Arrival, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970\n* dest - ICAO airport code of destination (for example: KLAX)\n* edt - Estimated Departure Time. Epoch timestamp seconds since 1970\n* eta - Estimated Time of Arrival. Epoch timestamp seconds since 1970\n* fdt - Field Departure Time. UNIX epoch timestamp seconds since 1970\n* firstPositionTime - Time when first reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970\n* fixes - intersections and/or VORs along the route (for example: SLS AMERO ARTOM VODIR NOTOS ULAPA ACA NUXCO OLULA PERAS ALIPO UPN GDL KEDMA BRISA CUL PERTI CEN PPE ALTAR ASUTA JLI RONLD LAADY WYVIL OLDEE RAL PDZ ARNES BASET WELLZ CIVET)\n* fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id.\n* gs - ground speed at last reported position, in kts.\n* heading - direction of travel at last reported position.\n* hiLat - highest latitude travelled by flight.\n* hiLon - highest longitude travelled by flight.\n* ident - flight identifier or registration of aircraft.\n* lastPositionTime - Time when last reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970.\n* lat - latitude of last reported position.\n* lifeguard - true if a \"lifeguard\" rescue flight.\n* lon - longitude of last reported position.\n* lowLat - lowest latitude travelled by flight.\n* lowLon - lowest longitude travelled by flight.\n* ogta - Original Time of Arrival. UNIX epoch timestamp seconds since 1970\n* ogtd - Original Time of Departure. UNIX epoch timestamp seconds since 1970\n* orig - ICAO airport code of origin (for example: KIAH)\n* physClass - physical class (for example: J is jet)\n* prefix - A one or two character identifier prefix code (common values: G or GG Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).\n* speed - ground speed, in kts.\n* status - Single letter code for current flight status, can be S Scheduled, F Filed, A Active, Z Completed, or X Cancelled.\n* updateType - data source of last position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based).\n* waypoints - all of the intersections and VORs comprising the route\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns currently or recently airborne flights based on geospatial\nsearch parameters.\n\nQuery parameters include a latitude/longitude box, aircraft ident with\nwildcards, type with wildcards, prefix, origin airport,\ndestination airport, origin or destination airport, groundspeed, and\naltitude. It takes search terms in a single string comprising of\n{operator key value} elements and returns an array of flight\nstructures. Each search term must be enclosed in curly braces. Multiple\nsearch terms can be"
+        },
+        {
+          "info": {
+            "name": "Get Information for a Flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:ident",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The ident, registration, or fa_flight_id to fetch. If using\na flight ident, it is highly recommended to specify ICAO flight\nident rather than IATA flight ident to avoid ambiguity and unexpected results.\nSetting the ident_type can also be used to help disambiguate.\n"
+              },
+              {
+                "name": "ident_type",
+                "value": "",
+                "type": "query",
+                "description": "Type of ident provided in the ident parameter. By default, the passed\nident is interpreted as a registration if possible. This parameter can\nforce the ident to be interpreted as a designator instead.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results, comparing against flights'\n`scheduled_out` field (or `scheduled_off` if `scheduled_out` is\nmissing). The format is ISO8601 date or datetime, and the bound is\ninclusive. Specified start date must be no further than 10 days in the\npast and 2 days in the future. If not specified, will default to\ndepartures starting approximately 11 days in the past. If using date\ninstead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results, comparing against flights'\n`scheduled_out` field (or `scheduled_off` if `scheduled_out` is\nmissing). The format is ISO8601 date or datetime, and the bound is\nexclusive. Specified end date must be no further than 10 days in the\npast and 2 days in the future. If not specified, will default to\ndepartures starting approximately 2 days in the future. If using date\ninstead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns the flight info status summary for a registration, ident, or\nfa_flight_id.  If a fa_flight_id is specified then a maximum of 1\nflight is returned, unless the flight has been diverted in which case\nboth the original flight and any diversions will be returned with a\nduplicate fa_flight_id. If a registration or ident is specified,\napproximately 14 days of recent and scheduled flight information is\nreturned, ordered by `scheduled_out` (or `scheduled_off` if\n`scheduled_out` is missing) descen"
+        },
+        {
+          "info": {
+            "name": "Get the Canonical Ident of a Flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:ident/canonical",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The flight designator or aircraft registration"
+              },
+              {
+                "name": "ident_type",
+                "value": "",
+                "type": "query",
+                "description": "Type of ident provided in the ident parameter"
+              },
+              {
+                "name": "country_code",
+                "value": "",
+                "type": "query",
+                "description": "An ISO 3166-1 alpha-2 country code."
+              }
+            ]
+          },
+          "docs": "When the ident parameter is a code that could map to multiple other codes,\nthis endpoint returns an array of information about all the possible codes.\nAn optional ident type and country code can be provided to refine ambiguous\nidents to a single result. The ident type should either be designator or\nregistration to describe the ident being passed in. The country code should\nrepresent a country the operator of the flight operates within.\n"
+        },
+        {
+          "info": {
+            "name": "Submit a Flight Intent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:ident/intents",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The ident or registration of the Flight Intent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This operation informs FlightAware of an upcoming (or recently\ndeparted) flight. This information is used solely by FlightAware for\nimproving the accuracy of flight tracking. This method does not\ntransmit to any ANSP/ATC facility for flight separation or operational\nservices. Access to this endpoint requires special account\nauthorization. The FlightAware account must also be subscribed to\nFlightAware Global and the specified registration or ident must be on\nthe Global account.\n"
+        },
+        {
+          "info": {
+            "name": "Get Flight's Current Position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:id/position",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Returns the latest position for a flight"
+        },
+        {
+          "info": {
+            "name": "Get Flight's Track",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:id/track",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+              },
+              {
+                "name": "include_estimated_positions",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include estimated positions in the flight track"
+              }
+            ]
+          },
+          "docs": "Returns the track for a flight as an array of positions.\nData from up to 10 days ago can be obtained. If looking for older data,\nplease use the corresponding historical endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Get Flight's Filed Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:id/route",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Returns information about a flight's filed route including coordinates,\nnames, and types of fixes along the route.  Not all flight routes can\nbe successfully decoded by this endpoint, particularly if the flight is\nnot entirely within the continental U.S. airspace, since this function\nonly has access to navaids within that area. If data on a waypoint is\nmissing then the type will be listed as \"UNKNOWN\". Data from up to 10 days\nago can be obtained. If looking for older data, please use the corresp"
+        },
+        {
+          "info": {
+            "name": "Get an Image of a Flight's Track on a Map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/flights/:id/map",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+              },
+              {
+                "name": "height",
+                "value": "",
+                "type": "query",
+                "description": "Height of requested image (pixels)"
+              },
+              {
+                "name": "width",
+                "value": "",
+                "type": "query",
+                "description": "Width of requested image (pixels)"
+              },
+              {
+                "name": "layer_on",
+                "value": "",
+                "type": "query",
+                "description": "List of map layers to enable"
+              },
+              {
+                "name": "layer_off",
+                "value": "",
+                "type": "query",
+                "description": "List of map layers to disable"
+              },
+              {
+                "name": "show_data_block",
+                "value": "",
+                "type": "query",
+                "description": "Whether a textual caption containing the ident, type, heading,\naltitude, origin, and destination should be displayed by the flight's\nposition.\n"
+              },
+              {
+                "name": "airports_expand_view",
+                "value": "",
+                "type": "query",
+                "description": "Whether to force zoom area to ensure origin/destination airports are\nvisible. Enabling this flag forcefully enables the show_airports flag\nas well.\n"
+              },
+              {
+                "name": "show_airports",
+                "value": "",
+                "type": "query",
+                "description": "Whether to show the origin/destination airports for the flight as\nlabeled points on the map.\n"
+              },
+              {
+                "name": "bounding_box",
+                "value": "",
+                "type": "query",
+                "description": "Manually specify the zoom area of the map using custom bounds. Should\nbe a list of 4 coordinates representing the top, right, bottom, and\nleft sides of the area (in that order).\n"
+              }
+            ]
+          },
+          "docs": "Returns a flight's track as a base64-encoded image. Image can contain a\nvariety of additional data layers beyond just the track. Data from up to 10 days\nago can be obtained. If looking for older data, please use the corresponding\nhistorical endpoint.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,205 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Aero airports history API",
+    "version": "4.17.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-apikey",
+      "value": "{{x-apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "history",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Information for a Historical Flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/history/flights/:ident",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The ident, registration, or fa_flight_id to fetch. If using\na flight ident, it is highly recommended to specify ICAO flight\nident rather than IATA flight ident to avoid ambiguity and unexpected results.\nSetting the ident_type can also be used to help disambiguate.\n"
+              },
+              {
+                "name": "ident_type",
+                "value": "",
+                "type": "query",
+                "description": "Type of ident provided in the ident parameter. By default, the passed\nident is interpreted as a registration if possible. This parameter can\nforce the ident to be interpreted as a designator instead.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results, comparing against flights'\n`scheduled_out` field (or `scheduled_off` if `scheduled_out` is\nmissing). The format is ISO8601 date or datetime, and the bound is\ninclusive. Specified start date must occur on or after 2011-01-01 00:00:00 UTC\nand cannot be in the future. If using date instead of datetime, the\ntime will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results, comparing against flights'\n`scheduled_out` field (or `scheduled_off` if `scheduled_out` is\nmissing). The format is ISO8601 date or datetime, and the bound is\nexclusive. Specified end date must occur after 2011-01-01 00:00:00 UTC\nand cannot be in the future. If using date instead of datetime, the\ntime will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns historical flight info status summary for a registration, ident,\nor fa_flight_id. If a fa_flight_id is specified then a maximum of 1\nflight is returned, unless the flight has been diverted in which case\nboth the original flight and any diversions will be returned with a\nduplicate fa_flight_id. If a registraion or ident is specified then a\nstart_date and end_date must be specified. The span between start_date\nand end_date can be up to 7 days. No more than 40 pages may be requested\nat once"
+        },
+        {
+          "info": {
+            "name": "Get Historical Information for a Flight's Track",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/history/flights/:id/track",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch"
+              },
+              {
+                "name": "include_estimated_positions",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include estimated positions in the flight track"
+              }
+            ]
+          },
+          "docs": "Returns the track for a historical flight as an array of positions.\nData is available from now back to 2011-01-01T00:00:00Z.\n"
+        },
+        {
+          "info": {
+            "name": "Get an Image of a Historical Flight's Track on a Map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/history/flights/:id/map",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch"
+              },
+              {
+                "name": "height",
+                "value": "",
+                "type": "query",
+                "description": "Height of requested image (pixels)"
+              },
+              {
+                "name": "width",
+                "value": "",
+                "type": "query",
+                "description": "Width of requested image (pixels)"
+              },
+              {
+                "name": "layer_on",
+                "value": "",
+                "type": "query",
+                "description": "List of map layers to enable"
+              },
+              {
+                "name": "layer_off",
+                "value": "",
+                "type": "query",
+                "description": "List of map layers to disable"
+              },
+              {
+                "name": "show_data_block",
+                "value": "",
+                "type": "query",
+                "description": "Whether a textual caption containing the ident, type, heading,\naltitude, origin, and destination should be displayed by the flight's\nposition.\n"
+              },
+              {
+                "name": "airports_expand_view",
+                "value": "",
+                "type": "query",
+                "description": "Whether to force zoom area to ensure origin/destination airports are\nvisible. Enabling this flag forcefully enables the show_airports flag\nas well.\n"
+              },
+              {
+                "name": "show_airports",
+                "value": "",
+                "type": "query",
+                "description": "Whether to show the origin/destination airports for the flight as\nlabeled points on the map.\n"
+              },
+              {
+                "name": "bounding_box",
+                "value": "",
+                "type": "query",
+                "description": "Manually specify the zoom area of the map using custom bounds. Should\nbe a list of 4 coordinates representing the top, right, bottom, and\nleft sides of the area (in that order).\n"
+              }
+            ]
+          },
+          "docs": "Returns a historical flight's track as a base64-encoded image. Image can contain a\nvariety of additional data layers beyond just the track. Data is available from now back to\n2011-01-01T00:00:00Z.\n"
+        },
+        {
+          "info": {
+            "name": "Get Historical Flight's Filed Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/history/flights/:id/route",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The fa_flight_id to fetch"
+              }
+            ]
+          },
+          "docs": "Returns information about a historical flight's filed route including\ncoordinates, names, and types of fixes along the route.  Not all flight\nroutes can be successfully decoded by this endpoint, particularly if the\nflight is not entirely within the continental U.S. airspace, since this function\nonly has access to navaids within that area. If data on a waypoint is\nmissing then the type will be listed as \"UNKNOWN\". Data is available from now back to\n2011-01-01T00:00:00Z.\n"
+        },
+        {
+          "info": {
+            "name": "Get Aircraft's Last Known Flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/history/aircraft/:registration/last_flight",
+            "params": [
+              {
+                "name": "registration",
+                "value": "",
+                "type": "path",
+                "description": "The registration number of the aircraft to fetch"
+              }
+            ]
+          },
+          "docs": "Returns flight info status summary for an aircraft's last known flight\ngiven its registration. The search is limited to flights flown since\nJanuary 1, 2011. On a successful response, the body will contain a\nflights array with only 1 element. If a user queries a registration with\nit's last known flight before January 1, 2011, an empty flights array will\nbe returned.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

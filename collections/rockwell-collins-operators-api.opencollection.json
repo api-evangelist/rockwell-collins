@@ -1,0 +1,286 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Aero airports operators API",
+    "version": "4.17.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-apikey",
+      "value": "{{x-apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "operators",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Operators.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators",
+            "params": [
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns list of operator references (ICAO/IATA codes and URLs to access\nmore information).\n"
+        },
+        {
+          "info": {
+            "name": "Get Static Information for an Operator.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              }
+            ]
+          },
+          "docs": "Returns information for an operator such as their name, ICAO/IATA\ncodes, headquarter location, etc.\n"
+        },
+        {
+          "info": {
+            "name": "Get the Canonical Code of an Operator for API Usage.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/canonical",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              },
+              {
+                "name": "country_code",
+                "value": "",
+                "type": "query",
+                "description": "An ISO 3166-1 alpha-2 country code.\n"
+              }
+            ]
+          },
+          "docs": "Returns all possible matches for a given operator code (ICAO or IATA).\nAn optional country code can be provided to refine ambiguous IATA codes\nto a single result. The country code should represent a country the\noperator operates within.\n"
+        },
+        {
+          "info": {
+            "name": "Get All of an Operator's Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/flights",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results. The format is ISO8601 date\nor datetime, and the bound is inclusive. Specified start date must be\nno further than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results. The format is ISO8601 date or\ndatetime, and the bound is exclusive. Specified end date must be no\nfurther than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns all recent and upcoming flights for this operator. Behaviour for\noptional start and end dates for each type returned (`scheduled`, `arrivals`,\n`enroute`) match the behaviour in their corresponding endpoints.\n"
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/flights/scheduled",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results. The format is ISO8601 date\nor datetime, and the bound is inclusive. Specified start date must be\nno further than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results. The format is ISO8601 date or\ndatetime, and the bound is exclusive. Specified end date must be no\nfurther than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns flights for this operator that are scheduled to depart or have\nrecently been cancelled, ordered by `estimated_off` (or `scheduled_off`\nif `estimated_off` is missing) ascending. The optional start and end\nparameters will be compared against `scheduled_off` to limit the\nflights returned. If start is not specified, flights with a\n`scheduled_off` or cancellation time no further than two hours into the\npast will be returned. If end is not specified, there is no guaranteed\nbound for how far in"
+        },
+        {
+          "info": {
+            "name": "Get Arrived Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/flights/arrivals",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results. The format is ISO8601 date\nor datetime, and the bound is inclusive. Specified start date must be\nno further than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results. The format is ISO8601 date or\ndatetime, and the bound is exclusive. Specified end date must be no\nfurther than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns flights for this operator that have departed and subsequently\narrived, ordered by `actual_on` descending. The optional start and end\nparameters will be compared against `actual_on` to limit the flights\nreturned. The start parameter's default value is 24 hours before the\ncurrent time. The end parameter's default value is the current time.\n"
+        },
+        {
+          "info": {
+            "name": "Get En Route Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/flights/enroute",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The starting date range for flight results. The format is ISO8601 date\nor datetime, and the bound is inclusive. Specified start date must be\nno further than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The ending date range for flight results. The format is ISO8601 date or\ndatetime, and the bound is exclusive. Specified end date must be no\nfurther than 10 days in the past and 2 days in the future. If using\ndate instead of datetime, the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns flights for this operator that have departed and are currently\nen route, ordered by `estimated_on` ascending. The optional start and\nend parameters will be compared against `estimated_on` to limit the\nflights returned. The start parameter's default value is 48 hours\nbefore the current time (this accounts for delayed flights). There is\nno default end bound.\n"
+        },
+        {
+          "info": {
+            "name": "Get Flight Counts for Operator",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/operators/:id/flights/counts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO or IATA identifier for an operator. The use of ICAO code is\nstrongly preferred. In the case of non-unique IATA codes the operator\nwith the lexicographically first ICAO code will be returned.\n"
+              }
+            ]
+          },
+          "docs": "Returns counts of both airborne and recently operated flights for\noperator.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

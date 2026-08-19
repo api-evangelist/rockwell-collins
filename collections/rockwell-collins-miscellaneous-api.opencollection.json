@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Aero airports miscellaneous API",
+    "version": "4.17.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-apikey",
+      "value": "{{x-apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "miscellaneous",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check If a Given Ident Is Blocked",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/aircraft/:ident/blocked",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The ident or registration of the aircraft"
+              }
+            ]
+          },
+          "docs": "Given an aircraft identification, returns true if the aircraft is blocked from\npublic tracking per request from the owner/operator, false if it is not blocked.\nAny IATA-like idents will be translated to ICAO before lookup.\nWhen marked as blocked, no associated flight information will be visible in\nAeroAPI. FlightAware can provide aircraft owner/operators with secure access to\ntheir blocked flight data by [contacting FlightAware for help](https://www.flightaware.com/about/contact).\n"
+        },
+        {
+          "info": {
+            "name": "Get the Owner of an Aircraft",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/aircraft/:ident/owner",
+            "params": [
+              {
+                "name": "ident",
+                "value": "",
+                "type": "path",
+                "description": "The ident or registration of the aircraft"
+              }
+            ]
+          },
+          "docs": "Returns information about the owner of an aircraft, given a flight number\nor aircraft registration. Data returned includes owner's name, location (typically\ncity and state), and website, if any. Codeshares and alternate idents are\nautomatically searched. Specific owner name information is limited to ownership\nwithin the US (sourced by the FAA), Australia, and New Zealand. Note that while\nthis information is updated weekly, there may be a lag in upstream data sources\nreflecting a change in owners"
+        },
+        {
+          "info": {
+            "name": "Get Information About an Aircraft Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/aircraft/types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO aircraft type designator for the aircraft to fetch information for\n"
+              }
+            ]
+          },
+          "docs": "Returns information about an aircraft type, given an ICAO aircraft type designator string.\nData returned includes the description, type, manufacturer, engine type, and engine\ncount.\n"
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/schedules/:date_start/:date_end",
+            "params": [
+              {
+                "name": "date_start",
+                "value": "",
+                "type": "path",
+                "description": "Datetime or date of earliest scheduled flight departure to return. This\nmust be no earlier than 3 months in the past and cannot be more than 3 weeks\nbefore date_end. Violating either constraint will result in an error.\nIf using date instead of datetime, then the time will default to 00:00:00Z.\n"
+              },
+              {
+                "name": "date_end",
+                "value": "",
+                "type": "path",
+                "description": "Datetime or date of latest scheduled flight departure to return. This must\nbe no later than 1 year in the future and cannot be more than 3 weeks after\ndate_start. Violating either constraint will result in an error. If using\ndate instead of datetime, then the time will default to 00:00:00Z. Thus,\nthe next day's date should be specified if one day of data is desired when\nusing date instead of datetime.\n"
+              },
+              {
+                "name": "origin",
+                "value": "",
+                "type": "query",
+                "description": "Only return flights with this origin airport. ICAO or IATA airport codes\ncan be provided.\n"
+              },
+              {
+                "name": "destination",
+                "value": "",
+                "type": "query",
+                "description": "Only return flights with this destination airport. ICAO or IATA airport codes\ncan be provided.\n"
+              },
+              {
+                "name": "airline",
+                "value": "",
+                "type": "query",
+                "description": "Only return flights flown by this carrier. ICAO or IATA carrier codes\ncan be provided.\n"
+              },
+              {
+                "name": "flight_number",
+                "value": "",
+                "type": "query",
+                "description": "Only return flights with this flight number."
+              },
+              {
+                "name": "include_codeshares",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether ticketing codeshares should be returned as well.\n"
+              },
+              {
+                "name": "include_regional",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether regional codeshares should be returned as well.\n"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns scheduled flights that have been published by airlines. These\nschedules are available for up to three months in the past as well as\none year into the future.\n"
+        },
+        {
+          "info": {
+            "name": "Get Global Flight Disruption Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/disruption_counts/:entity_type",
+            "params": [
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "path",
+                "description": "The type of entity to get disruption statistics for."
+              },
+              {
+                "name": "time_period",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns overall flight cancellation/delay counts in the specified time\nperiod for either all airlines or all airports.\n"
+        },
+        {
+          "info": {
+            "name": "Get Flight Disruption Statistics for a Particular Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/disruption_counts/:entity_type/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ICAO code for the airline or ID for the airport (ICAO, IATA, or LID)\nfor which you are fetching disruption statistics.  For airport ID,\n[ICAO is highly preferred](/aeroapi/portal/resources#icaoCode) to prevent ambiguity.\n"
+              },
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "path",
+                "description": "The type of entity to get disruption statistics for."
+              },
+              {
+                "name": "time_period",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns flight cancellation/delay counts in the specified time period\nfor a particular airline or airport.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

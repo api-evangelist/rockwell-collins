@@ -1,0 +1,640 @@
+{
+  "item": [
+    {
+      "id": "d8568581-6a29-44ec-9315-fe435333a004",
+      "name": "foresight",
+      "description": {
+        "content": "Foresight endpoints provide access to FlightAware's Foresight predictive models and\npredictions for key events. Our advanced machine learning (ML) models identify key\ninfluencing factors for a flight to forecast future events in real-time, providing\nunprecedented insight to improve operational efficiencies and facilitate better\ndecision-making in the air and on the ground. To learn more about the power of Foresight,\nvisit https://www.flightaware.com/commercial/foresight/\n\nThese endpoints each mirror a non-Foresight equivalent endpoint of similar functionality,\nwith the addition of all the ML 'predicted' values included in the Foresight response. The\nrespective non-Foresight endpoint response includes a flag, 'foresight_predictions_available',\nwhich can optionally be used as a trigger to obtain and leverage Foresight predictions on an\nas-needed basis and manage cost. Foresight is only available to Premium tier customers.\nContact integrationsales@flightaware.com for more information, pricing details, and to have\nyour account enabled for Foresight.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "054b3a2b-bd61-4ab4-bf25-57426694750d",
+          "name": "Get Information for a Flight, Including Foresight Data",
+          "request": {
+            "name": "Get Information for a Flight, Including Foresight Data",
+            "description": {
+              "content": "Returns the flight info status summary for a registration, ident, or\nfa_flight_id, including all available predicted fields.  If a\nfa_flight_id is specified then a maximum of 1 flight is returned,\nunless the flight has been diverted in which case both the original\nflight and any diversions will be returned with a duplicate fa_flight_id.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foresight",
+                "flights",
+                ":ident"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ident_type",
+                  "value": "<string>",
+                  "description": "Type of ident provided in the ident parameter. By default, the passed\nident is interpreted as a registration if possible. This parameter can\nforce the ident to be interpreted as a designator instead.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_pages",
+                  "value": "1",
+                  "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ident",
+                  "description": "(Required) The ident, registration, or fa_flight_id to fetch. If using\na flight ident, it is highly recommended to specify ICAO flight\nident rather than IATA flight ident to avoid ambiguity and unexpected results.\nSetting the ident_type can also be used to help disambiguate.\n"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e14d35b2-711a-4fd0-a532-7170f2aaaa45",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    ":ident"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ident_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident, registration, or fa_flight_id to fetch. If using\na flight ident, it is highly recommended to specify ICAO flight\nident rather than IATA flight ident to avoid ambiguity and unexpected results.\nSetting the ident_type can also be used to help disambiguate.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"links\": {\n    \"next\": \"http://BYKEEDcImeldTPUlMiyOvZPlmOMmK.flbmdcYGGu6Jhl,XrUZ,U74k4M2NTaiY71V+u-zZ5n-xrPwbfi17mF\"\n  },\n  \"num_pages\": 8006,\n  \"flights\": [\n    {\n      \"actual_in\": \"2021-12-31T19:59:59Z\",\n      \"actual_off\": \"2021-12-31T19:59:59Z\",\n      \"actual_on\": \"2021-12-31T19:59:59Z\",\n      \"actual_out\": \"2021-12-31T19:59:59Z\",\n      \"aircraft_type\": \"string\",\n      \"arrival_delay\": 8846,\n      \"atc_ident\": \"string\",\n      \"baggage_claim\": \"string\",\n      \"blocked\": true,\n      \"cancelled\": false,\n      \"codeshares\": [\n        \"string\",\n        \"string\"\n      ],\n      \"departure_delay\": 5886,\n      \"destination\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"http://unRl.wexfgesuPVbK6TGRBvPNxnlpq2YXXsV4G.QtnJIqRKu51tLiWHoqTVsvpiaVCsZImB6LbNZ+C\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"diverted\": true,\n      \"estimated_in\": \"2021-12-31T19:59:59Z\",\n      \"estimated_off\": \"2021-12-31T19:59:59Z\",\n      \"estimated_on\": \"2021-12-31T19:59:59Z\",\n      \"estimated_out\": \"2021-12-31T19:59:59Z\",\n      \"fa_flight_id\": \"string\",\n      \"filed_airspeed\": 2492,\n      \"filed_altitude\": 2146,\n      \"filed_ete\": 8630,\n      \"flight_number\": \"string\",\n      \"foresight_predictions_available\": true,\n      \"gate_destination\": \"string\",\n      \"gate_origin\": \"string\",\n      \"ident\": \"string\",\n      \"inbound_fa_flight_id\": \"string\",\n      \"operator\": \"string\",\n      \"operator_iata\": \"string\",\n      \"origin\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://HVAjrnCtrXyoWEtLDOHoPRcSjxg.ryf.jXBXILnAbGRqg0EqAbTaRb\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"position_only\": true,\n      \"predicted_in\": \"2021-12-31T19:59:59Z\",\n      \"predicted_in_source\": \"Foresight\",\n      \"predicted_off\": \"2021-12-31T19:59:59Z\",\n      \"predicted_off_source\": \"Historical Average\",\n      \"predicted_on\": \"2021-12-31T19:59:59Z\",\n      \"predicted_on_source\": \"Historical Average\",\n      \"predicted_out\": \"2021-12-31T19:59:59Z\",\n      \"predicted_out_source\": \"Foresight\",\n      \"predicted_taxi_out_duration\": 1234,\n      \"predicted_taxi_out_duration_source\": \"Foresight\",\n      \"progress_percent\": 19,\n      \"registration\": \"string\",\n      \"route\": \"string\",\n      \"route_distance\": 4435,\n      \"scheduled_in\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_off\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_on\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_out\": \"2021-12-31T19:59:59Z\",\n      \"seats_cabin_business\": 3234,\n      \"seats_cabin_coach\": 606,\n      \"seats_cabin_first\": 7809,\n      \"status\": \"string\",\n      \"terminal_destination\": \"string\",\n      \"terminal_origin\": \"string\",\n      \"type\": \"Airline\",\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\",\n      \"actual_runway_off\": \"string\",\n      \"actual_runway_on\": \"string\",\n      \"operator_icao\": \"string\",\n      \"codeshares_iata\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"actual_in\": \"2021-12-31T19:59:59Z\",\n      \"actual_off\": \"2021-12-31T19:59:59Z\",\n      \"actual_on\": \"2021-12-31T19:59:59Z\",\n      \"actual_out\": \"2021-12-31T19:59:59Z\",\n      \"aircraft_type\": \"string\",\n      \"arrival_delay\": 2095,\n      \"atc_ident\": \"string\",\n      \"baggage_claim\": \"string\",\n      \"blocked\": false,\n      \"cancelled\": false,\n      \"codeshares\": [\n        \"string\",\n        \"string\"\n      ],\n      \"departure_delay\": 3210,\n      \"destination\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://jbPoTxkvByjNPvySgjrkojj.lyecEobBoeZivWbFSfsyzXZf0sk\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"diverted\": true,\n      \"estimated_in\": \"2021-12-31T19:59:59Z\",\n      \"estimated_off\": \"2021-12-31T19:59:59Z\",\n      \"estimated_on\": \"2021-12-31T19:59:59Z\",\n      \"estimated_out\": \"2021-12-31T19:59:59Z\",\n      \"fa_flight_id\": \"string\",\n      \"filed_airspeed\": 8609,\n      \"filed_altitude\": 5797,\n      \"filed_ete\": 6921,\n      \"flight_number\": \"string\",\n      \"foresight_predictions_available\": true,\n      \"gate_destination\": \"string\",\n      \"gate_origin\": \"string\",\n      \"ident\": \"string\",\n      \"inbound_fa_flight_id\": \"string\",\n      \"operator\": \"string\",\n      \"operator_iata\": \"string\",\n      \"origin\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://dUKfRnKHxZWdTTmxmGZMMweOVUkpb.bylkuRSU2CKLwJzd,MhfU6Itpilhzf7ZC5AKoinlqAqRrUr+?u&dbflnl&\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"position_only\": true,\n      \"predicted_in\": \"2021-12-31T19:59:59Z\",\n      \"predicted_in_source\": \"Foresight\",\n      \"predicted_off\": \"2021-12-31T19:59:59Z\",\n      \"predicted_off_source\": \"Historical Average\",\n      \"predicted_on\": \"2021-12-31T19:59:59Z\",\n      \"predicted_on_source\": \"Historical Average\",\n      \"predicted_out\": \"2021-12-31T19:59:59Z\",\n      \"predicted_out_source\": \"Foresight\",\n      \"predicted_taxi_out_duration\": 1234,\n      \"predicted_taxi_out_duration_source\": \"Foresight\",\n      \"progress_percent\": 19,\n      \"registration\": \"string\",\n      \"route\": \"string\",\n      \"route_distance\": 1480,\n      \"scheduled_in\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_off\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_on\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_out\": \"2021-12-31T19:59:59Z\",\n      \"seats_cabin_business\": 5172,\n      \"seats_cabin_coach\": 4278,\n      \"seats_cabin_first\": 9965,\n      \"status\": \"string\",\n      \"terminal_destination\": \"string\",\n      \"terminal_origin\": \"string\",\n      \"type\": \"General_Aviation\",\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\",\n      \"actual_runway_off\": \"string\",\n      \"actual_runway_on\": \"string\",\n      \"operator_icao\": \"string\",\n      \"codeshares_iata\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "893bd03c-5bf0-4412-b9b4-512f1bdc6135",
+              "name": "Incorrect parameter(s). Ident may be missing or not in fa_flight_id format or pages may be < 1.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    ":ident"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ident_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident, registration, or fa_flight_id to fetch. If using\na flight ident, it is highly recommended to specify ICAO flight\nident rather than IATA flight ident to avoid ambiguity and unexpected results.\nSetting the ident_type can also be used to help disambiguate.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 8486\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57ddd56f-e4d6-4b0b-91da-bd3ed31b2307",
+          "name": "Search for Flights, Responses Include Foresight Data",
+          "request": {
+            "name": "Search for Flights, Responses Include Foresight Data",
+            "description": {
+              "content": "Returns currently or recently airborne flights based on geospatial\nsearch parameters. If available, flights' predicted OOOI fields will be\nset.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foresight",
+                "flights",
+                "search",
+                "advanced"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Query to search for airborne or recently arrived flights. It should not\nexceed 1000 bytes in length. Search criteria is only applied to the\nmost recent position for a flight. This function only searches flights\nwithin approximately the last 24 hours. The supported operators include\n(note that operators take different numbers of arguments):\n\n* false - results must have the specified boolean key set to a value of false. Example: {false arrived}\n* true - results must have the specified boolean key set to a value of true. Example: {true lifeguard}\n* null - results must have the specified key set to a null value. Example: {null waypoints}\n* notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType}\n* = - results must have a key that exactly matches the specified value. Example: {= aircraftType C172}\n* != - results must have a key that must not match the specified value. Example: {!= prefix H}\n* < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040}\n* \\> - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}\n* <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000}\n* \\>= - results must have a key that is lexicographically greater-than-or-equal-to a specified value.\n* match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*}\n* notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*}\n* range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000}\n* in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}}\n* orig_or_dest - results must have either the origin or destination key exactly match one of the specified values. Example: {orig_or_dest {KLAX KBUR KSNA KLGB}}\n* airline - results will only include airline flight if the argument is 1, or will only include GA flights if the argument is 0. Example: {airline 1}\n* aircraftType - results must have an aircraftType key that matches one of the specified case-insensitive wildcard patterns. Example: {aircraftType {B76* B77*}}\n* ident - results must have an ident key that matches one of the specified case-insensitive wildcard patterns. Example: {ident {N123* N456* AAL* UAL*}}\n* ident_or_reg - results must have an ident key or was known to be operated by an aircraft registration that matches one of the specified case-insensitive wildcard patterns. Example: {ident_or_reg {N123* N456* AAL* UAL*}}\n\nThe supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names):\n\n* actualDepartureTime - Actual time of departure, or null if not departed yet. UNIX epoch timestamp seconds since 1970\n* aircraftType - aircraft type ID (for example: B763)\n* alt - altitude at last reported position (hundreds of feet or Flight Level)\n* altChange - altitude change indication (for example: \"C\" if climbing, \"D\" if descending, and empty if it is level)\n* arrivalTime - Actual time of arrival, or null if not arrived yet. UNIX epoch timestamp seconds since 1970\n* arrived - true if the flight has arrived at its destination.\n* cancelled - true if the flight has been cancelled. The meaning of cancellation is that the flight is no longer being tracked by FlightAware. There are a number of reasons a flight may be cancelled including cancellation by the airline, but that will not always be the case.\n* cdt - Controlled Departure Time, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970\n* clock - Time of last received position. UNIX epoch timestamp seconds since 1970\n* cta - Controlled Time of Arrival, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970\n* dest - ICAO airport code of destination (for example: KLAX)\n* edt - Estimated Departure Time. Epoch timestamp seconds since 1970\n* eta - Estimated Time of Arrival. Epoch timestamp seconds since 1970\n* fdt - Field Departure Time. UNIX epoch timestamp seconds since 1970\n* firstPositionTime - Time when first reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970\n* fixes - intersections and/or VORs along the route (for example: SLS AMERO ARTOM VODIR NOTOS ULAPA ACA NUXCO OLULA PERAS ALIPO UPN GDL KEDMA BRISA CUL PERTI CEN PPE ALTAR ASUTA JLI RONLD LAADY WYVIL OLDEE RAL PDZ ARNES BASET WELLZ CIVET)\n* fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id.\n* gs - ground speed at last reported position, in kts.\n* heading - direction of travel at last reported position.\n* hiLat - highest latitude travelled by flight.\n* hiLon - highest longitude travelled by flight.\n* ident - flight identifier or registration of aircraft.\n* lastPositionTime - Time when last reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970.\n* lat - latitude of last reported position.\n* lifeguard - true if a \"lifeguard\" rescue flight.\n* lon - longitude of last reported position.\n* lowLat - lowest latitude travelled by flight.\n* lowLon - lowest longitude travelled by flight.\n* ogta - Original Time of Arrival. UNIX epoch timestamp seconds since 1970\n* ogtd - Original Time of Departure. UNIX epoch timestamp seconds since 1970\n* orig - ICAO airport code of origin (for example: KIAH)\n* physClass - physical class (for example: J is jet)\n* prefix - A one or two character identifier prefix code (common values: G or GG Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).\n* speed - ground speed, in kts.\n* status - Single letter code for current flight status, can be S Scheduled, F Filed, A Active, Z Completed, or X Cancelled.\n* updateType - data source of last position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based).\n* waypoints - all of the intersections and VORs comprising the route\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_pages",
+                  "value": "1",
+                  "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fccb2139-e514-45a9-a019-7bf49e43280a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    "search",
+                    "advanced"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "{orig_or_dest {KLAX KBUR KSNA KLGB}} {<= alt 8000} {match ident AAL*}\n"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"links\": {\n    \"next\": \"http://rTTmpwZQkbEMp.dtgoNM9JWlGQ36MWouBM11btkNxY5f+gNmVnxY1hMFqjAdyOs7\"\n  },\n  \"num_pages\": 5069,\n  \"flights\": [\n    {\n      \"actual_off\": \"2021-12-31T19:59:59Z\",\n      \"actual_on\": \"2021-12-31T19:59:59Z\",\n      \"aircraft_type\": \"string\",\n      \"bounding_box\": [\n        665.5476223306123,\n        8739.460009480272,\n        994.2524820035026,\n        9612.855523802971\n      ],\n      \"destination\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://GXCkejyVPDMcQGqhSMwIvDiAckMPi.ebH1c82et?svffm&bx=Hg0wU&\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"fa_flight_id\": \"string\",\n      \"first_position_time\": \"2021-12-31T19:59:59Z\",\n      \"foresight_predictions_available\": true,\n      \"ident\": \"string\",\n      \"ident_prefix\": \"string\",\n      \"last_position\": {\n        \"fa_flight_id\": \"string\",\n        \"altitude\": 8870,\n        \"altitude_change\": \"-\",\n        \"groundspeed\": 3417,\n        \"heading\": 282,\n        \"latitude\": 2642.9587615550286,\n        \"longitude\": 8475.832796724379,\n        \"timestamp\": \"2021-12-31T19:59:59Z\",\n        \"update_type\": \"D\"\n      },\n      \"origin\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://hzCTWxrTsPgUUm.zbkeyLS+Pz4zjGdmdsCn.,TTJgdkKtQHA9?gbgaqc&yodbdv=QGyol&cu=xE&\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"predicted_in\": \"2021-12-31T19:59:59Z\",\n      \"predicted_in_source\": \"Foresight\",\n      \"predicted_off\": \"2021-12-31T19:59:59Z\",\n      \"predicted_off_source\": \"Historical Average\",\n      \"predicted_on\": \"2021-12-31T19:59:59Z\",\n      \"predicted_on_source\": \"Historical Average\",\n      \"predicted_out\": \"2021-12-31T19:59:59Z\",\n      \"predicted_out_source\": \"Foresight\",\n      \"predicted_taxi_out_duration\": 1234,\n      \"predicted_taxi_out_duration_source\": \"Foresight\",\n      \"waypoints\": [\n        4735.8802873671775,\n        5678.304911513978\n      ],\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\"\n    },\n    {\n      \"actual_off\": \"2021-12-31T19:59:59Z\",\n      \"actual_on\": \"2021-12-31T19:59:59Z\",\n      \"aircraft_type\": \"string\",\n      \"bounding_box\": [\n        4600.080047471524,\n        8796.01004618825,\n        1217.7424678861448,\n        6583.311231297848\n      ],\n      \"destination\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"https://NTcYYaUiWyIkfiwAPgs.jsOGMRIfFDPhcOGe7k.GF29J5I7sRMcWamBSGsI4fqvC6LGL4DEgWU+jS7IE?\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"fa_flight_id\": \"string\",\n      \"first_position_time\": \"2021-12-31T19:59:59Z\",\n      \"foresight_predictions_available\": true,\n      \"ident\": \"string\",\n      \"ident_prefix\": \"string\",\n      \"last_position\": {\n        \"fa_flight_id\": \"string\",\n        \"altitude\": 6425,\n        \"altitude_change\": \"-\",\n        \"groundspeed\": 953,\n        \"heading\": 160,\n        \"latitude\": 185.83714789581097,\n        \"longitude\": 9979.292912090888,\n        \"timestamp\": \"2021-12-31T19:59:59Z\",\n        \"update_type\": \"P\"\n      },\n      \"origin\": {\n        \"code\": \"string\",\n        \"airport_info_url\": \"http://qugCdPRfjUTpGtJIY.fcsAYUmeUD2OVmUGfOXXK.CJ+-u?y&o=Rew&\",\n        \"code_icao\": \"string\",\n        \"code_iata\": \"string\",\n        \"code_lid\": \"string\",\n        \"timezone\": \"America/New_York\",\n        \"name\": \"LaGuardia\",\n        \"city\": \"New York\"\n      },\n      \"predicted_in\": \"2021-12-31T19:59:59Z\",\n      \"predicted_in_source\": \"Foresight\",\n      \"predicted_off\": \"2021-12-31T19:59:59Z\",\n      \"predicted_off_source\": \"Historical Average\",\n      \"predicted_on\": \"2021-12-31T19:59:59Z\",\n      \"predicted_on_source\": \"Historical Average\",\n      \"predicted_out\": \"2021-12-31T19:59:59Z\",\n      \"predicted_out_source\": \"Foresight\",\n      \"predicted_taxi_out_duration\": 1234,\n      \"predicted_taxi_out_duration_source\": \"Foresight\",\n      \"waypoints\": [\n        5537.7247977700035,\n        9123.664779180084\n      ],\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74e60bb6-1414-41ca-b2db-bee7efb790e3",
+              "name": "Incorrect parameter(s). Query may be incorrect.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    "search",
+                    "advanced"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "{orig_or_dest {KLAX KBUR KSNA KLGB}} {<= alt 8000} {match ident AAL*}\n"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 8486\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b652936e-d2d0-48c8-8c74-e09f06c99f17",
+          "name": "Get Flight's Current Position, Including Foresight Data",
+          "request": {
+            "name": "Get Flight's Current Position, Including Foresight Data",
+            "description": {
+              "content": "Returns the latest position for a flight",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foresight",
+                "flights",
+                ":id",
+                "position"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a44f5611-b98d-4230-8770-ae90cc658581",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    ":id",
+                    "position"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"actual_off\": \"2021-12-31T19:59:59Z\",\n  \"actual_on\": \"2021-12-31T19:59:59Z\",\n  \"aircraft_type\": \"string\",\n  \"bounding_box\": [\n    1326.3935870783262,\n    4584.402626384375,\n    3327.491626922411,\n    6895.771097178368\n  ],\n  \"destination\": {\n    \"code\": \"string\",\n    \"airport_info_url\": \"http://DQimjmQeDyXTaVrYTwVjkNxZZgoLZPK.nraWgiq+tE5fZmmRlKDniAkYkNAKHYt.Ayo0MAkMRDM9g?\",\n    \"code_icao\": \"string\",\n    \"code_iata\": \"string\",\n    \"code_lid\": \"string\",\n    \"timezone\": \"America/New_York\",\n    \"name\": \"LaGuardia\",\n    \"city\": \"New York\"\n  },\n  \"fa_flight_id\": \"string\",\n  \"first_position_time\": \"2021-12-31T19:59:59Z\",\n  \"foresight_predictions_available\": true,\n  \"ident\": \"string\",\n  \"ident_prefix\": \"string\",\n  \"last_position\": {\n    \"fa_flight_id\": \"string\",\n    \"altitude\": 9568,\n    \"altitude_change\": \"-\",\n    \"groundspeed\": 2073,\n    \"heading\": 125,\n    \"latitude\": 9335.946592495702,\n    \"longitude\": 6302.6053823773045,\n    \"timestamp\": \"2021-12-31T19:59:59Z\",\n    \"update_type\": \"D\"\n  },\n  \"origin\": {\n    \"code\": \"string\",\n    \"airport_info_url\": \"https://QICMuYrXOVcKFTofms.djjCV52E1iW+r++xv9dQDWQpfQJTCv2KdXoqCIcj-btw7s5cOLTr-YtQmZ6eekecI7qsvi?zsig&wynwvff&\",\n    \"code_icao\": \"string\",\n    \"code_iata\": \"string\",\n    \"code_lid\": \"string\",\n    \"timezone\": \"America/New_York\",\n    \"name\": \"LaGuardia\",\n    \"city\": \"New York\"\n  },\n  \"predicted_in\": \"2021-12-31T19:59:59Z\",\n  \"predicted_in_source\": \"Foresight\",\n  \"predicted_off\": \"2021-12-31T19:59:59Z\",\n  \"predicted_off_source\": \"Historical Average\",\n  \"predicted_on\": \"2021-12-31T19:59:59Z\",\n  \"predicted_on_source\": \"Historical Average\",\n  \"predicted_out\": \"2021-12-31T19:59:59Z\",\n  \"predicted_out_source\": \"Foresight\",\n  \"predicted_taxi_out_duration\": 1234,\n  \"predicted_taxi_out_duration_source\": \"Foresight\",\n  \"waypoints\": [\n    7071.285570652039,\n    8063.491272822171\n  ],\n  \"ident_icao\": \"string\",\n  \"ident_iata\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8bb5687-605b-4a40-9db7-ec38531ae208",
+              "name": "Incorrect parameter (id). Id may be missing or may not be fa_flight_id format. Query may be incorrect.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foresight",
+                    "flights",
+                    ":id",
+                    "position"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The fa_flight_id to fetch. If looking for data from more than 10 days ago,\nplease use the corresponding historical endpoint.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 8486\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": " (This can only be one of aeroapi)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "aeroapi",
+      "key": "env"
+    },
+    {
+      "type": "string",
+      "value": "https://{{env}}.flightaware.com/aeroapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7d9f746d-13fb-4b2e-a221-b0602cc21550",
+    "name": "Aero airports foresight API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nAeroAPI is a simple, query-based API that gives software developers access\nto a variety of FlightAware's flight data. Users can obtain current or\nhistorical data. AeroAPI is a RESTful API delivering accurate and\nactionable aviation data. With the introduction of Foresight™, customers\nhave access to the data that powers over half of the predictive airline\nETAs in the US.\n\n## Categories\nAeroAPI is divided into several categories to make things easier to\ndiscover.\n- Flights: Summary information, planned routes, positions and more\n- Foresight: Flight positions enhanced with FlightAware Foresight™\n- Airports: Airport information and FIDS style resources\n- Operators: Operator information and fleet activity resources\n- Alerts: Configure flight alerts and delivery destinations\n- History: Historical flight access for various endpoints\n- Miscellaneous: Flight disruption, future schedule information, and aircraft owner information\n\n## Development Tools\nAeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily\nimported into tools like Postman. To get started try importing the API\nspecification using\n[Postman's instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).\nOnce imported as a collection only the \"Value\" field under the collection's\nAuthorization tab needs to be populated and saved before making calls.\n\nThe AeroAPI OpenAPI specification is located at:\\\nhttps://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml\n\nOur [open source AeroApps project](/aeroapi/portal/resources)\nprovides a small collection of services and sample applications to help\nyou get started.\n\nThe Flight Information Display System (FIDS) AeroApp is an example of a\nmulti-tier application using multiple languages and Docker containers.\nIt demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.\n\nThe Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and\nreceive alerts in a sample application with a Dockerized Python backend\nand a React frontend.\n\nOur AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)\nprovides a quick and easy way to test the delivery of customized alerts via AeroAPI push.\n",
+      "type": "text/plain"
+    }
+  }
+}

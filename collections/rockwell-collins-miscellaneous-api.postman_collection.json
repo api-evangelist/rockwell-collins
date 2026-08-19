@@ -1,0 +1,1286 @@
+{
+  "item": [
+    {
+      "id": "eb924bc5-1a66-4de0-a576-6cc586dfed61",
+      "name": "miscellaneous",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7eee0335-1650-48fa-bd65-1016a4b5368c",
+          "name": "Check If a Given Ident Is Blocked",
+          "request": {
+            "name": "Check If a Given Ident Is Blocked",
+            "description": {
+              "content": "Given an aircraft identification, returns true if the aircraft is blocked from\npublic tracking per request from the owner/operator, false if it is not blocked.\nAny IATA-like idents will be translated to ICAO before lookup.\nWhen marked as blocked, no associated flight information will be visible in\nAeroAPI. FlightAware can provide aircraft owner/operators with secure access to\ntheir blocked flight data by [contacting FlightAware for help](https://www.flightaware.com/about/contact).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aircraft",
+                ":ident",
+                "blocked"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ident",
+                  "description": "(Required) The ident or registration of the aircraft"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e47cadd-c6b0-436c-83cb-5cac83737038",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    ":ident",
+                    "blocked"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident or registration of the aircraft"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"blocked\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3edfe21e-0082-4677-9476-4eed367c11d7",
+              "name": "Incorrect parameter(s). Ident may be missing.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    ":ident",
+                    "blocked"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident or registration of the aircraft"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8dd39c02-a1e9-4e9a-b902-13ffda68791b",
+          "name": "Get the Owner of an Aircraft",
+          "request": {
+            "name": "Get the Owner of an Aircraft",
+            "description": {
+              "content": "Returns information about the owner of an aircraft, given a flight number\nor aircraft registration. Data returned includes owner's name, location (typically\ncity and state), and website, if any. Codeshares and alternate idents are\nautomatically searched. Specific owner name information is limited to ownership\nwithin the US (sourced by the FAA), Australia, and New Zealand. Note that while\nthis information is updated weekly, there may be a lag in upstream data sources\nreflecting a change in ownership.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aircraft",
+                ":ident",
+                "owner"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ident",
+                  "description": "(Required) The ident or registration of the aircraft"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "49c1e28e-280a-43be-8740-f1ea469ec633",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    ":ident",
+                    "owner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident or registration of the aircraft"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"owner\": {\n    \"name\": \"string\",\n    \"location\": \"string\",\n    \"location2\": \"string\",\n    \"website\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a14e6a0-aaa1-4229-abcf-c79270458d20",
+              "name": "Incorrect or missing ident. It should be a flight number or a tail number.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    ":ident",
+                    "owner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ident",
+                      "description": "(Required) The ident or registration of the aircraft"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c7e0ff7-0077-494b-8156-9e972c14b39c",
+          "name": "Get Information About an Aircraft Type",
+          "request": {
+            "name": "Get Information About an Aircraft Type",
+            "description": {
+              "content": "Returns information about an aircraft type, given an ICAO aircraft type designator string.\nData returned includes the description, type, manufacturer, engine type, and engine\ncount.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aircraft",
+                "types",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The ICAO aircraft type designator for the aircraft to fetch information for\n"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cefe19a4-4e25-43fc-bfb1-8db391ba2bf7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    "types",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The ICAO aircraft type designator for the aircraft to fetch information for\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"manufacturer\": \"string\",\n  \"type\": \"string\",\n  \"description\": \"string\",\n  \"engine_count\": 2649,\n  \"engine_type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "434fdb64-0e12-4ad2-a88c-5aa7c5982376",
+              "name": "Incorrect parameters. Type must be an ICAO aircraft type designator string.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aircraft",
+                    "types",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The ICAO aircraft type designator for the aircraft to fetch information for\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "caf3d895-ffb2-47db-ae05-e7b58a7064d0",
+          "name": "Get Scheduled Flights",
+          "request": {
+            "name": "Get Scheduled Flights",
+            "description": {
+              "content": "Returns scheduled flights that have been published by airlines. These\nschedules are available for up to three months in the past as well as\none year into the future.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schedules",
+                ":date_start",
+                ":date_end"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "origin",
+                  "value": "<string>",
+                  "description": "Only return flights with this origin airport. ICAO or IATA airport codes\ncan be provided.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "destination",
+                  "value": "<string>",
+                  "description": "Only return flights with this destination airport. ICAO or IATA airport codes\ncan be provided.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "airline",
+                  "value": "<string>",
+                  "description": "Only return flights flown by this carrier. ICAO or IATA carrier codes\ncan be provided.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "flight_number",
+                  "value": "<integer>",
+                  "description": "Only return flights with this flight number."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_codeshares",
+                  "value": "true",
+                  "description": "Flag indicating whether ticketing codeshares should be returned as well.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_regional",
+                  "value": "true",
+                  "description": "Flag indicating whether regional codeshares should be returned as well.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_pages",
+                  "value": "1",
+                  "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "date_start",
+                  "description": "(Required) Datetime or date of earliest scheduled flight departure to return. This\nmust be no earlier than 3 months in the past and cannot be more than 3 weeks\nbefore date_end. Violating either constraint will result in an error.\nIf using date instead of datetime, then the time will default to 00:00:00Z.\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "date_end",
+                  "description": "(Required) Datetime or date of latest scheduled flight departure to return. This must\nbe no later than 1 year in the future and cannot be more than 3 weeks after\ndate_start. Violating either constraint will result in an error. If using\ndate instead of datetime, then the time will default to 00:00:00Z. Thus,\nthe next day's date should be specified if one day of data is desired when\nusing date instead of datetime.\n"
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "17c12bed-2fe8-435d-a512-539b07f436c5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schedules",
+                    ":date_start",
+                    ":date_end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "origin",
+                      "value": "KIAH"
+                    },
+                    {
+                      "key": "destination",
+                      "value": "KIAH"
+                    },
+                    {
+                      "key": "airline",
+                      "value": "UAL"
+                    },
+                    {
+                      "key": "flight_number",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include_codeshares",
+                      "value": "true"
+                    },
+                    {
+                      "key": "include_regional",
+                      "value": "true"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "date_start",
+                      "description": "(Required) Datetime or date of earliest scheduled flight departure to return. This\nmust be no earlier than 3 months in the past and cannot be more than 3 weeks\nbefore date_end. Violating either constraint will result in an error.\nIf using date instead of datetime, then the time will default to 00:00:00Z.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "date_end",
+                      "description": "(Required) Datetime or date of latest scheduled flight departure to return. This must\nbe no later than 1 year in the future and cannot be more than 3 weeks after\ndate_start. Violating either constraint will result in an error. If using\ndate instead of datetime, then the time will default to 00:00:00Z. Thus,\nthe next day's date should be specified if one day of data is desired when\nusing date instead of datetime.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"links\": {\n    \"next\": \"https://xctsmxxzZQGeoEYDK.dyyh16NZuJ,GO7jjAy,YowqsE3Y4LTqn5?\"\n  },\n  \"num_pages\": 2232,\n  \"scheduled\": [\n    {\n      \"ident\": \"string\",\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\",\n      \"actual_ident\": \"string\",\n      \"actual_ident_icao\": \"string\",\n      \"actual_ident_iata\": \"string\",\n      \"aircraft_type\": \"string\",\n      \"scheduled_in\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_out\": \"2021-12-31T19:59:59Z\",\n      \"origin\": \"string\",\n      \"origin_icao\": \"string\",\n      \"origin_iata\": \"string\",\n      \"origin_lid\": \"string\",\n      \"destination\": \"string\",\n      \"destination_icao\": \"string\",\n      \"destination_iata\": \"string\",\n      \"destination_lid\": \"string\",\n      \"fa_flight_id\": \"string\",\n      \"meal_service\": \"string\",\n      \"seats_cabin_business\": 2645,\n      \"seats_cabin_coach\": 4085,\n      \"seats_cabin_first\": 2015\n    },\n    {\n      \"ident\": \"string\",\n      \"ident_icao\": \"string\",\n      \"ident_iata\": \"string\",\n      \"actual_ident\": \"string\",\n      \"actual_ident_icao\": \"string\",\n      \"actual_ident_iata\": \"string\",\n      \"aircraft_type\": \"string\",\n      \"scheduled_in\": \"2021-12-31T19:59:59Z\",\n      \"scheduled_out\": \"2021-12-31T19:59:59Z\",\n      \"origin\": \"string\",\n      \"origin_icao\": \"string\",\n      \"origin_iata\": \"string\",\n      \"origin_lid\": \"string\",\n      \"destination\": \"string\",\n      \"destination_icao\": \"string\",\n      \"destination_iata\": \"string\",\n      \"destination_lid\": \"string\",\n      \"fa_flight_id\": \"string\",\n      \"meal_service\": \"string\",\n      \"seats_cabin_business\": 2533,\n      \"seats_cabin_coach\": 8983,\n      \"seats_cabin_first\": 4206\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a3cf27d-0b94-4b73-8d3e-be85987f5d55",
+              "name": "Incorrect parameter(s). Date_start and date_end must be within time constraints and ISO 8601 format (ex. 1970-01-01T00:00:00Z). Airline and flight_number, if present, must be valid.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schedules",
+                    ":date_start",
+                    ":date_end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "origin",
+                      "value": "KIAH"
+                    },
+                    {
+                      "key": "destination",
+                      "value": "KIAH"
+                    },
+                    {
+                      "key": "airline",
+                      "value": "UAL"
+                    },
+                    {
+                      "key": "flight_number",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include_codeshares",
+                      "value": "true"
+                    },
+                    {
+                      "key": "include_regional",
+                      "value": "true"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "date_start",
+                      "description": "(Required) Datetime or date of earliest scheduled flight departure to return. This\nmust be no earlier than 3 months in the past and cannot be more than 3 weeks\nbefore date_end. Violating either constraint will result in an error.\nIf using date instead of datetime, then the time will default to 00:00:00Z.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "date_end",
+                      "description": "(Required) Datetime or date of latest scheduled flight departure to return. This must\nbe no later than 1 year in the future and cannot be more than 3 weeks after\ndate_start. Violating either constraint will result in an error. If using\ndate instead of datetime, then the time will default to 00:00:00Z. Thus,\nthe next day's date should be specified if one day of data is desired when\nusing date instead of datetime.\n"
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "87f41770-046e-4ab5-98d6-21e55150009a",
+          "name": "Get Global Flight Disruption Statistics",
+          "request": {
+            "name": "Get Global Flight Disruption Statistics",
+            "description": {
+              "content": "Returns overall flight cancellation/delay counts in the specified time\nperiod for either all airlines or all airports.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disruption_counts",
+                ":entity_type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_period",
+                  "value": "today"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_pages",
+                  "value": "1",
+                  "description": "Maximum number of pages to fetch. This is an upper limit and not a guarantee of how many pages will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity_type",
+                  "description": "(Required) The type of entity to get disruption statistics for."
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bf535a1-7bb3-488a-8525-d3a9565b0251",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disruption_counts",
+                    ":entity_type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_period",
+                      "value": "today"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_type",
+                      "description": "(Required) The type of entity to get disruption statistics for."
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"links\": {\n    \"next\": \"https://pmwUzSdMxKbNGEifLfDURSYqkclL.xlmcczTXN-79rMkXYG1bd1uSacK,6MLTUJgHnkluJOsvCggAFs3NOipBWpuCGH?\"\n  },\n  \"num_pages\": 9006,\n  \"entities\": [\n    {\n      \"cancellations\": 688,\n      \"delays\": 3775,\n      \"total\": 8495,\n      \"entity_name\": \"string\",\n      \"entity_id\": \"string\"\n    },\n    {\n      \"cancellations\": 2085,\n      \"delays\": 6247,\n      \"total\": 7559,\n      \"entity_name\": \"string\",\n      \"entity_id\": \"string\"\n    }\n  ],\n  \"total_cancellations_national\": 1464,\n  \"total_cancellations_worldwide\": 7023,\n  \"total_delays_worldwide\": 3774\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cc7c005-063a-4a85-a0ab-28e4c8f7211a",
+              "name": "Incorrect parameters. Entity_type and time_period must be one of the specified values. Entity_type cannot be empty.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disruption_counts",
+                    ":entity_type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_period",
+                      "value": "today"
+                    },
+                    {
+                      "key": "max_pages",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_type",
+                      "description": "(Required) The type of entity to get disruption statistics for."
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "231ca364-02aa-4fa6-9793-7e3069b18afb",
+          "name": "Get Flight Disruption Statistics for a Particular Entity",
+          "request": {
+            "name": "Get Flight Disruption Statistics for a Particular Entity",
+            "description": {
+              "content": "Returns flight cancellation/delay counts in the specified time period\nfor a particular airline or airport.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disruption_counts",
+                ":entity_type",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_period",
+                  "value": "today"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ICAO code for the airline or ID for the airport (ICAO, IATA, or LID)\nfor which you are fetching disruption statistics.  For airport ID,\n[ICAO is highly preferred](/aeroapi/portal/resources#icaoCode) to prevent ambiguity.\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity_type",
+                  "description": "(Required) The type of entity to get disruption statistics for."
+                },
+                {
+                  "description": " (This can only be one of aeroapi)",
+                  "type": "any",
+                  "value": "{{env}}",
+                  "key": "env"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json; charset=UTF-8"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3cd18ef7-d0d4-4eb7-8dd8-2562c50d7962",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disruption_counts",
+                    ":entity_type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_period",
+                      "value": "today"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ICAO code for the airline or ID for the airport (ICAO, IATA, or LID)\nfor which you are fetching disruption statistics.  For airport ID,\n[ICAO is highly preferred](/aeroapi/portal/resources#icaoCode) to prevent ambiguity.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_type",
+                      "description": "(Required) The type of entity to get disruption statistics for."
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"cancellations\": 6196,\n  \"delays\": 2676,\n  \"total\": 690,\n  \"entity_name\": \"string\",\n  \"entity_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0510865-0342-4c36-b681-eade5764f9ff",
+              "name": "Incorrect parameters. Entity_type and time_period must be one of the specified values. Entity_type cannot be empty. id must be a valid operator or airport code.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disruption_counts",
+                    ":entity_type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_period",
+                      "value": "today"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ICAO code for the airline or ID for the airport (ICAO, IATA, or LID)\nfor which you are fetching disruption statistics.  For airport ID,\n[ICAO is highly preferred](/aeroapi/portal/resources#icaoCode) to prevent ambiguity.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_type",
+                      "description": "(Required) The type of entity to get disruption statistics for."
+                    },
+                    {
+                      "description": " (This can only be one of aeroapi)",
+                      "type": "any",
+                      "value": "{{env}}",
+                      "key": "env"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json; charset=UTF-8"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"reason\": \"string\",\n  \"detail\": \"string\",\n  \"status\": 9533\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": " (This can only be one of aeroapi)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "aeroapi",
+      "key": "env"
+    },
+    {
+      "type": "string",
+      "value": "https://{{env}}.flightaware.com/aeroapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "60e58bbc-9b02-4b16-a901-c709774637df",
+    "name": "Aero airports miscellaneous API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nAeroAPI is a simple, query-based API that gives software developers access\nto a variety of FlightAware's flight data. Users can obtain current or\nhistorical data. AeroAPI is a RESTful API delivering accurate and\nactionable aviation data. With the introduction of Foresight™, customers\nhave access to the data that powers over half of the predictive airline\nETAs in the US.\n\n## Categories\nAeroAPI is divided into several categories to make things easier to\ndiscover.\n- Flights: Summary information, planned routes, positions and more\n- Foresight: Flight positions enhanced with FlightAware Foresight™\n- Airports: Airport information and FIDS style resources\n- Operators: Operator information and fleet activity resources\n- Alerts: Configure flight alerts and delivery destinations\n- History: Historical flight access for various endpoints\n- Miscellaneous: Flight disruption, future schedule information, and aircraft owner information\n\n## Development Tools\nAeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily\nimported into tools like Postman. To get started try importing the API\nspecification using\n[Postman's instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).\nOnce imported as a collection only the \"Value\" field under the collection's\nAuthorization tab needs to be populated and saved before making calls.\n\nThe AeroAPI OpenAPI specification is located at:\\\nhttps://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml\n\nOur [open source AeroApps project](/aeroapi/portal/resources)\nprovides a small collection of services and sample applications to help\nyou get started.\n\nThe Flight Information Display System (FIDS) AeroApp is an example of a\nmulti-tier application using multiple languages and Docker containers.\nIt demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.\n\nThe Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and\nreceive alerts in a sample application with a Dockerized Python backend\nand a React frontend.\n\nOur AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)\nprovides a quick and easy way to test the delivery of customized alerts via AeroAPI push.\n",
+      "type": "text/plain"
+    }
+  }
+}

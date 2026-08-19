@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Aero airports alerts API",
+    "version": "4.17.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-apikey",
+      "value": "{{x-apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Configured Alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts",
+            "params": [
+              {
+                "name": "max_pages",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of pages to fetch. This is an upper limit and not\na guarantee of how many pages will be returned. Defaults to 0, meaning\nno maximum is set. Set this parameter if your call is timing out\n(most likely due to a high number of alerts).\n"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value used to get the next batch of data from a paged collection.\n"
+              }
+            ]
+          },
+          "docs": "Returns all configured alerts for the FlightAware account (this\nincludes alerts configured through other means by the FlightAware user\nowning the AeroAPI account like FlightAware's website or mobile apps).\n"
+        },
+        {
+          "info": {
+            "name": "Create New Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new AeroAPI flight alert. When the alert is triggered, a\ncallback mechanism will be used to notify the address set via the\n/alerts/endpoint endpoint. Each callback will be charged as a query and\ncount towards usage for the AeroAPI key that created the alert. If this key\nis disabled or removed, the alert will no longer be available.\nIf a target_url is provided, then this specific alert will be delivered\nto that address regardless of the adress set via the /alerts/endpoint endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Get Specific Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the alert to fetch or update"
+              }
+            ]
+          },
+          "docs": "Returns the configuration data for an alert with the specified ID.\n"
+        },
+        {
+          "info": {
+            "name": "Modify Specific Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the alert to fetch or update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modifies the configuration for an alert with the specified ID. If a target\nURL address is provided, then the alert will be delivered to that address\neven if it is different than the default account-wide address set through\nthe alerts/endpoint endpoint. Updating an alert that was created with a\ndifferent AeroAPI key is possible, but will not change the AeroAPI key that\nthe alert is associated with for usage.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Specific Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the alert to fetch or update"
+              }
+            ]
+          },
+          "docs": "Deletes specific alert with given ID\n"
+        },
+        {
+          "info": {
+            "name": "Get Configured Alert Callback URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/endpoint"
+          },
+          "docs": "Returns URL that will be POSTed to for alerts that are delivered via AeroAPI.\n"
+        },
+        {
+          "info": {
+            "name": "Set Alert Callback URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/endpoint",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the default URL that will be POSTed to for alerts that are delivered via AeroAPI.\nThis sets the account-wide default URL that all alerts will be delivered to unless\nthe specific alert has a different delivery address configured for it.\n"
+        },
+        {
+          "info": {
+            "name": "Remove and Disable Default Account-wide Alert Callback URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{env}.flightaware.com/aeroapi/alerts/endpoint"
+          },
+          "docs": "Remove the default account-wide URL that will be POSTed to for alerts that are\nnot configured with a specific URL. This means that any alerts that are not configured\nwith a specific URL will not be delivered.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
