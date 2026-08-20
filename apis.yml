@@ -56,6 +56,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - Airports
+  tags_raw:
   - airports
   properties:
   - type: OpenAPI
@@ -163,6 +165,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - Alerts
+  tags_raw:
   - alerts
   properties:
   - type: OpenAPI
@@ -179,6 +183,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - Flights
+  tags_raw:
   - flights
   properties:
   - type: OpenAPI
@@ -221,6 +227,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - Foresight
+  tags_raw:
   - foresight
   properties:
   - type: OpenAPI
@@ -237,6 +245,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - History
+  tags_raw:
   - history
   properties:
   - type: OpenAPI
@@ -252,7 +262,8 @@ apis:
   description: The miscellaneous API from Rockwell Collins — 6 operation(s) for miscellaneous.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
-  tags:
+  tags: []
+  tags_raw:
   - miscellaneous
   properties:
   - type: OpenAPI
@@ -269,6 +280,8 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
+  - Operators
+  tags_raw:
   - operators
   properties:
   - type: OpenAPI
