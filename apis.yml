@@ -1,4 +1,17 @@
 aid: rockwell-collins
+deliveryModel:
+  model: self-hosted
+  license: BSD-3-Clause
+  open_source: true
+  commercial: false
+  callable_host: true
+  label: Self-hosted open source · you run it yourself
+  confidence: high
+  source:
+  - license
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -293,6 +306,10 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 common:
+  - type: IssueTracker
+    url: https://github.com/flightaware/aeroapps/issues
+  - type: Releases
+    url: https://github.com/flightaware/aeroapps/releases
   - type: License
     name: BSD-3-Clause
     url: https://github.com/flightaware/aeroapps/blob/main/LICENSE
