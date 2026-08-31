@@ -69,7 +69,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - Airports
+  - airports
   tags_raw:
   - airports
   properties:
@@ -240,7 +240,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - Foresight
+  - foresight
   tags_raw:
   - foresight
   properties:
@@ -293,7 +293,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - Operators
+  - operators
   tags_raw:
   - operators
   properties:
@@ -306,6 +306,11 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 common:
+  - type: ParentCompany
+    url: https://apis.io/providers/united-technologies/
+    name: United Technologies
+    x-relationship: acquired
+    x-evidence: "In 2018, Rockwell Collins was acquired by United Technologies and became part of Collins Aerospace, a subsidiary of RTX Corporation (formerly Raytheon Technologies)."
   - type: IssueTracker
     url: https://github.com/flightaware/aeroapps/issues
   - type: Releases
