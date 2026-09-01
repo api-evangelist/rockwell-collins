@@ -69,7 +69,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - airports
+  - Airports
   tags_raw:
   - airports
   properties:
@@ -240,7 +240,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - foresight
+  - Foresight
   tags_raw:
   - foresight
   properties:
@@ -293,7 +293,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - operators
+  - Operators
   tags_raw:
   - operators
   properties:
