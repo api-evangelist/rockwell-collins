@@ -58,6 +58,11 @@ apis:
   - Aerospace
   - Defense
   - Integration
+  - Partner API
+  tags_raw:
+  - Aerospace
+  - Defense
+  - Integration
   - Partner APIs
   humanURL: https://developer.collins.com/api-products
   baseURL: https://developer.collins.com
@@ -294,7 +299,7 @@ apis:
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
   tags:
-  - Operators
+  - Operator
   tags_raw:
   - operators
   properties:
