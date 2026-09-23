@@ -1,89 +1,12 @@
-openapi: 3.0.2
+openapi: 3.2.0
 info:
-  title: Aero airports miscellaneous API
+  title: Aero Miscellaneous API
   version: 4.17.1
   description: '# Introduction
 
     AeroAPI is a simple, query-based API that gives software developers access
 
-    to a variety of FlightAware''s flight data. Users can obtain current or
-
-    historical data. AeroAPI is a RESTful API delivering accurate and
-
-    actionable aviation data. With the introduction of Foresight™, customers
-
-    have access to the data that powers over half of the predictive airline
-
-    ETAs in the US.
-
-
-    ## Categories
-
-    AeroAPI is divided into several categories to make things easier to
-
-    discover.
-
-    - Flights: Summary information, planned routes, positions and more
-
-    - Foresight: Flight positions enhanced with FlightAware Foresight™
-
-    - Airports: Airport information and FIDS style resources
-
-    - Operators: Operator information and fleet activity resources
-
-    - Alerts: Configure flight alerts and delivery destinations
-
-    - History: Historical flight access for various endpoints
-
-    - Miscellaneous: Flight disruption, future schedule information, and aircraft owner information
-
-
-    ## Development Tools
-
-    AeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily
-
-    imported into tools like Postman. To get started try importing the API
-
-    specification using
-
-    [Postman''s instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).
-
-    Once imported as a collection only the "Value" field under the collection''s
-
-    Authorization tab needs to be populated and saved before making calls.
-
-
-    The AeroAPI OpenAPI specification is located at:\
-
-    https://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml
-
-
-    Our [open source AeroApps project](/aeroapi/portal/resources)
-
-    provides a small collection of services and sample applications to help
-
-    you get started.
-
-
-    The Flight Information Display System (FIDS) AeroApp is an example of a
-
-    multi-tier application using multiple languages and Docker containers.
-
-    It demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.
-
-
-    The Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and
-
-    receive alerts in a sample application with a Dockerized Python backend
-
-    and a React frontend.
-
-
-    Our AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)
-
-    provides a quick and easy way to test the delivery of customized alerts via AeroAPI push.
-
-    '
+    to a variety of FlightAware''s flight data.'
 servers:
 - url: https://{env}.flightaware.com/aeroapi
   variables:
@@ -94,7 +17,7 @@ servers:
 security:
 - ApiKeyAuth: []
 tags:
-- name: miscellaneous
+- name: Miscellaneous
 paths:
   /aircraft/{ident}/blocked:
     parameters:
@@ -122,11 +45,9 @@ paths:
 
         AeroAPI. FlightAware can provide aircraft owner/operators with secure access to
 
-        their blocked flight data by [contacting FlightAware for help](https://www.flightaware.com/about/contact).
-
-        '
+        their blocked flight data by contacting FlightAware for help.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -199,11 +120,9 @@ paths:
 
         this information is updated weekly, there may be a lag in upstream data sources
 
-        reflecting a change in ownership.
-
-        '
+        reflecting a change in ownership.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -215,21 +134,25 @@ paths:
                     type: object
                     properties:
                       name:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Name of the registered owner of the aircraft
-                        nullable: true
                       location:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: City and state of the registered owner. For Australia, state and country. For New Zealand, city and country.
-                        nullable: true
                       location2:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Street address of the registered owner
-                        nullable: true
                       website:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Website for the owner if available
-                        nullable: true
         '400':
           description: 'Incorrect or missing ident. It should be a flight number or a tail number.
 
@@ -279,11 +202,9 @@ paths:
 
         Data returned includes the description, type, manufacturer, engine type, and engine
 
-        count.
-
-        '
+        count.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -302,12 +223,14 @@ paths:
                     type: string
                     description: A short description of the aircraft
                   engine_count:
-                    type: integer
-                    nullable: true
+                    type:
+                    - integer
+                    - 'null'
                     description: Number of engines
                   engine_type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Type of engine
         '400':
           description: 'Incorrect parameters. Type must be an ICAO aircraft type designator string.
@@ -477,11 +400,9 @@ paths:
 
         schedules are available for up to three months in the past as well as
 
-        one year into the future.
-
-        '
+        one year into the future.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -490,8 +411,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -524,24 +446,29 @@ paths:
                           type: string
                           description: Flight ident
                         ident_icao:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Flight ident in ICAO format
                         ident_iata:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Flight ident in IATA format
                         actual_ident:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: If ident is a codeshare flight, this is the primary identifier used by the operator
                         actual_ident_icao:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: If ident is a codeshare flight, this is the primary identifier used by the operator in ICAO format
                         actual_ident_iata:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: If ident is a codeshare flight, this is the primary identifier used by the operator in IATA format
                         aircraft_type:
                           type: string
@@ -560,35 +487,42 @@ paths:
                           type: string
                           description: The origin airport's identifier code
                         origin_icao:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The origin airport's ICAO code
                         origin_iata:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The origin airport's IATA code
                         origin_lid:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The origin airport's LID
                         destination:
                           type: string
                           description: The destination airport's identifier code
                         destination_icao:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The destination airport's ICAO code
                         destination_iata:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The destination airport's IATA code
                         destination_lid:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The destination airport's LID
                         fa_flight_id:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'Unique FlightAware ID for flight. Will be null for flights
 
                             scheduled more than a few days in the future.
@@ -711,11 +645,9 @@ paths:
       summary: Get Global Flight Disruption Statistics
       description: 'Returns overall flight cancellation/delay counts in the specified time
 
-        period for either all airlines or all airports.
-
-        '
+        period for either all airlines or all airports.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -725,8 +657,9 @@ paths:
                 type: object
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -772,12 +705,14 @@ paths:
 
                             '
                         entity_name:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The name of the airline or airport.
                         entity_id:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Code for the airline or airport.
                       required:
                       - cancellations
@@ -885,11 +820,9 @@ paths:
       summary: Get Flight Disruption Statistics for a Particular Entity
       description: 'Returns flight cancellation/delay counts in the specified time period
 
-        for a particular airline or airport.
-
-        '
+        for a particular airline or airport.'
       tags:
-      - miscellaneous
+      - Miscellaneous
       responses:
         '200':
           description: OK
@@ -919,12 +852,14 @@ paths:
 
                       '
                   entity_name:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: The name of the airline or airport.
                   entity_id:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Code for the airline or airport.
                 required:
                 - cancellations

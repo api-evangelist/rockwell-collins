@@ -1,7 +1,9 @@
 ---
 title: Digital Careers | Collins Aerospace
 url: https://www.rtx.com/collinsaerospace/careers/digital-careers
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Rockwell Collins" press release artificial intelligence'
 position: 2
 source: serpapi-google

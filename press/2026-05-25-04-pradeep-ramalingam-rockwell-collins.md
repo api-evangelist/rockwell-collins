@@ -1,7 +1,9 @@
 ---
 title: Pradeep Ramalingam - Rockwell Collins
 url: https://sg.linkedin.com/in/pradeep-ramalingam-43246965
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Rockwell Collins" press release artificial intelligence'
 position: 4
 source: serpapi-google

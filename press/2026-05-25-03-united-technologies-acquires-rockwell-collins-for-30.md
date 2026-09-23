@@ -1,7 +1,9 @@
 ---
 title: United Technologies acquires Rockwell Collins for $30 ...
 url: https://www.therobotreport.com/united-technologies-acquires-rockwell-collins-30-billion/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Rockwell Collins" press release artificial intelligence'
 position: 3
 source: serpapi-google

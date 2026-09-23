@@ -1,13 +1,7 @@
 {
   "provider": "rockwell-collins",
   "sources": [
-    "rockwell-collins-airports-api-openapi.yml",
-    "rockwell-collins-alerts-api-openapi.yml",
-    "rockwell-collins-flights-api-openapi.yml",
-    "rockwell-collins-foresight-api-openapi.yml",
-    "rockwell-collins-history-api-openapi.yml",
-    "rockwell-collins-miscellaneous-api-openapi.yml",
-    "rockwell-collins-operators-api-openapi.yml"
+    "_original/flightaware-aeroapi-openapi.yml"
   ],
   "outputs": [
     "rockwell-collins-airports-api-openapi.yml",
@@ -21,6 +15,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "flightaware-aeroapi-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "rockwell-collins-airports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-flights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-foresight-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-history-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-miscellaneous-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rockwell-collins-operators-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

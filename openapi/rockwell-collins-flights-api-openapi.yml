@@ -1,89 +1,12 @@
-openapi: 3.0.2
+openapi: 3.2.0
 info:
-  title: Aero airports flights API
+  title: Aero Flights API
   version: 4.17.1
   description: '# Introduction
 
     AeroAPI is a simple, query-based API that gives software developers access
 
-    to a variety of FlightAware''s flight data. Users can obtain current or
-
-    historical data. AeroAPI is a RESTful API delivering accurate and
-
-    actionable aviation data. With the introduction of Foresight™, customers
-
-    have access to the data that powers over half of the predictive airline
-
-    ETAs in the US.
-
-
-    ## Categories
-
-    AeroAPI is divided into several categories to make things easier to
-
-    discover.
-
-    - Flights: Summary information, planned routes, positions and more
-
-    - Foresight: Flight positions enhanced with FlightAware Foresight™
-
-    - Airports: Airport information and FIDS style resources
-
-    - Operators: Operator information and fleet activity resources
-
-    - Alerts: Configure flight alerts and delivery destinations
-
-    - History: Historical flight access for various endpoints
-
-    - Miscellaneous: Flight disruption, future schedule information, and aircraft owner information
-
-
-    ## Development Tools
-
-    AeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily
-
-    imported into tools like Postman. To get started try importing the API
-
-    specification using
-
-    [Postman''s instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).
-
-    Once imported as a collection only the "Value" field under the collection''s
-
-    Authorization tab needs to be populated and saved before making calls.
-
-
-    The AeroAPI OpenAPI specification is located at:\
-
-    https://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml
-
-
-    Our [open source AeroApps project](/aeroapi/portal/resources)
-
-    provides a small collection of services and sample applications to help
-
-    you get started.
-
-
-    The Flight Information Display System (FIDS) AeroApp is an example of a
-
-    multi-tier application using multiple languages and Docker containers.
-
-    It demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.
-
-
-    The Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and
-
-    receive alerts in a sample application with a Dockerized Python backend
-
-    and a React frontend.
-
-
-    Our AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)
-
-    provides a quick and easy way to test the delivery of customized alerts via AeroAPI push.
-
-    '
+    to a variety of FlightAware''s flight data.'
 servers:
 - url: https://{env}.flightaware.com/aeroapi
   variables:
@@ -94,7 +17,7 @@ servers:
 security:
 - ApiKeyAuth: []
 tags:
-- name: flights
+- name: Flights
 paths:
   /flights/search:
     get:
@@ -104,11 +27,9 @@ paths:
 
         geospatial data. Uses a simplified query syntax compared to
 
-        /flights/search/advanced.
-
-        '
+        /flights/search/advanced.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: query
         in: query
@@ -187,8 +108,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -222,14 +144,16 @@ paths:
 
                               '
                           ident_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The ICAO operator code followed by the flight number for the flight (for commercial flights)
 
                               '
                           ident_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The IATA operator code followed by the flight number for the flight (for commercial flights)
 
                               '
@@ -247,59 +171,68 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
@@ -310,59 +243,68 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
@@ -376,20 +318,23 @@ paths:
 
                               '
                           first_position_time:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
                             description: Timestamp of when the first position for this flight was received.
                             example: '2021-12-31T19:59:59Z'
                           last_position:
-                            type: object
+                            type:
+                            - object
+                            - 'null'
                             description: Most recent position received for this flight.
                             title: FlightPosition
-                            nullable: true
                             properties:
                               fa_flight_id:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Unique identifier assigned by FlightAware to the flight with this
 
                                   position. This field is only populated by the `/flights/search/positions`
@@ -402,7 +347,6 @@ paths:
                                 description: Aircraft altitude in hundreds of feet
                               altitude_change:
                                 type: string
-                                nullable: false
                                 description: 'C when the aircraft is climbing, D when descending, and - when the
 
                                   altitude is being maintained.
@@ -416,8 +360,9 @@ paths:
                                 type: integer
                                 description: Most recent groundspeed (knots)
                               heading:
-                                type: integer
-                                nullable: true
+                                type:
+                                - integer
+                                - 'null'
                                 description: Aircraft heading in degrees (0-360)
                                 minimum: 0
                                 maximum: 360
@@ -433,8 +378,9 @@ paths:
                                 description: Time that position was received
                                 example: '2021-12-31T19:59:59Z'
                               update_type:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: 'P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration,
 
                                   D=datalink, X=surface and near surface (ADS-B and ASDE-X),
@@ -463,8 +409,9 @@ paths:
                             - timestamp
                             - update_type
                           bounding_box:
-                            type: array
-                            nullable: true
+                            type:
+                            - array
+                            - 'null'
                             description: 'List of 4 coordinates representing the edges of a box that entirely
 
                               contains this flight''s positions. The order of the coordinates are the
@@ -477,33 +424,37 @@ paths:
                             items:
                               type: number
                           ident_prefix:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'A one or two character identifier prefix code (Common values: G or GG
 
                               Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).
 
                               '
                           aircraft_type:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Aircraft type will generally be ICAO code, but IATA code will be given
 
                               when the ICAO code is not known.
 
                               '
                           actual_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway arrival time.
 
                               '
@@ -534,56 +485,64 @@ paths:
                         type: object
                         properties:
                           predicted_out:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of gate departure event. Only available from /foresight endpoints.
                             example: null
                           predicted_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of runway departure event. Only available from /foresight endpoints.
                             example: null
                           predicted_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of runway arrival event. Only available from /foresight endpoints.
                             example: null
                           predicted_in:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of gate arrival event. Only available from /foresight endpoints.
                             example: null
                           predicted_out_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the gate departure event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_off_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the runway departure event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_on_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the runway arrival event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_in_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the gate arrival event. Only available from /foresight endpoints.
                             enum:
                             - null
@@ -637,7 +596,7 @@ paths:
     get:
       operationId: get_flights_by_position_search
       summary: Search for Flight Positions
-      description: 'Returns flight positions based on geospatial search parameters.  This
+      description: 'Returns flight positions based on geospatial search parameters. This
 
         allows you to locate flights that have ever flown within a specific a
 
@@ -671,13 +630,9 @@ paths:
 
         * != - results must have a key that must not match the specified value. Example: {!= prefix H}
 
-        * < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040}
+        * - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}
 
-        * \> - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}
-
-        * <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000}
-
-        * \>= - results must have a key that is lexicographically greater-than-or-equal-to a specified value.
+        * = - results must have a key that is lexicographically greater-than-or-equal-to a specified value.
 
         * match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*}
 
@@ -707,11 +662,9 @@ paths:
 
         * lon - longitude of the reported position
 
-        * updateType - source of the last reported position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based)
-
-        '
+        * updateType - source of the last reported position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based)'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: query
         in: query
@@ -818,8 +771,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -840,12 +794,14 @@ paths:
                     type: array
                     items:
                       title: FlightPosition
-                      type: object
-                      nullable: true
+                      type:
+                      - object
+                      - 'null'
                       properties:
                         fa_flight_id:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'Unique identifier assigned by FlightAware to the flight with this
 
                             position. This field is only populated by the `/flights/search/positions`
@@ -858,7 +814,6 @@ paths:
                           description: Aircraft altitude in hundreds of feet
                         altitude_change:
                           type: string
-                          nullable: false
                           description: 'C when the aircraft is climbing, D when descending, and - when the
 
                             altitude is being maintained.
@@ -872,8 +827,9 @@ paths:
                           type: integer
                           description: Most recent groundspeed (knots)
                         heading:
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: Aircraft heading in degrees (0-360)
                           minimum: 0
                           maximum: 360
@@ -889,8 +845,9 @@ paths:
                           description: Time that position was received
                           example: '2021-12-31T19:59:59Z'
                         update_type:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration,
 
                             D=datalink, X=surface and near surface (ADS-B and ASDE-X),
@@ -959,11 +916,9 @@ paths:
       summary: Get Count of Flights Matching Search Parameters
       description: 'Full search query documentation is available at the /flights/search
 
-        endpoint.
-
-        '
+        endpoint.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: query
         in: query
@@ -1035,152 +990,9 @@ paths:
       summary: Search for Flights Using Advanced Syntax
       description: 'Returns currently or recently airborne flights based on geospatial
 
-        search parameters.
-
-
-        Query parameters include a latitude/longitude box, aircraft ident with
-
-        wildcards, type with wildcards, prefix, origin airport,
-
-        destination airport, origin or destination airport, groundspeed, and
-
-        altitude. It takes search terms in a single string comprising of
-
-        {operator key value} elements and returns an array of flight
-
-        structures. Each search term must be enclosed in curly braces. Multiple
-
-        search terms can be combined in an implicit boolean "and" by separating
-
-        the terms with at least one space. This function only searches flight
-
-        data representing approximately the last 24 hours. Codeshares and
-
-        alternate idents are NOT searched when matching against the ident key.
-
-
-        The supported operators include (note that operators take different numbers of arguments):
-
-
-        * false - results must have the specified boolean key set to a value of false. Example: {false arrived}
-
-        * true - results must have the specified boolean key set to a value of true. Example: {true lifeguard}
-
-        * null - results must have the specified key set to a null value. Example: {null waypoints}
-
-        * notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType}
-
-        * = - results must have a key that exactly matches the specified value. Example: {= aircraftType C172}
-
-        * != - results must have a key that must not match the specified value. Example: {!= prefix H}
-
-        * < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040}
-
-        * \> - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500}
-
-        * <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000}
-
-        * \>= - results must have a key that is lexicographically greater-than-or-equal-to a specified value.
-
-        * match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*}
-
-        * notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*}
-
-        * range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000}
-
-        * in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}}
-
-        * orig_or_dest - results must have either the origin or destination key exactly match one of the specified values. Example: {orig_or_dest {KLAX KBUR KSNA KLGB}}
-
-        * airline - results will only include airline flight if the argument is 1, or will only include GA flights if the argument is 0. Example: {airline 1}
-
-        * aircraftType - results must have an aircraftType key that matches one of the specified case-insensitive wildcard patterns. Example: {aircraftType {B76* B77*}}
-
-        * ident - results must have an ident key that matches one of the specified case-insensitive wildcard patterns. Example: {ident {N123* N456* AAL* UAL*}}
-
-        * ident_or_reg - results must have an ident key or was known to be operated by an aircraft registration that matches one of the specified case-insensitive wildcard patterns. Example: {ident_or_reg {N123* N456* AAL* UAL*}}
-
-
-        The supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names):
-
-
-        * actualDepartureTime - Actual time of departure, or null if not departed yet. UNIX epoch timestamp seconds since 1970
-
-        * aircraftType - aircraft type ID (for example: B763)
-
-        * alt - altitude at last reported position (hundreds of feet or Flight Level)
-
-        * altChange - altitude change indication (for example: "C" if climbing, "D" if descending, and empty if it is level)
-
-        * arrivalTime - Actual time of arrival, or null if not arrived yet. UNIX epoch timestamp seconds since 1970
-
-        * arrived - true if the flight has arrived at its destination.
-
-        * cancelled - true if the flight has been cancelled. The meaning of cancellation is that the flight is no longer being tracked by FlightAware. There are a number of reasons a flight may be cancelled including cancellation by the airline, but that will not always be the case.
-
-        * cdt - Controlled Departure Time, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970
-
-        * clock - Time of last received position. UNIX epoch timestamp seconds since 1970
-
-        * cta - Controlled Time of Arrival, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970
-
-        * dest - ICAO airport code of destination (for example: KLAX)
-
-        * edt - Estimated Departure Time. Epoch timestamp seconds since 1970
-
-        * eta - Estimated Time of Arrival. Epoch timestamp seconds since 1970
-
-        * fdt - Field Departure Time. UNIX epoch timestamp seconds since 1970
-
-        * firstPositionTime - Time when first reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970
-
-        * fixes - intersections and/or VORs along the route (for example: SLS AMERO ARTOM VODIR NOTOS ULAPA ACA NUXCO OLULA PERAS ALIPO UPN GDL KEDMA BRISA CUL PERTI CEN PPE ALTAR ASUTA JLI RONLD LAADY WYVIL OLDEE RAL PDZ ARNES BASET WELLZ CIVET)
-
-        * fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id.
-
-        * gs - ground speed at last reported position, in kts.
-
-        * heading - direction of travel at last reported position.
-
-        * hiLat - highest latitude travelled by flight.
-
-        * hiLon - highest longitude travelled by flight.
-
-        * ident - flight identifier or registration of aircraft.
-
-        * lastPositionTime - Time when last reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970.
-
-        * lat - latitude of last reported position.
-
-        * lifeguard - true if a "lifeguard" rescue flight.
-
-        * lon - longitude of last reported position.
-
-        * lowLat - lowest latitude travelled by flight.
-
-        * lowLon - lowest longitude travelled by flight.
-
-        * ogta - Original Time of Arrival. UNIX epoch timestamp seconds since 1970
-
-        * ogtd - Original Time of Departure. UNIX epoch timestamp seconds since 1970
-
-        * orig - ICAO airport code of origin (for example: KIAH)
-
-        * physClass - physical class (for example: J is jet)
-
-        * prefix - A one or two character identifier prefix code (common values: G or GG Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).
-
-        * speed - ground speed, in kts.
-
-        * status - Single letter code for current flight status, can be S Scheduled, F Filed, A Active, Z Completed, or X Cancelled.
-
-        * updateType - data source of last position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based).
-
-        * waypoints - all of the intersections and VORs comprising the route
-
-        '
+        search parameters.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: query
         in: query
@@ -1339,8 +1151,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -1374,14 +1187,16 @@ paths:
 
                               '
                           ident_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The ICAO operator code followed by the flight number for the flight (for commercial flights)
 
                               '
                           ident_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The IATA operator code followed by the flight number for the flight (for commercial flights)
 
                               '
@@ -1399,59 +1214,68 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
@@ -1462,59 +1286,68 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
@@ -1528,20 +1361,23 @@ paths:
 
                               '
                           first_position_time:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
                             description: Timestamp of when the first position for this flight was received.
                             example: '2021-12-31T19:59:59Z'
                           last_position:
-                            type: object
+                            type:
+                            - object
+                            - 'null'
                             description: Most recent position received for this flight.
                             title: FlightPosition
-                            nullable: true
                             properties:
                               fa_flight_id:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Unique identifier assigned by FlightAware to the flight with this
 
                                   position. This field is only populated by the `/flights/search/positions`
@@ -1554,7 +1390,6 @@ paths:
                                 description: Aircraft altitude in hundreds of feet
                               altitude_change:
                                 type: string
-                                nullable: false
                                 description: 'C when the aircraft is climbing, D when descending, and - when the
 
                                   altitude is being maintained.
@@ -1568,8 +1403,9 @@ paths:
                                 type: integer
                                 description: Most recent groundspeed (knots)
                               heading:
-                                type: integer
-                                nullable: true
+                                type:
+                                - integer
+                                - 'null'
                                 description: Aircraft heading in degrees (0-360)
                                 minimum: 0
                                 maximum: 360
@@ -1585,8 +1421,9 @@ paths:
                                 description: Time that position was received
                                 example: '2021-12-31T19:59:59Z'
                               update_type:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: 'P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration,
 
                                   D=datalink, X=surface and near surface (ADS-B and ASDE-X),
@@ -1615,8 +1452,9 @@ paths:
                             - timestamp
                             - update_type
                           bounding_box:
-                            type: array
-                            nullable: true
+                            type:
+                            - array
+                            - 'null'
                             description: 'List of 4 coordinates representing the edges of a box that entirely
 
                               contains this flight''s positions. The order of the coordinates are the
@@ -1629,33 +1467,37 @@ paths:
                             items:
                               type: number
                           ident_prefix:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'A one or two character identifier prefix code (Common values: G or GG
 
                               Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).
 
                               '
                           aircraft_type:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Aircraft type will generally be ICAO code, but IATA code will be given
 
                               when the ICAO code is not known.
 
                               '
                           actual_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway arrival time.
 
                               '
@@ -1686,56 +1528,64 @@ paths:
                         type: object
                         properties:
                           predicted_out:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of gate departure event. Only available from /foresight endpoints.
                             example: null
                           predicted_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of runway departure event. Only available from /foresight endpoints.
                             example: null
                           predicted_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of runway arrival event. Only available from /foresight endpoints.
                             example: null
                           predicted_in:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: Predicted time of gate arrival event. Only available from /foresight endpoints.
                             example: null
                           predicted_out_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the gate departure event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_off_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the runway departure event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_on_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the runway arrival event. Only available from /foresight endpoints.
                             enum:
                             - null
                             - Foresight
                             - Historical Average
                           predicted_in_source:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Source indicator of the predicted time of the gate arrival event. Only available from /foresight endpoints.
                             enum:
                             - null
@@ -1791,7 +1641,7 @@ paths:
       summary: Get Information for a Flight
       description: 'Returns the flight info status summary for a registration, ident, or
 
-        fa_flight_id.  If a fa_flight_id is specified then a maximum of 1
+        fa_flight_id. If a fa_flight_id is specified then a maximum of 1
 
         flight is returned, unless the flight has been diverted in which case
 
@@ -1807,11 +1657,9 @@ paths:
 
         and end parameter to find your flight(s) of interest, including up to
 
-        10 days of flight history.
-
-        '
+        10 days of flight history.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: ident
         in: path
@@ -1927,8 +1775,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -1962,26 +1811,30 @@ paths:
 
                               '
                           ident_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The ICAO operator code followed by the flight number for the flight (for commercial flights)
 
                               '
                           ident_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The IATA operator code followed by the flight number for the flight (for commercial flights)
 
                               '
                           actual_runway_off:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Actual departure runway at origin, when known
 
                               '
                           actual_runway_on:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Actual arrival runway at destination, when known
 
                               '
@@ -1995,60 +1848,69 @@ paths:
 
                               '
                           operator:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'ICAO code, if exists, of the operator of the flight, otherwise the IATA code
 
                               '
                           operator_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'ICAO code of the operator of the flight.
 
                               '
                           operator_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'IATA code of the operator of the flight.
 
                               '
                           flight_number:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Bare flight number of the flight.
 
                               '
                           registration:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Aircraft registration (tail number) of the aircraft, when known.
 
                               '
                           atc_ident:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The ident of the flight for Air Traffic Control purposes, when known and different than ident.
 
                               '
                           inbound_fa_flight_id:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Unique identifier assigned by FlightAware for the previous flight of the
 
                               aircraft serving this flight.
 
                               '
                           codeshares:
-                            type: array
-                            nullable: true
+                            type:
+                            - array
+                            - 'null'
                             description: 'List of any ICAO codeshares operating on this flight.
 
                               '
                             items:
                               type: string
                           codeshares_iata:
-                            type: array
-                            nullable: true
+                            type:
+                            - array
+                            - 'null'
                             description: 'List of any IATA codeshares operating on this flight.
 
                               '
@@ -2085,59 +1947,68 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
@@ -2148,67 +2019,77 @@ paths:
 
                               '
                             title: FlightAirportRef
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               code:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO/IATA/LID code or string indicating the location where
 
                                   tracking of the flight began/ended for position-only flights.
 
                                   '
-                                nullable: true
                               code_icao:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'ICAO code
 
                                   '
-                                nullable: true
                               code_iata:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'IATA code
 
                                   '
-                                nullable: true
                               code_lid:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'LID code
 
                                   '
-                                nullable: true
                               timezone:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Applicable timezone for the airport, in the TZ database format
 
                                   '
-                                nullable: true
                                 example: America/New_York
                               name:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Common name of airport
 
                                   '
-                                nullable: true
                                 example: LaGuardia
                               city:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 description: 'Closest city to the airport
 
                                   '
-                                nullable: true
                                 example: New York
                               airport_info_url:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 format: uri-reference
                                 description: The URL to more information about the airport. Will be null for position-only flights.
                             required:
                             - code
                             - airport_info_url
                           departure_delay:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Departure delay (in seconds) based on either actual or estimated gate
 
                               departure time. If gate time is unavailable then based on runway departure
@@ -2217,8 +2098,9 @@ paths:
 
                               '
                           arrival_delay:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Arrival delay (in seconds) based on either actual or estimated gate
 
                               arrival time. If gate time is unavailable then based on runway arrival
@@ -2227,14 +2109,16 @@ paths:
 
                               '
                           filed_ete:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Runway-to-runway filed duration (seconds).
 
                               '
                           progress_percent:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'The percent completion of a flight, based on runway departure/arrival. Null
 
                               for en route position-only flights.
@@ -2248,84 +2132,97 @@ paths:
 
                               '
                           aircraft_type:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Aircraft type will generally be ICAO code, but IATA code will be given
 
                               when the ICAO code is not known.
 
                               '
                           route_distance:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Planned flight distance (statute miles) based on the filed route. May
 
                               vary from actual flown distance.
 
                               '
                           filed_airspeed:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Filed IFR airspeed (knots).
 
                               '
                           filed_altitude:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Filed IFR altitude (100s of feet).
 
                               '
                           route:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'The textual description of the flight''s route.
 
                               '
                           baggage_claim:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Baggage claim location at the destination airport.
 
                               '
                           seats_cabin_business:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Number of seats in the business class cabin.
 
                               '
                           seats_cabin_coach:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Number of seats in the coach cabin.
 
                               '
                           seats_cabin_first:
-                            type: integer
-                            nullable: true
+                            type:
+                            - integer
+                            - 'null'
                             description: 'Number of seats in the first class cabin.
 
                               '
                           gate_origin:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Departure gate at the origin airport.
 
                               '
                           gate_destination:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Arrival gate at the destination airport.
 
                               '
                           terminal_origin:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Departure terminal at the origin airport.
 
                               '
                           terminal_destination:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Arrival terminal at the destination airport.
 
                               '
@@ -2338,97 +2235,109 @@ paths:
                             - General_Aviation
                             - Airline
                           scheduled_out:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Scheduled gate departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           estimated_out:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Estimated gate departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_out:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual gate departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           scheduled_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Scheduled runway departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           estimated_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Estimated runway departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_off:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway departure time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           scheduled_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Scheduled runway arrival time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           estimated_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Estimated runway arrival time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_on:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual runway arrival time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           scheduled_in:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Scheduled gate arrival time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           estimated_in:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Estimated gate arrival time.
 
                               '
                             example: '2021-12-31T19:59:59Z'
                           actual_in:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             description: 'Actual gate arrival time.
 
                               '
@@ -2538,11 +2447,9 @@ paths:
 
         registration to describe the ident being passed in. The country code should
 
-        represent a country the operator of the flight operates within.
-
-        '
+        represent a country the operator of the flight operates within.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: ident
         in: path
@@ -2648,11 +2555,9 @@ paths:
 
         FlightAware Global and the specified registration or ident must be on
 
-        the Global account.
-
-        '
+        the Global account.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: ident
         in: path
@@ -2759,7 +2664,7 @@ paths:
       summary: Get Flight's Current Position
       description: Returns the latest position for a flight
       tags:
-      - flights
+      - Flights
       parameters:
       - name: id
         in: path
@@ -2794,14 +2699,16 @@ paths:
 
                         '
                     ident_icao:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'The ICAO operator code followed by the flight number for the flight (for commercial flights)
 
                         '
                     ident_iata:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'The IATA operator code followed by the flight number for the flight (for commercial flights)
 
                         '
@@ -2819,59 +2726,68 @@ paths:
 
                         '
                       title: FlightAirportRef
-                      type: object
-                      nullable: true
+                      type:
+                      - object
+                      - 'null'
                       properties:
                         code:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'ICAO/IATA/LID code or string indicating the location where
 
                             tracking of the flight began/ended for position-only flights.
 
                             '
-                          nullable: true
                         code_icao:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'ICAO code
 
                             '
-                          nullable: true
                         code_iata:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'IATA code
 
                             '
-                          nullable: true
                         code_lid:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'LID code
 
                             '
-                          nullable: true
                         timezone:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Applicable timezone for the airport, in the TZ database format
 
                             '
-                          nullable: true
                           example: America/New_York
                         name:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Common name of airport
 
                             '
-                          nullable: true
                           example: LaGuardia
                         city:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Closest city to the airport
 
                             '
-                          nullable: true
                           example: New York
                         airport_info_url:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           format: uri-reference
                           description: The URL to more information about the airport. Will be null for position-only flights.
                       required:
@@ -2882,59 +2798,68 @@ paths:
 
                         '
                       title: FlightAirportRef
-                      type: object
-                      nullable: true
+                      type:
+                      - object
+                      - 'null'
                       properties:
                         code:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'ICAO/IATA/LID code or string indicating the location where
 
                             tracking of the flight began/ended for position-only flights.
 
                             '
-                          nullable: true
                         code_icao:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'ICAO code
 
                             '
-                          nullable: true
                         code_iata:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'IATA code
 
                             '
-                          nullable: true
                         code_lid:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'LID code
 
                             '
-                          nullable: true
                         timezone:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Applicable timezone for the airport, in the TZ database format
 
                             '
-                          nullable: true
                           example: America/New_York
                         name:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Common name of airport
 
                             '
-                          nullable: true
                           example: LaGuardia
                         city:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           description: 'Closest city to the airport
 
                             '
-                          nullable: true
                           example: New York
                         airport_info_url:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           format: uri-reference
                           description: The URL to more information about the airport. Will be null for position-only flights.
                       required:
@@ -2948,20 +2873,23 @@ paths:
 
                         '
                     first_position_time:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
                       description: Timestamp of when the first position for this flight was received.
                       example: '2021-12-31T19:59:59Z'
                     last_position:
-                      type: object
+                      type:
+                      - object
+                      - 'null'
                       description: Most recent position received for this flight.
                       title: FlightPosition
-                      nullable: true
                       properties:
                         fa_flight_id:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'Unique identifier assigned by FlightAware to the flight with this
 
                             position. This field is only populated by the `/flights/search/positions`
@@ -2974,7 +2902,6 @@ paths:
                           description: Aircraft altitude in hundreds of feet
                         altitude_change:
                           type: string
-                          nullable: false
                           description: 'C when the aircraft is climbing, D when descending, and - when the
 
                             altitude is being maintained.
@@ -2988,8 +2915,9 @@ paths:
                           type: integer
                           description: Most recent groundspeed (knots)
                         heading:
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: Aircraft heading in degrees (0-360)
                           minimum: 0
                           maximum: 360
@@ -3005,8 +2933,9 @@ paths:
                           description: Time that position was received
                           example: '2021-12-31T19:59:59Z'
                         update_type:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration,
 
                             D=datalink, X=surface and near surface (ADS-B and ASDE-X),
@@ -3035,8 +2964,9 @@ paths:
                       - timestamp
                       - update_type
                     bounding_box:
-                      type: array
-                      nullable: true
+                      type:
+                      - array
+                      - 'null'
                       description: 'List of 4 coordinates representing the edges of a box that entirely
 
                         contains this flight''s positions. The order of the coordinates are the
@@ -3049,33 +2979,37 @@ paths:
                       items:
                         type: number
                     ident_prefix:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'A one or two character identifier prefix code (Common values: G or GG
 
                         Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium).
 
                         '
                     aircraft_type:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'Aircraft type will generally be ICAO code, but IATA code will be given
 
                         when the ICAO code is not known.
 
                         '
                     actual_off:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: 'Actual runway departure time.
 
                         '
                       example: '2021-12-31T19:59:59Z'
                     actual_on:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: 'Actual runway arrival time.
 
                         '
@@ -3106,56 +3040,64 @@ paths:
                   type: object
                   properties:
                     predicted_out:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: Predicted time of gate departure event. Only available from /foresight endpoints.
                       example: null
                     predicted_off:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: Predicted time of runway departure event. Only available from /foresight endpoints.
                       example: null
                     predicted_on:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: Predicted time of runway arrival event. Only available from /foresight endpoints.
                       example: null
                     predicted_in:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date-time
-                      nullable: true
                       description: Predicted time of gate arrival event. Only available from /foresight endpoints.
                       example: null
                     predicted_out_source:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Source indicator of the predicted time of the gate departure event. Only available from /foresight endpoints.
                       enum:
                       - null
                       - Foresight
                       - Historical Average
                     predicted_off_source:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Source indicator of the predicted time of the runway departure event. Only available from /foresight endpoints.
                       enum:
                       - null
                       - Foresight
                       - Historical Average
                     predicted_on_source:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Source indicator of the predicted time of the runway arrival event. Only available from /foresight endpoints.
                       enum:
                       - null
                       - Foresight
                       - Historical Average
                     predicted_in_source:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Source indicator of the predicted time of the gate arrival event. Only available from /foresight endpoints.
                       enum:
                       - null
@@ -3209,11 +3151,9 @@ paths:
 
         Data from up to 10 days ago can be obtained. If looking for older data,
 
-        please use the corresponding historical endpoint.
-
-        '
+        please use the corresponding historical endpoint.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: id
         in: path
@@ -3244,12 +3184,14 @@ paths:
                     type: array
                     items:
                       title: FlightPosition
-                      type: object
-                      nullable: true
+                      type:
+                      - object
+                      - 'null'
                       properties:
                         fa_flight_id:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'Unique identifier assigned by FlightAware to the flight with this
 
                             position. This field is only populated by the `/flights/search/positions`
@@ -3262,7 +3204,6 @@ paths:
                           description: Aircraft altitude in hundreds of feet
                         altitude_change:
                           type: string
-                          nullable: false
                           description: 'C when the aircraft is climbing, D when descending, and - when the
 
                             altitude is being maintained.
@@ -3276,8 +3217,9 @@ paths:
                           type: integer
                           description: Most recent groundspeed (knots)
                         heading:
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: Aircraft heading in degrees (0-360)
                           minimum: 0
                           maximum: 360
@@ -3293,8 +3235,9 @@ paths:
                           description: Time that position was received
                           example: '2021-12-31T19:59:59Z'
                         update_type:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: 'P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration,
 
                             D=datalink, X=surface and near surface (ADS-B and ASDE-X),
@@ -3390,7 +3333,7 @@ paths:
       summary: Get Flight's Filed Route
       description: 'Returns information about a flight''s filed route including coordinates,
 
-        names, and types of fixes along the route.  Not all flight routes can
+        names, and types of fixes along the route. Not all flight routes can
 
         be successfully decoded by this endpoint, particularly if the flight is
 
@@ -3402,11 +3345,9 @@ paths:
 
         ago can be obtained. If looking for older data, please use the corresponding
 
-        historical endpoint.
-
-        '
+        historical endpoint.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: id
         in: path
@@ -3429,8 +3370,9 @@ paths:
               schema:
                 properties:
                   route_distance:
-                    nullable: true
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                   fixes:
                     type: array
                     items:
@@ -3441,40 +3383,46 @@ paths:
                           type: string
                           description: Name of the route fix
                         latitude:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: Longitude of the fix in decimal degrees
                         longitude:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: Longitude of the fix in decimal degrees
                         distance_from_origin:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: 'Distance from origin airport stated in statue miles, nautical miles or
 
                             kilometers depending on FlightAware Account Display Options
 
                             '
                         distance_this_leg:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: 'Distance from the last point on Route stated in statue miles, nautical
 
                             miles or kilometers depending on FlightAware Account Display Options
 
                             '
                         distance_to_destination:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: 'Distance to destination airport stated in statue miles, nautical miles or
 
                             kilometers depending on FlightAware Account Display Options
 
                             '
                         outbound_course:
-                          type: number
-                          nullable: true
+                          type:
+                          - number
+                          - 'null'
                           description: 'Course in integer degrees from the current point to the next relative to true north
 
                             '
@@ -3565,11 +3513,9 @@ paths:
 
         ago can be obtained. If looking for older data, please use the corresponding
 
-        historical endpoint.
-
-        '
+        historical endpoint.'
       tags:
-      - flights
+      - Flights
       parameters:
       - name: id
         in: path

@@ -1,89 +1,12 @@
-openapi: 3.0.2
+openapi: 3.2.0
 info:
-  title: Aero airports alerts API
+  title: Aero Alerts API
   version: 4.17.1
   description: '# Introduction
 
     AeroAPI is a simple, query-based API that gives software developers access
 
-    to a variety of FlightAware''s flight data. Users can obtain current or
-
-    historical data. AeroAPI is a RESTful API delivering accurate and
-
-    actionable aviation data. With the introduction of Foresight™, customers
-
-    have access to the data that powers over half of the predictive airline
-
-    ETAs in the US.
-
-
-    ## Categories
-
-    AeroAPI is divided into several categories to make things easier to
-
-    discover.
-
-    - Flights: Summary information, planned routes, positions and more
-
-    - Foresight: Flight positions enhanced with FlightAware Foresight™
-
-    - Airports: Airport information and FIDS style resources
-
-    - Operators: Operator information and fleet activity resources
-
-    - Alerts: Configure flight alerts and delivery destinations
-
-    - History: Historical flight access for various endpoints
-
-    - Miscellaneous: Flight disruption, future schedule information, and aircraft owner information
-
-
-    ## Development Tools
-
-    AeroAPI is defined using the OpenAPI Spec 3.0, which means it can be easily
-
-    imported into tools like Postman. To get started try importing the API
-
-    specification using
-
-    [Postman''s instructions](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/).
-
-    Once imported as a collection only the "Value" field under the collection''s
-
-    Authorization tab needs to be populated and saved before making calls.
-
-
-    The AeroAPI OpenAPI specification is located at:\
-
-    https://flightaware.com/commercial/aeroapi/resources/aeroapi-openapi.yml
-
-
-    Our [open source AeroApps project](/aeroapi/portal/resources)
-
-    provides a small collection of services and sample applications to help
-
-    you get started.
-
-
-    The Flight Information Display System (FIDS) AeroApp is an example of a
-
-    multi-tier application using multiple languages and Docker containers.
-
-    It demonstrates connectivity, data caching, flight presentation, and leveraging flight maps.
-
-
-    The Alerts AeroApp demonstrates the use of AeroAPI to set, edit, and
-
-    receive alerts in a sample application with a Dockerized Python backend
-
-    and a React frontend.
-
-
-    Our AeroAPI push notification [testing interface](/commercial/aeroapi/send.rvt)
-
-    provides a quick and easy way to test the delivery of customized alerts via AeroAPI push.
-
-    '
+    to a variety of FlightAware''s flight data.'
 servers:
 - url: https://{env}.flightaware.com/aeroapi
   variables:
@@ -94,99 +17,10 @@ servers:
 security:
 - ApiKeyAuth: []
 tags:
-- name: alerts
+- name: Alerts
   description: 'AeroAPI alerting can be used to configure and receive real-time alerts on key flight
 
-    events. With customizable alerting offered by our alert endpoints, AeroAPI empowers
-
-    users to selectively pick various types of events/filters to alert on. By doing so,
-
-    you can receive specially tailored alerts delivered to you for events such as flight plan
-
-    filed, flight departure (out and off), flight arrival (on and in), and more!
-
-
-    To get started with alerting, the **PUT /alerts/endpoint** endpoint must first be used
-
-    to set up the account-wide default URL that alerts will be delivered to. This step must
-
-    be done before any alerts can be configured and will serve as the fallback URL that all
-
-    alerts will be sent to for the account if a specific delivery URL is not designated on a
-
-    particular alert. If this is not performed before configuring alerts, then you will
-
-    receive a 400 error with an error message reminding you of this step when trying to interact
-
-    with the **POST /alerts** endpoint. Once a URL is set via the **PUT /alerts/endpoint** endpoint,
-
-    then alerts can be configured using the **POST /alerts** endpoint. The **GET /alerts** endpoint
-
-    can also be used to retrieve all currently configured alerts associated with your AeroAPI key.
-
-    The **GET /alerts** endpoint will allow you to easily retrieve the id of any specific alerts of
-
-    interest configured for the account which can let you use the **GET** **PUT** and **DELETE**
-
-    **/alerts/{id}** endpoints to retrieve, update, and delete specific alerts.
-
-
-    When configuring an individual alert, the *target_url* field can be set to a URL that’s
-
-    different than the account-wide target endpoint set via the **PUT /alerts/endpoint**. If
-
-    the *target_url* field is set on an alert, then that specific alert will be delivered to
-
-    the specified *target_url* rather than the default account-wide one. If this field is not
-
-    configured for the alert, then the alert will be delivered to the default account-wide endpoint.
-
-    By setting this field, one can easily target different alerts to be received by different endpoints
-
-    which can be useful for configuring per-application alerts or sending alerts to an alternate
-
-    development environment without having to adjust a production alert configuration.
-
-
-    For each alert configured, one-to-many ‘events’ can be set for alert delivery. While most
-
-    events will result in one alert delivery, both the *arrival* and the *departure* events can
-
-    result in multiple alerts delivered (referred to as bundled). The *departure* event bundles the
-
-    departure (actual OFF the ground) alert, along with the flight plan filed alert and up to 5
-
-    per-departure changes which can include alerts for significant departure delays of over
-
-    30 minutes, gate changes, and airport delays. FlightAware Global customers will
-
-    also receive *Power on* and *Ready to taxi* alerts as part of the departure bundle. The *arrival* event
-
-    bundles the arrival (actual ON the ground) alert, along with up to 5 en-route changes (including delays
-
-    of over 30 minutes and excluding diversions) identified. FlightAware Global customers will also receive
-
-    *taxi stop* times as part of the *arrival* bundle. Setting a bundled type and unbundled type for an
-
-    On/Off will only result in a single alert in the case where events may overlap.
-
-
-    If there is a need to change the alert configurations, updating an alert using the **PUT /alerts/{id}**
-
-    endpoint and a unique alert identifier (id) is preferred rather than creating an additional alert.
-
-    By doing so, you can avoid duplicate alerts being delivered which could create unnecessary noise
-
-    if they are not of interest anymore.
-
-
-    If at any point there is a need to delete an alert, the **DELETE alerts/{id}** endpoint can be
-
-    leveraged to delete an alert so that it won’t be delivered anymore. As a reminder, specific alert
-
-    IDs can be retrieved from the **GET /alerts** endpoint.
-
-    '
+    events.'
 paths:
   /alerts:
     get:
@@ -196,11 +30,9 @@ paths:
 
         includes alerts configured through other means by the FlightAware user
 
-        owning the AeroAPI account like FlightAware''s website or mobile apps).
-
-        '
+        owning the AeroAPI account like FlightAware''s website or mobile apps).'
       tags:
-      - alerts
+      - Alerts
       parameters:
       - in: query
         name: max_pages
@@ -232,8 +64,9 @@ paths:
               schema:
                 properties:
                   links:
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     description: 'Object containing links to related resources.
 
                       '
@@ -269,8 +102,9 @@ paths:
                       - type: object
                         properties:
                           ident:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Ident to alert on. This value may be modified based on codeshare
 
                               resolution. If that occurs, the originally provided ident will be
@@ -281,62 +115,73 @@ paths:
                       - type: object
                         properties:
                           ident_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'ICAO ident to alert on
 
                               '
                           ident_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'IATA ident to alert on
 
                               '
                       - type: object
                         properties:
                           origin:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Origin airport ICAO, IATA, or LID code to alert on.
                       - type: object
                         properties:
                           origin_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Origin airport ICAO code to alert on.
                           origin_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Origin airport IATA code to alert on.
                           origin_lid:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Origin airport LID code to alert on.
                       - type: object
                         properties:
                           destination:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Destination airport ICAO, IATA, or LID code to alert on.
                       - type: object
                         properties:
                           destination_icao:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Destination airport ICAO code to alert on.
                           destination_iata:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Destination airport IATA code to alert on.
                           destination_lid:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Destination airport LID code to alert on.
                       - type: object
                         properties:
                           aircraft_type:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Aircraft type ICAO code to alert on.
                       - type: object
                         properties:
@@ -353,8 +198,9 @@ paths:
                       - type: object
                         properties:
                           start:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             format: date
                             description: 'Start date of alert. Should be in departure airport''s
 
@@ -362,8 +208,9 @@ paths:
 
                               '
                           end:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             format: date
                             description: 'End date of alert (inclusive). Should be in departure airport''s
 
@@ -373,8 +220,9 @@ paths:
                       - type: object
                         properties:
                           user_ident:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Originally specified ident.
                       - type: object
                         properties:
@@ -452,8 +300,9 @@ paths:
                             - 'on'
                             - in
                           target_url:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: 'Alert specific URL to deliver to. If null, then the alert
 
                               will be delivered to the configured account-wide alert URL
@@ -499,11 +348,9 @@ paths:
 
         If a target_url is provided, then this specific alert will be delivered
 
-        to that address regardless of the adress set via the /alerts/endpoint endpoint.
-
-        '
+        to that address regardless of the adress set via the /alerts/endpoint endpoint.'
       tags:
-      - alerts
+      - Alerts
       requestBody:
         description: Alert configuration structure
         content:
@@ -513,8 +360,9 @@ paths:
               - type: object
                 properties:
                   ident:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: 'Ident to alert on. This value may be modified based on codeshare
 
                       resolution. If that occurs, the originally provided ident will be
@@ -525,26 +373,30 @@ paths:
               - type: object
                 properties:
                   origin:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Origin airport ICAO, IATA, or LID code to alert on.
               - type: object
                 properties:
                   destination:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Destination airport ICAO, IATA, or LID code to alert on.
               - type: object
                 properties:
                   aircraft_type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Aircraft type ICAO code to alert on.
               - type: object
                 properties:
                   start:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     format: date
                     description: 'Start date of alert. Should be in departure airport''s
 
@@ -552,8 +404,9 @@ paths:
 
                       '
                   end:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     format: date
                     description: 'End date of alert (inclusive). Should be in departure airport''s
 
@@ -663,8 +516,9 @@ paths:
                     - 'on'
                     - in
                   target_url:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: 'Alert specific URL to deliver to. If null, then the alert
 
                       will be delivered to the configured account-wide alert URL
@@ -740,11 +594,9 @@ paths:
     get:
       operationId: get_alert
       summary: Get Specific Alert
-      description: 'Returns the configuration data for an alert with the specified ID.
-
-        '
+      description: Returns the configuration data for an alert with the specified ID.
       tags:
-      - alerts
+      - Alerts
       responses:
         '200':
           description: Returns alert configuration structure.
@@ -767,8 +619,9 @@ paths:
                 - type: object
                   properties:
                     ident:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'Ident to alert on. This value may be modified based on codeshare
 
                         resolution. If that occurs, the originally provided ident will be
@@ -779,62 +632,73 @@ paths:
                 - type: object
                   properties:
                     ident_icao:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'ICAO ident to alert on
 
                         '
                     ident_iata:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'IATA ident to alert on
 
                         '
                 - type: object
                   properties:
                     origin:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Origin airport ICAO, IATA, or LID code to alert on.
                 - type: object
                   properties:
                     origin_icao:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Origin airport ICAO code to alert on.
                     origin_iata:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Origin airport IATA code to alert on.
                     origin_lid:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Origin airport LID code to alert on.
                 - type: object
                   properties:
                     destination:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Destination airport ICAO, IATA, or LID code to alert on.
                 - type: object
                   properties:
                     destination_icao:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Destination airport ICAO code to alert on.
                     destination_iata:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Destination airport IATA code to alert on.
                     destination_lid:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Destination airport LID code to alert on.
                 - type: object
                   properties:
                     aircraft_type:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Aircraft type ICAO code to alert on.
                 - type: object
                   properties:
@@ -851,8 +715,9 @@ paths:
                 - type: object
                   properties:
                     start:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       format: date
                       description: 'Start date of alert. Should be in departure airport''s
 
@@ -860,8 +725,9 @@ paths:
 
                         '
                     end:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       format: date
                       description: 'End date of alert (inclusive). Should be in departure airport''s
 
@@ -871,8 +737,9 @@ paths:
                 - type: object
                   properties:
                     user_ident:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Originally specified ident.
                 - type: object
                   properties:
@@ -950,8 +817,9 @@ paths:
                       - 'on'
                       - in
                     target_url:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'Alert specific URL to deliver to. If null, then the alert
 
                         will be delivered to the configured account-wide alert URL
@@ -1022,11 +890,9 @@ paths:
 
         different AeroAPI key is possible, but will not change the AeroAPI key that
 
-        the alert is associated with for usage.
-
-        '
+        the alert is associated with for usage.'
       tags:
-      - alerts
+      - Alerts
       requestBody:
         description: Alert configuration structure
         content:
@@ -1037,8 +903,9 @@ paths:
                 - type: object
                   properties:
                     ident:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'Ident to alert on. This value may be modified based on codeshare
 
                         resolution. If that occurs, the originally provided ident will be
@@ -1049,26 +916,30 @@ paths:
                 - type: object
                   properties:
                     origin:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Origin airport ICAO, IATA, or LID code to alert on.
                 - type: object
                   properties:
                     destination:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Destination airport ICAO, IATA, or LID code to alert on.
                 - type: object
                   properties:
                     aircraft_type:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: Aircraft type ICAO code to alert on.
                 - type: object
                   properties:
                     start:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       format: date
                       description: 'Start date of alert. Should be in departure airport''s
 
@@ -1076,8 +947,9 @@ paths:
 
                         '
                     end:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       format: date
                       description: 'End date of alert (inclusive). Should be in departure airport''s
 
@@ -1187,8 +1059,9 @@ paths:
                       - 'on'
                       - in
                     target_url:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: 'Alert specific URL to deliver to. If null, then the alert
 
                         will be delivered to the configured account-wide alert URL
@@ -1284,11 +1157,9 @@ paths:
     delete:
       operationId: delete_alert
       summary: Delete Specific Alert
-      description: 'Deletes specific alert with given ID
-
-        '
+      description: Deletes specific alert with given ID
       tags:
-      - alerts
+      - Alerts
       responses:
         '204':
           description: Alert deleted.
@@ -1325,11 +1196,9 @@ paths:
     get:
       operationId: get_alerts_endpoint
       summary: Get Configured Alert Callback URL
-      description: 'Returns URL that will be POSTed to for alerts that are delivered via AeroAPI.
-
-        '
+      description: Returns URL that will be POSTed to for alerts that are delivered via AeroAPI.
       tags:
-      - alerts
+      - Alerts
       responses:
         '200':
           description: Returns endpoint URL.
@@ -1346,9 +1215,10 @@ paths:
                   '
                 properties:
                   url:
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                     format: uri
-                    nullable: true
                     description: Default account-wide URL that will be POSTed to for flight alerts.
                 required:
                 - url
@@ -1388,11 +1258,9 @@ paths:
 
         This sets the account-wide default URL that all alerts will be delivered to unless
 
-        the specific alert has a different delivery address configured for it.
-
-        '
+        the specific alert has a different delivery address configured for it.'
       tags:
-      - alerts
+      - Alerts
       requestBody:
         description: Endpoint URL configuration structure
         content:
@@ -1408,9 +1276,10 @@ paths:
                 '
               properties:
                 url:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: uri
-                  nullable: true
                   description: Default account-wide URL that will be POSTed to for flight alerts.
               required:
               - url
@@ -1517,26 +1386,30 @@ paths:
 
                                 '
                             ident_icao:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The ICAO operator code followed by the flight number for the flight.
 
                                 '
                             ident_iata:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The IATA operator code followed by the flight number for the flight.
 
                                 '
                             registration:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Aircraft registration (tail number) of the aircraft, when known.
 
                                 '
                             atc_ident:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Alternate ident for flight, possibly assigned by ATC.
 
                                 '
@@ -1550,56 +1423,65 @@ paths:
 
                                 '
                             origin:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The ICAO, IATA, or LID identifier for the origin airport
 
                                 '
                             origin_icao:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The ICAO identifier for the origin airport
 
                                 '
                             origin_iata:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The IATA identifier for the origin airport
 
                                 '
                             origin_lid:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The LID identifier for the origin airport
 
                                 '
                             destination:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The ICAO, IATA, or LID identifier for the destination airport
 
                                 '
                             destination_icao:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The ICAO identifier for the destination airport
 
                                 '
                             destination_iata:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The IATA identifier for the destination airport
 
                                 '
                             destination_lid:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The LID identifier for the destination airport
 
                                 '
                             route:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'The textual description of the flight''s route
 
                                 '
@@ -1624,154 +1506,175 @@ paths:
 
                                 '
                             route_distance:
-                              type: integer
-                              nullable: true
+                              type:
+                              - integer
+                              - 'null'
                               description: 'Planned flight distance (statute miles) based on the filed route. May
 
                                 vary from actual flown distance.
 
                                 '
                             filed_ete:
-                              type: integer
-                              nullable: true
+                              type:
+                              - integer
+                              - 'null'
                               description: 'Runway-to-runway filed duration (seconds).
 
                                 '
                             filed_altitude:
-                              type: integer
-                              nullable: true
+                              type:
+                              - integer
+                              - 'null'
                               description: 'Filed IFR altitude (100s of feet).
 
                                 '
                             filed_airspeed_kts:
-                              type: integer
-                              nullable: true
+                              type:
+                              - integer
+                              - 'null'
                               description: 'Filed IFR airspeed (knots).
 
                                 '
                             scheduled_out:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Scheduled gate departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             estimated_out:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Estimated gate departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             actual_out:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Actual gate departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             scheduled_off:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Scheduled runway departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             estimated_off:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Estimated runway departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             actual_off:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Actual runway departure time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             scheduled_on:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Scheduled runway arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             estimated_on:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Estimated runway arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             actual_on:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Actual runway arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             scheduled_in:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Scheduled gate arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             estimated_in:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Estimated gate arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             actual_in:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-                              nullable: true
                               description: 'Actual gate arrival time.
 
                                 '
                               example: '2021-12-31T19:59:59Z'
                             baggage_claim:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Baggage claim location at the destination airport.
 
                                 '
                             gate_origin:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Departure gate at the origin airport.
 
                                 '
                             gate_destination:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Arrival gate at the destination airport.
 
                                 '
                             terminal_origin:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Departure terminal at the origin airport.
 
                                 '
                             terminal_destination:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: 'Arrival terminal at the destination airport.
 
                                 '
@@ -1792,11 +1695,9 @@ paths:
 
         not configured with a specific URL. This means that any alerts that are not configured
 
-        with a specific URL will not be delivered.
-
-        '
+        with a specific URL will not be delivered.'
       tags:
-      - alerts
+      - Alerts
       responses:
         '204':
           description: Endpoint successfully removed.

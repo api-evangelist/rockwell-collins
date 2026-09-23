@@ -1,7 +1,9 @@
 ---
 title: Rockwell Collins Airport Solutions Enhance Operations at ...
 url: https://www.airport-technology.com/contractors/consult/arinc-airports/pressreleases/terminal-operations-noi-bai/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Rockwell Collins" press release artificial intelligence'
 position: 5
 source: serpapi-google
