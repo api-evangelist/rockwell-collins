@@ -70,7 +70,7 @@ apis:
   - url: https://developer.collins.com/api-products
     type: Portal
 - aid: rockwell-collins:rockwell-collins-airports-api
-  name: Rockwell Collins airports API
+  name: Rockwell Collins Airports API
   description: The airports API from Rockwell Collins — 17 operation(s) for airports.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
@@ -88,7 +88,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-alerts-api
-  name: Rockwell Collins alerts API
+  name: Rockwell Collins Alerts API
   description: >-
     AeroAPI alerting can be used to configure and receive real-time alerts on key flight
 
@@ -197,7 +197,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-flights-api
-  name: Rockwell Collins flights API
+  name: Rockwell Collins Flights API
   description: The flights API from Rockwell Collins — 11 operation(s) for flights.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
@@ -215,7 +215,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-foresight-api
-  name: Rockwell Collins foresight API
+  name: Rockwell Collins Foresight API
   description: >-
     Foresight endpoints provide access to FlightAware's Foresight predictive models and
 
@@ -259,7 +259,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-history-api
-  name: Rockwell Collins history API
+  name: Rockwell Collins History API
   description: The history API from Rockwell Collins — 5 operation(s) for history.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
@@ -277,7 +277,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-miscellaneous-api
-  name: Rockwell Collins miscellaneous API
+  name: Rockwell Collins Miscellaneous API
   description: The miscellaneous API from Rockwell Collins — 6 operation(s) for miscellaneous.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
@@ -294,7 +294,7 @@ apis:
   - type: GitHubRepository
     url: https://github.com/flightaware/aeroapps
 - aid: rockwell-collins:rockwell-collins-operators-api
-  name: Rockwell Collins operators API
+  name: Rockwell Collins Operators API
   description: The operators API from Rockwell Collins — 8 operation(s) for operators.
   humanURL: https://www.flightaware.com/commercial/aeroapi/
   baseURL: https://aeroapi.flightaware.com/aeroapi
