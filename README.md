@@ -1,4 +1,4 @@
-# Rockwell Collins (rockwell-collins)
+# Rockwell Collins
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,89 +66,166 @@
 
 Rockwell Collins was a major American company providing avionics and information technology systems and services to government agencies and aircraft manufacturers. In 2018, Rockwell Collins was acquired by United Technologies and became part of Collins Aerospace, a subsidiary of RTX Corporation (formerly Raytheon Technologies). Collins Aerospace provides flight deck systems, cabin electronics, mission systems, communications, and advanced data services including FlightAware AeroAPI for aviation data. The Collins Digital Exchange offers API products for aerospace and defense integration.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/rockwell-collins/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/rockwell-collins/refs/heads/main/apis.yml)
+**Areas:** Avionics · Aerospace · Defense · Aviation · Flight Deck · Fortune 500
 
-## Scope
+## Rockwell Collins on APIs.io
 
-- **Type:** Index
+Everything profiled for Rockwell Collins is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/rockwell-collins/](https://apis.io/providers/rockwell-collins/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (8)
 
-- Avionics
-- Aerospace
-- Defense
-- Aviation
-- Flight Deck
+- [Collins Digital Exchange APIs](https://apis.io/apis/rockwell-collins/collins-digital-exchange-apis/) — The Collins Digital Exchange is a developer portal operated by Collins Aerospace providing API products for aerospace integration. The portal provides…
+- [Rockwell Collins Airports API](https://apis.io/apis/rockwell-collins/rockwell-collins-airports-api/) — The airports API from Rockwell Collins — 17 operation(s) for airports.
+- [Rockwell Collins Alerts API](https://apis.io/apis/rockwell-collins/rockwell-collins-alerts-api/) — AeroAPI alerting can be used to configure and receive real-time alerts on key flight events. With customizable alerting offered by our alert endpoints,…
+- [Rockwell Collins Flights API](https://apis.io/apis/rockwell-collins/rockwell-collins-flights-api/) — The flights API from Rockwell Collins — 11 operation(s) for flights.
+- [Rockwell Collins Foresight API](https://apis.io/apis/rockwell-collins/rockwell-collins-foresight-api/) — Foresight endpoints provide access to FlightAware's Foresight predictive models and predictions for key events. Our advanced machine learning (ML) models…
+- [Rockwell Collins History API](https://apis.io/apis/rockwell-collins/rockwell-collins-history-api/) — The history API from Rockwell Collins — 5 operation(s) for history.
+- [Rockwell Collins Miscellaneous API](https://apis.io/apis/rockwell-collins/rockwell-collins-miscellaneous-api/) — The miscellaneous API from Rockwell Collins — 6 operation(s) for miscellaneous.
+- [Rockwell Collins Operators API](https://apis.io/apis/rockwell-collins/rockwell-collins-operators-api/) — The operators API from Rockwell Collins — 8 operation(s) for operators.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-24
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### FlightAware AeroAPI
+Which operations an agent can call, which act, and which need a human in the loop.
 
-FlightAware AeroAPI (formerly FlightXML) is a RESTful aviation data API acquired by Collins Aerospace in 2021. It provides access to real-time and historical flight tracking data, airport activity, flight positions, predictive ETAs powered by machine learning (FlightAware Foresight), and configurable alerting on flight events. With over 60 distinct endpoints organized into 7 functional families, AeroAPI supports aviation operations, maintenance scheduling, flight planning, and resource management.
+- [Rockwell Collins Agentic Access](https://apis.io/agentic-access/rockwell-collins/rockwell-collins-agentic-access/)
 
-- **Human URL:** [https://www.flightaware.com/commercial/aeroapi/](https://www.flightaware.com/commercial/aeroapi/)
-- **Base URL:** `https://aeroapi.flightaware.com/aeroapi`
+#### JSON Schema (1)
 
-#### Tags
+The data models the API reads and writes.
 
-- Aviation
-- Flight Tracking
-- Aerospace
-- REST
-- Real-Time Data
+- [FlightAware AeroAPI Flight](https://apis.io/schemas/rockwell-collins/rockwell-collins-flight/)
 
-#### Properties
+#### JSON Structure (1)
 
-- [Documentation](https://www.flightaware.com/commercial/aeroapi/)
-- [Portal](https://www.flightaware.com/aeroapi/portal)
-- [OpenAPI](openapi/flightaware-aeroapi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/flightaware-aeroapi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/flightaware-aeroapi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [GitHub Repository](https://github.com/flightaware/aeroapps)
+Data models expressed in JSON Structure.
 
-### Collins Digital Exchange APIs
+- [Rockwell Collins Flight Structure](https://apis.io/json-structure/rockwell-collins/rockwell-collins-flight-structure/)
 
-The Collins Digital Exchange is a developer portal operated by Collins Aerospace providing API products for aerospace integration. The portal provides quick-start guides and authenticated access to Collins Aerospace API products for authorized partners, customers, and suppliers.
+#### JSON-LD (1)
 
-- **Human URL:** [https://developer.collins.com/api-products](https://developer.collins.com/api-products)
-- **Base URL:** `https://developer.collins.com`
+Linked-data contexts for the provider's vocabulary.
 
-#### Tags
+- [Rockwell Collins Context](https://apis.io/jsonld/rockwell-collins/rockwell-collins-context/)
 
-- Aerospace
-- Defense
-- Integration
-- Partner APIs
+#### Vocabulary (1)
 
-#### Properties
+The provider's domain terms, defined.
 
-- [Portal](https://developer.collins.com/api-products)
-- [Postman Collection](collections/flightaware-aeroapi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/flightaware-aeroapi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Rockwell Collins / Collins Aerospace Vocabulary](https://apis.io/vocabularies/rockwell-collins/rockwell-collins-vocabulary/)
 
-## Common Properties
+#### Examples (1)
 
-- [LinkedIn](https://www.linkedin.com/company/rockwell-collins)
+Example requests and responses.
+
+- [Aeroapi Get Flight Example](https://apis.io/examples/rockwell-collins/aeroapi-get-flight-example/)
+
+#### Collections (8)
+
+Postman and Open Collection request collections.
+
+- [AeroAPI](https://apis.io/collections/rockwell-collins/open-flightaware-aeroapi/)
+- [Aero airports API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-airports-api/)
+- [Aero airports alerts API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-alerts-api/)
+- [Aero airports flights API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-flights-api/)
+- [Aero airports foresight API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-foresight-api/)
+- [Aero airports history API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-history-api/)
+- [Aero airports miscellaneous API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-miscellaneous-api/)
+- [Aero airports operators API](https://apis.io/collections/rockwell-collins/open-rockwell-collins-operators-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Rockwell Collins — jsonschema rules](https://apis.io/rules/rockwell-collins/rockwell-collins-jsonschema-spectral-rules/)
+- [Rockwell Collins API Rules](https://apis.io/rules/rockwell-collins/rockwell-collins-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Rockwell Collins Authentication](https://apis.io/security/rockwell-collins/rockwell-collins-authentication/)
+- [Rockwell Collins Domain Security](https://apis.io/security/rockwell-collins/rockwell-collins-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Rockwell Collins Plans Pricing](https://apis.io/plans/rockwell-collins/rockwell-collins-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Rockwell Collins Rate Limits](https://apis.io/rate-limits/rockwell-collins/rockwell-collins-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Rockwell Collins Finops](https://apis.io/finops/rockwell-collins/rockwell-collins-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.rockwellcollins.com)
-- [Website](https://www.rtx.com/collinsaerospace/)
-- [Portal](https://developer.collins.com/api-products)
-- [Portal](https://portal.rockwellcollins.com/)
-- [Portal](https://customers.collinsaerospace.com/)
 - [Documentation](https://www.flightaware.com/commercial/aeroapi/)
 - [Support](https://www.rtx.com/collinsaerospace/what-we-do/service-and-support/support/support-lookup)
-- [OpenAPI](openapi/flightaware-aeroapi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [JSON Schema](json-schema/rockwell-collins-flight-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/rockwell-collins-flight-structure.json)
-- [J S O N L D Context](json-ld/rockwell-collins-context.jsonld)
-- [Vocabulary](vocabulary/rockwell-collins-vocabulary.yml)
-- [Spectral Ruleset](rules/rockwell-collins-rules.yml)
+- [Blog](https://www.rtx.com/news/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 35.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 58.4 |
+| Contract governance | 27.3 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 7.9 |
+
+**Agent readiness 27.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/rockwell-collins/](https://apis.io/providers/rockwell-collins/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Rockwell Collins: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/rockwell-collins/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
